@@ -30,7 +30,6 @@ type sexpr =
 
 module type READER = sig
   val nt_sexpr : sexpr PC.parser
-  val scheme_sexpr_list_of_sexpr_list : sexpr list -> sexpr
 end;; (* end of READER signature *)
 
 module Reader : READER = struct
@@ -389,12 +388,12 @@ module Reader : READER = struct
     let nt1 = make_skipped_star nt1 in
     nt1 str;;
 
-  let scheme_sexpr_list_of_sexpr_list sexprs =
-    List.fold_right (fun car cdr -> ScmPair (car, cdr)) sexprs ScmNil;;
-
 end;; (* end of struct Reader *)
 
 (*Start of string functions*)
+
+let scheme_sexpr_list_of_sexpr_list sexprs =
+  List.fold_right (fun car cdr -> ScmPair (car, cdr)) sexprs ScmNil;;
 
 let rec string_of_sexpr = function
     | ScmVoid -> "#<void>"
