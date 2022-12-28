@@ -80,10 +80,11 @@ L_constants:
 	db T_boolean_false
 	db T_boolean_true
 	db T_char, 0x00	; #\x0
-	db T_string	; "a"
-	dq 1
-	db 0x61
-	db T_symbol	; a
+	db T_string	; "abdsdsads"
+	dq 9
+	db 0x61, 0x62, 0x64, 0x73, 0x64, 0x73, 0x61, 0x64
+	db 0x73
+	db T_symbol	; abdsdsads
 	dq L_constants + 6
 
 section .bss
@@ -486,7 +487,7 @@ main:
 	mov rsi, L_code_ptr_eq
 	call bind_primitive
 
-	mov rax, qword [10]
+	lea rax, [24 + L_constants]
 
 	mov rdi, rax
 	call print_sexpr_if_not_void

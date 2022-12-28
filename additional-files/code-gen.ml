@@ -395,7 +395,7 @@ module Code_Generation : CODE_GENERATION= struct
       | ScmConst' sexpr ->
         let addr = search_constant_address sexpr consts in
         Printf.sprintf
-           "\tmov rax, qword [%x]\n"
+           "\tlea rax, [%d + L_constants]\n"
            addr
       | ScmVarGet' (Var' (v, Free)) ->
          let label = search_free_var_table v free_vars in
