@@ -1,4 +1,3 @@
-exception X_not_yet_implemented;;
 exception X_this_should_not_happen of string;;
 
 let rec is_member a = function
@@ -98,10 +97,9 @@ module Tag_Parser : TAG_PARSER = struct
     | sexpr -> sexpr;;
 
   let rec macro_expand_and_clauses expr = function
-    | [] -> ScmBoolean true
-    | expr' :: [] -> expr'
-    | expr' :: exprs -> ScmPair (ScmSymbol "if",
-      ScmPair (expr', ScmPair (macro_expand_and_clauses expr exprs, ScmPair (ScmBoolean false, ScmNil))));;
+    | [] -> expr
+    | first :: rest -> ScmPair (ScmSymbol "if",
+      ScmPair (expr, ScmPair (macro_expand_and_clauses first rest, ScmPair (ScmBoolean false, ScmNil))));;
 
   let rec macro_expand_cond_ribs ribs =
     match ribs with
@@ -246,12 +244,18 @@ module Tag_Parser : TAG_PARSER = struct
          scheme_sexpr_list_of_sexpr_list((List.map (fun (v) -> (match v with | ScmPair(c,ScmPair(_,ScmNil)) as var_val_tuple -> ScmPair (ScmSymbol "set!", var_val_tuple) | _ -> raise (X_this_should_not_happen "ribs invalid in letrec"))) ribs_list)@exprs_list))))
          | _ -> raise (X_this_should_not_happen "malformed exprs list"))
       | _ -> raise (X_this_should_not_happen "malformed letrec"))
-    | ScmPair (ScmSymbol "and", ScmNil) -> ScmConst (ScmBoolean false)
+    | ScmPair (ScmSymbol "and", ScmNil) -> ScmConst (ScmBoolean true)
     | ScmPair (ScmSymbol "and", exprs) ->
        (match (scheme_list_to_ocaml exprs) with
         | expr :: exprs, ScmNil ->
            tag_parse (macro_expand_and_clauses expr exprs)
         | _ -> raise (X_syntax "malformed and-expression"))
+   | ScmPair (ScmSymbol "or", ScmNil) -> ScmConst (ScmBoolean false)
+   | ScmPair (ScmSymbol "or", exprs) ->
+      (match (scheme_list_to_ocaml exprs) with
+      | list, ScmNil ->
+         ScmOr(List.map tag_parse list)
+      | _ -> raise (X_syntax "malformed or-expression"))
     | ScmPair (ScmSymbol "cond", ribs) ->
        tag_parse (macro_expand_cond_ribs ribs)
     | ScmPair (proc, args) ->
@@ -788,7 +792,7 @@ let rec sexpr_of_expr' = function
          (List.map sexpr_of_expr' args) in
      ScmPair (proc, args)
   (* for reversing macro-expansion... *)
-  | _ -> raise X_not_yet_implemented;;
+  | _ -> raise (X_this_should_not_happen "Invalid expr'");;
 
 let string_of_expr' expr =
   Printf.sprintf "%a" sprint_sexpr (sexpr_of_expr' expr);;

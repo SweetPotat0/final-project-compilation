@@ -67,7 +67,7 @@ module Code_Generation : CODE_GENERATION= struct
       | ScmNil -> [sexpr]
       | ScmBoolean _ | ScmChar _ | ScmString _ | ScmNumber _ ->
          [sexpr]
-      | ScmSymbol sym -> [sexpr]
+      | ScmSymbol sym -> (ScmString sym) :: [sexpr]
       | ScmPair (car, cdr) -> (run car) @ (run cdr) @ [sexpr]
       | ScmVector sexprs -> (runs sexprs) @ [sexpr]
     and runs sexprs =
@@ -392,16 +392,20 @@ module Code_Generation : CODE_GENERATION= struct
     let consts = make_constants_table exprs' in
     let free_vars = make_free_vars_table exprs' in
     let rec run params env = function
-      | ScmConst' sexpr -> raise X_not_yet_implemented
+      | ScmConst' sexpr ->
+        let addr = search_constant_address sexpr consts in
+        Printf.sprintf
+           "\tmov rax, qword [%x]\n"
+           addr
       | ScmVarGet' (Var' (v, Free)) ->
          let label = search_free_var_table v free_vars in
          Printf.sprintf
            "\tmov rax, qword [%s]\n"
            label
-      | ScmVarGet' (Var' (v, Param minor)) -> raise X_not_yet_implemented
+      | ScmVarGet' (Var' (v, Param minor)) -> raise (X_not_yet_implemented "1")
       | ScmVarGet' (Var' (v, Bound (major, minor))) ->
-         raise X_not_yet_implemented
-      | ScmIf' (test, dit, dif) -> raise X_not_yet_implemented
+         raise (X_not_yet_implemented "2")
+      | ScmIf' (test, dit, dif) -> raise (X_not_yet_implemented "3")
       | ScmSeq' exprs' ->
          String.concat "\n"
            (List.map (run params env) exprs')
@@ -427,11 +431,11 @@ module Code_Generation : CODE_GENERATION= struct
             | None -> run params env (ScmConst' (ScmBoolean false)))
          in asm_code
       | ScmVarSet' (Var' (v, Free), expr') ->
-         raise X_not_yet_implemented
+         raise (X_not_yet_implemented "4")
       | ScmVarSet' (Var' (v, Param minor), expr') ->
-         raise X_not_yet_implemented
+         raise (X_not_yet_implemented "5")
       | ScmVarSet' (Var' (v, Bound (major, minor)), expr') ->
-         raise X_not_yet_implemented
+         raise (X_not_yet_implemented "6")
       | ScmVarDef' (Var' (v, Free), expr') ->
          let label = search_free_var_table v free_vars in
          (run params env expr')
@@ -441,12 +445,12 @@ module Code_Generation : CODE_GENERATION= struct
          raise X_not_yet_supported
       | ScmVarDef' (Var' (v, Bound (major, minor)), expr') ->
          raise X_not_yet_supported
-      | ScmBox' (Var' (v, Param minor)) -> raise X_not_yet_implemented
-      | ScmBox' _ -> raise X_not_yet_implemented
+      | ScmBox' (Var' (v, Param minor)) -> raise (X_not_yet_implemented "7")
+      | ScmBox' _ -> raise (X_not_yet_implemented "8")
       | ScmBoxGet' var' ->
          (run params env (ScmVarGet' var'))
          ^ "\tmov rax, qword [rax]\n"
-      | ScmBoxSet' (var', expr') -> raise X_not_yet_implemented
+      | ScmBoxSet' (var', expr') -> raise (X_not_yet_implemented "9")
       | ScmLambda' (params', Simple, body) ->
          let label_loop_env = make_lambda_simple_loop_env ()
          and label_loop_env_end = make_lambda_simple_loop_env_end ()
@@ -507,9 +511,9 @@ module Code_Generation : CODE_GENERATION= struct
          ^ "\tleave\n"
          ^ (Printf.sprintf "\tret 8 * (2 + %d)\n" (List.length params'))
          ^ (Printf.sprintf "%s:\t; new closure is in rax\n" label_end)
-      | ScmLambda' (params', Opt opt, body) -> raise X_not_yet_implemented
-      | ScmApplic' (proc, args, Non_Tail_Call) -> raise X_not_yet_implemented
-      | ScmApplic' (proc, args, Tail_Call) -> raise X_not_yet_implemented
+      | ScmLambda' (params', Opt opt, body) -> raise (X_not_yet_implemented "10")
+      | ScmApplic' (proc, args, Non_Tail_Call) -> raise (X_not_yet_implemented "11")
+      | ScmApplic' (proc, args, Tail_Call) -> raise (X_not_yet_implemented "12")
     and runs params env exprs' =
       List.map
         (fun expr' ->
@@ -535,8 +539,8 @@ module Code_Generation : CODE_GENERATION= struct
     code;;
 
   let compile_scheme_string file_out user =
-    let init = file_to_string "init.scm" in
-    let source_code = init ^ user in
+    (* let init = file_to_string "init.scm" in *)
+    let source_code = (*init ^*) user in
     let sexprs = (PC.star Reader.nt_sexpr source_code 0).found in
     let exprs = List.map Tag_Parser.tag_parse sexprs in
     let exprs' = List.map Semantic_Analysis.semantics exprs in
