@@ -52,19 +52,24 @@ module Code_Generation : CODE_GENERATION= struct
     | [] -> []
     | s -> run (s, n, (fun s -> s));;
 
-  let remove_duplicates = raise X_not_yet_implemented;;
+  let rec remove_duplicates = function
+    | [] -> []
+    | first :: rest -> if(List.mem first rest) then (remove_duplicates rest) else (first :: (remove_duplicates rest));;
 
-  let collect_constants = raise X_not_yet_implemented;;
+  let rec collect_constants = function
+    | [] -> []
+    | ScmConst' (sexpr) :: rest -> sexpr :: collect_constants rest
+    | first :: rest -> collect_constants rest
 
   let add_sub_constants =
     let rec run sexpr = match sexpr with
-      | ScmVoid -> raise X_not_yet_implemented
-      | ScmNil -> raise X_not_yet_implemented
+      | ScmVoid -> [sexpr]
+      | ScmNil -> [sexpr]
       | ScmBoolean _ | ScmChar _ | ScmString _ | ScmNumber _ ->
-         raise X_not_yet_implemented
-      | ScmSymbol sym -> raise X_not_yet_implemented
+         [sexpr]
+      | ScmSymbol sym -> [sexpr]
       | ScmPair (car, cdr) -> (run car) @ (run cdr) @ [sexpr]
-      | ScmVector sexprs -> raise X_not_yet_implemented
+      | ScmVector sexprs -> (runs sexprs) @ [sexpr]
     and runs sexprs =
       List.fold_left (fun full sexpr -> full @ (run sexpr)) [] sexprs
     in fun exprs' ->
@@ -78,8 +83,12 @@ module Code_Generation : CODE_GENERATION= struct
     | QuadFloat of float
     | ConstPtr of int;;
 
-  let search_constant_address = raise X_not_yet_implemented;;
+  let rec search_constant_address sexpr table = (match table with
+      | (curr_sexpr, loc, repr) :: rest_table -> (if(curr_sexpr = sexpr) then loc else search_constant_address sexpr rest_table)
+      | [] -> raise (X_this_should_not_happen "constant not found"))
+  ;;
 
+  (*Returns a list of initialized_data and the size in bytes of the const*)
   let const_repr sexpr loc table = match sexpr with
     | ScmVoid -> ([RTTI "T_void"], 1)
     | ScmNil -> ([RTTI "T_nil"], 1)
@@ -262,24 +271,24 @@ module Code_Generation : CODE_GENERATION= struct
 
   let collect_free_vars =
     let rec run = function
-      | ScmConst' _ -> raise X_not_yet_implemented
+      | ScmConst' _ -> []
       | ScmVarGet' (Var' (v, Free)) -> [v]
-      | ScmVarGet' _ -> raise X_not_yet_implemented
-      | ScmIf' (test, dit, dif) -> raise X_not_yet_implemented
+      | ScmVarGet' _ -> []
+      | ScmIf' (test, dit, dif) -> run test @ run dit @ run dif
       | ScmSeq' exprs' -> runs exprs'
       | ScmOr' exprs' -> runs exprs'
-      | ScmVarSet' (Var' (v, Free), expr') -> raise X_not_yet_implemented
-      | ScmVarSet' (_, expr') -> raise X_not_yet_implemented
-      | ScmVarDef' (Var' (v, Free), expr') -> raise X_not_yet_implemented
+      | ScmVarSet' (Var' (v, Free), expr') -> [v] @ run expr'
+      | ScmVarSet' (_, expr') -> run expr'
+      | ScmVarDef' (Var' (v, Free), expr') -> [v] @ run expr'
       | ScmVarDef' (_, expr') -> run expr'
-      | ScmBox' (Var' (v, Free)) -> raise X_not_yet_implemented
+      | ScmBox' (Var' (v, Free)) -> [v]
       | ScmBox' _ -> []
-      | ScmBoxGet' (Var' (v, Free)) -> raise X_not_yet_implemented
+      | ScmBoxGet' (Var' (v, Free)) -> [v]
       | ScmBoxGet' _ -> []
-      | ScmBoxSet' (Var' (v, Free), expr') -> raise X_not_yet_implemented
+      | ScmBoxSet' (Var' (v, Free), expr') -> [v] @ run expr'
       | ScmBoxSet' (_, expr') -> run expr'
-      | ScmLambda' (_, _, expr') -> raise X_not_yet_implemented
-      | ScmApplic' (expr', exprs', _) -> raise X_not_yet_implemented
+      | ScmLambda' (_, _, expr') -> run expr'
+      | ScmApplic' (expr', exprs', _) -> run expr' @ runs exprs'
     and runs exprs' =
       List.fold_left
         (fun vars expr' -> vars @ (run expr'))
