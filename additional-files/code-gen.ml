@@ -463,7 +463,11 @@ module Code_Generation : CODE_GENERATION= struct
             | None -> run params env (ScmConst' (ScmBoolean false)))
          in asm_code
       | ScmVarSet' (Var' (v, Free), expr') ->
-         raise (X_not_yet_implemented "4")
+         let valStr = run params env expr' in
+         let label = search_free_var_table v free_vars in
+         valStr
+         ^ (Printf.sprintf "\tmov qword [%s], rax\n" label)
+         ^ "\tmov rax, sob_void\n"
       | ScmVarSet' (Var' (v, Param minor), expr') ->
          raise (X_not_yet_implemented "5")
       | ScmVarSet' (Var' (v, Bound (major, minor)), expr') ->
@@ -482,7 +486,14 @@ module Code_Generation : CODE_GENERATION= struct
       | ScmBoxGet' var' ->
          (run params env (ScmVarGet' var'))
          ^ "\tmov rax, qword [rax]\n"
-      | ScmBoxSet' (var', expr') -> raise (X_not_yet_implemented "9")
+      | ScmBoxSet' (var', expr') -> 
+        let exprStr = run params env expr' in
+        let varValStr = (run params env (ScmVarGet' var')) in
+        exprStr
+        ^ "\tpush rax\n"
+        ^ varValStr
+        ^ "\tpop qword [rax]\n"
+        ^ "\tmov rax, sob_void\n"
       | ScmLambda' (params', Simple, body) ->
          let label_loop_env = make_lambda_simple_loop_env ()
          and label_loop_env_end = make_lambda_simple_loop_env_end ()
@@ -544,7 +555,13 @@ module Code_Generation : CODE_GENERATION= struct
          ^ (Printf.sprintf "\tret 8 * (2 + %d)\n" (List.length params'))
          ^ (Printf.sprintf "%s:\t; new closure is in rax\n" label_end)
       | ScmLambda' (params', Opt opt, body) -> raise (X_not_yet_implemented "10")
-      | ScmApplic' (proc, args, Non_Tail_Call) -> raise (X_not_yet_implemented "11")
+      | ScmApplic' (proc, args, Non_Tail_Call) -> 
+        let argsStr = (List.fold_left (fun (acc arg) -> (run params env arg) ^ "\tpush rax\n") "" args) in
+        let procStr = run params env proc in
+        argsStr
+        ^ (Printf.sprintf "\tpush %d\n" args.length)
+        ^ procStr
+        ^ 
       | ScmApplic' (proc, args, Tail_Call) -> raise (X_not_yet_implemented "12")
     and runs params env exprs' =
       List.map
