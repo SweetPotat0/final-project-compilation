@@ -556,12 +556,16 @@ module Code_Generation : CODE_GENERATION= struct
          ^ (Printf.sprintf "%s:\t; new closure is in rax\n" label_end)
       | ScmLambda' (params', Opt opt, body) -> raise (X_not_yet_implemented "10")
       | ScmApplic' (proc, args, Non_Tail_Call) -> 
-        let argsStr = (List.fold_left (fun (acc arg) -> (run params env arg) ^ "\tpush rax\n") "" args) in
+        let argsStr = (List.fold_left (fun acc arg -> ((run params env arg) ^ "\tpush rax\n")) "" args) in
         let procStr = run params env proc in
         argsStr
-        ^ (Printf.sprintf "\tpush %d\n" args.length)
+        ^ (Printf.sprintf "\tpush %d\n" (List.length args))
         ^ procStr
-        ^ 
+        ^ "\tassert_closure(rax)\n"
+        ^ "\tmov rbx, SOB_CLOSURE_ENV(rax)\n"
+        ^ "\tpush rbx\n"
+        ^ "\tmov rbx, SOB_CLOSURE_CODE(rax)\n"
+        ^ "\tcall rbx\n"
       | ScmApplic' (proc, args, Tail_Call) -> raise (X_not_yet_implemented "12")
     and runs params env exprs' =
       List.map
