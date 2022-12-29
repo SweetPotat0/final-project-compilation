@@ -59,6 +59,14 @@ module Code_Generation : CODE_GENERATION= struct
   let rec collect_constants = function
     | [] -> []
     | ScmConst' (sexpr) :: rest -> sexpr :: collect_constants rest
+    | ScmIf' (test, dit, dif) :: rest -> (collect_constants [test;dit;dif]) @ collect_constants rest
+    | ScmSeq' (exprList) :: rest -> (collect_constants exprList) @ collect_constants rest
+    | ScmOr' (exprList) :: rest -> (collect_constants exprList) @ collect_constants rest
+    | ScmVarSet' (_, expr) :: rest -> (collect_constants [expr]) @ collect_constants rest
+    | ScmVarDef' (_, expr) :: rest -> (collect_constants [expr]) @ collect_constants rest
+    | ScmBoxSet' (_, expr) :: rest -> (collect_constants [expr]) @ collect_constants rest
+    | ScmLambda' (_, _, expr) :: rest -> (collect_constants [expr]) @ collect_constants rest
+    | ScmApplic' (expr, exprList, _) :: rest -> (collect_constants (expr :: exprList)) @ collect_constants rest
     | first :: rest -> collect_constants rest
 
   let add_sub_constants =
@@ -85,7 +93,16 @@ module Code_Generation : CODE_GENERATION= struct
 
   let rec search_constant_address sexpr table = (match table with
       | (curr_sexpr, loc, repr) :: rest_table -> (if(curr_sexpr = sexpr) then loc else search_constant_address sexpr rest_table)
-      | [] -> raise (X_this_should_not_happen "constant not found"))
+      | [] -> (match sexpr with
+                | ScmVoid -> raise (X_this_should_not_happen "constant of type ScmVoid not found")
+                | ScmNil -> raise (X_this_should_not_happen "constant of type ScmNil not found")
+                | ScmBoolean _ -> raise (X_this_should_not_happen "constant of type ScmBoolean not found")
+                | ScmChar _ -> raise (X_this_should_not_happen "constant of type ScmChar not found")
+                | ScmString _ -> raise (X_this_should_not_happen "constant of type ScmString not found")
+                | ScmSymbol _ -> raise (X_this_should_not_happen "constant of type ScmSymbol not found")
+                | ScmNumber  scm_ -> raise (X_this_should_not_happen "constant of type ScmNumber not found")
+                | ScmVector  _ -> raise (X_this_should_not_happen "constant of type ScmVector not found")
+                | ScmPair _ -> raise (X_this_should_not_happen "constant of type ScmPair not found")))
   ;;
 
   (*Returns a list of initialized_data and the size in bytes of the const*)

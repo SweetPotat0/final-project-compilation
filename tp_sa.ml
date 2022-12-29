@@ -464,7 +464,7 @@ module Semantic_Analysis : SEMANTIC_ANALYSIS = struct
       | ScmVarSet(Var v, expr) -> (match (tag_lexical_address_for_var v params env) with
          | Var'(_,lexadd) -> ScmVarSet' (Var'(v, lexadd), run expr params env))         
       (* this code does not [yet?] support nested define-expressions *)
-      | ScmVarDef(Var v, expr) -> ScmVarSet' (Var'(v, Free), run expr params env)
+      | ScmVarDef(Var v, expr) -> ScmVarDef' (Var'(v, Free), run expr params env)
       | ScmLambda (params', Simple, expr) -> ScmLambda' (params', Simple, (run expr params' (params::env)))
       | ScmLambda (params', Opt opt, expr) -> ScmLambda' (params', Opt opt, (run expr params' (params::env)))
       | ScmApplic (proc, args) ->
