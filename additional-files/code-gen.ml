@@ -52,9 +52,11 @@ module Code_Generation : CODE_GENERATION= struct
     | [] -> []
     | s -> run (s, n, (fun s -> s));;
 
+  let remove_mem = fun (mem, list) -> (List.filter (fun (curr) -> curr != mem) list);;
+
   let rec remove_duplicates = function
     | [] -> []
-    | first :: rest -> if(List.mem first rest) then (remove_duplicates rest) else (first :: (remove_duplicates rest));;
+    | first :: rest -> first :: remove_duplicates (remove_mem (first,rest));;
 
   let rec collect_constants = function
     | [] -> []
@@ -422,7 +424,20 @@ module Code_Generation : CODE_GENERATION= struct
       | ScmVarGet' (Var' (v, Param minor)) -> raise (X_not_yet_implemented "1")
       | ScmVarGet' (Var' (v, Bound (major, minor))) ->
          raise (X_not_yet_implemented "2")
-      | ScmIf' (test, dit, dif) -> raise (X_not_yet_implemented "3")
+      | ScmIf' (test, dit, dif) ->
+        let label_else = make_if_else () in
+        let label_end = make_if_end () in
+        let testStr = run params env test in
+        let ditStr = run params env dit in
+        let difStr = run params env dif in
+        testStr
+        ^ "\tcmp rax, sob_boolean_false\n"
+        ^ (Printf.sprintf "\tje %s\n" label_else)
+        ^ ditStr
+        ^ (Printf.sprintf "\tjmp %s\n" label_end)
+        ^ (Printf.sprintf "\t%s:\n" label_else)
+        ^ difStr
+        ^ (Printf.sprintf "\t%s:\n" label_end)
       | ScmSeq' exprs' ->
          String.concat "\n"
            (List.map (run params env) exprs')
