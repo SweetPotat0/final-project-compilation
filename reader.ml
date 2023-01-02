@@ -1,4 +1,4 @@
-#use "pc.ml";;
+#use "../pc.ml";;
 
 exception X_not_yet_implemented of string;;
 exception X_this_should_not_happen of string;;

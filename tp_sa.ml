@@ -1,3 +1,5 @@
+#use "../reader.ml";;
+
 exception X_this_should_not_happen of string;;
 
 let rec is_member a = function

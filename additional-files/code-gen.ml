@@ -1,3 +1,5 @@
+#use "../tp_sa.ml";;
+
 let file_to_string input_file =
   let in_channel = open_in input_file in
   let rec run () =
@@ -511,14 +513,14 @@ module Code_Generation : CODE_GENERATION= struct
          ^ "\tpush rax\n"
          ^ (Printf.sprintf "\tmov rdi, 8 * %d\t; extended env\n" (env + 1))
          ^ "\tcall malloc\n"
-         ^ "\tmov rdi, ENV\n"
+         ^ "\tmov rdi, ENV\n"(*env = macro for 'qword [rbp + 8 * 2]'*)
          ^ "\tmov rsi, 0\n"
          ^ "\tmov rdx, 1\n"
          ^ (Printf.sprintf "%s:\t; ext_env[i + 1] <-- env[i]\n"
               label_loop_env)
-         ^ (Printf.sprintf "\tcmp rsi, %d\n" (env + 1))
+         ^ (Printf.sprintf "\tcmp rsi, %d\n" (env))(*changed here from env+1 to env*)
          ^ (Printf.sprintf "\tje %s\n" label_loop_env_end)
-         ^ "\tmov rcx, qword [rdi + 8 * rsi]\n"
+         ^ "\tmov rcx, qword [rdi + 8 * rsi] ; Problem is here!!\n"
          ^ "\tmov qword [rax + 8 * rdx], rcx\n"
          ^ "\tinc rsi\n"
          ^ "\tinc rdx\n"
@@ -556,7 +558,7 @@ module Code_Generation : CODE_GENERATION= struct
          ^ (Printf.sprintf "%s:\t; new closure is in rax\n" label_end)
       | ScmLambda' (params', Opt opt, body) -> raise (X_not_yet_implemented "10")
       | ScmApplic' (proc, args, Non_Tail_Call) -> 
-        let argsStr = (List.fold_left (fun acc arg -> ((run params env arg) ^ "\tpush rax\n")) "" args) in
+        let argsStr = (List.fold_right (fun arg acc -> (acc ^ (run params env arg) ^ "\tpush rax\n")) args "") in
         let procStr = run params env proc in
         argsStr
         ^ (Printf.sprintf "\tpush %d\n" (List.length args))
@@ -605,6 +607,13 @@ module Code_Generation : CODE_GENERATION= struct
     compile_scheme_string file_out (file_to_string file_in);;
 
 end;; (* end of Code_Generation struct *)
+
+let str_to_exprs' source_code = 
+    let sexprs = (PC.star Reader.nt_sexpr source_code 0).found in
+    let exprs = List.map Tag_Parser.tag_parse sexprs in
+    let exprs' = List.map Semantic_Analysis.semantics exprs in
+    let moshe = Printf.printf "Num of exprs: %d\n" (List.length exprs') in
+    exprs';;
 
 (* end-of-input *)
 
