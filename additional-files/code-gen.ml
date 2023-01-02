@@ -423,9 +423,12 @@ module Code_Generation : CODE_GENERATION= struct
          Printf.sprintf
            "\tmov rax, qword [%s]\n"
            label
-      | ScmVarGet' (Var' (v, Param minor)) -> raise (X_not_yet_implemented "1")
+      | ScmVarGet' (Var' (v, Param minor)) -> 
+        Printf.sprintf "\tmov rax, qword [rbp + 8*(4 + %d)]\n" minor
       | ScmVarGet' (Var' (v, Bound (major, minor))) ->
-         raise (X_not_yet_implemented "2")
+         "\tmov rax, qword [rbp + 8*2]\n"
+         ^ Printf.sprintf "\tmov rax, qword [rax + 8*%d]\n" major
+         ^ Printf.sprintf "\tmov rax, qword [rax + 8*%d]\n" minor
       | ScmIf' (test, dit, dif) ->
         let label_else = make_if_else () in
         let label_end = make_if_end () in
@@ -471,9 +474,17 @@ module Code_Generation : CODE_GENERATION= struct
          ^ (Printf.sprintf "\tmov qword [%s], rax\n" label)
          ^ "\tmov rax, sob_void\n"
       | ScmVarSet' (Var' (v, Param minor), expr') ->
-         raise (X_not_yet_implemented "5")
+         let exprStr = run params env expr' in
+         exprStr
+         ^ Printf.sprintf "\tmov qword [rbp + 8*(4 + %d)], rax\n" minor
+         ^ "\tmov rax, sob_void\n"
       | ScmVarSet' (Var' (v, Bound (major, minor)), expr') ->
-         raise (X_not_yet_implemented "6")
+         let exprStr = run params env expr' in
+         exprStr
+         ^ "\tmov rbx, qword [rbp + 8 * 2]\n"
+         ^ Printf.sprintf "\tmov rbx, qword [rbx + 8*%d]\n" major
+         ^ Printf.sprintf "\tmov qword [rbx + 8 * %d], rax\n" minor
+         ^ "\tmov rax, sob_void\n"
       | ScmVarDef' (Var' (v, Free), expr') ->
          let label = search_free_var_table v free_vars in
          (run params env expr')
@@ -612,7 +623,7 @@ let str_to_exprs' source_code =
     let sexprs = (PC.star Reader.nt_sexpr source_code 0).found in
     let exprs = List.map Tag_Parser.tag_parse sexprs in
     let exprs' = List.map Semantic_Analysis.semantics exprs in
-    let moshe = Printf.printf "Num of exprs: %d\n" (List.length exprs') in
+    let _ = Printf.printf "Num of exprs: %d\n" (List.length exprs') in
     exprs';;
 
 (* end-of-input *)
