@@ -109,7 +109,7 @@ module Code_Generation : CODE_GENERATION= struct
                 | ScmPair _ -> raise (X_this_should_not_happen "constant of type ScmPair not found")))
   ;;
 
-  (*Returns a list of initialized_data and the size in bytes of the const*)
+  (*Returns a pair, first elem is a list of initialized_data and the second is size in bytes of the const*)
   let const_repr sexpr loc table = match sexpr with
     | ScmVoid -> ([RTTI "T_void"], 1)
     | ScmNil -> ([RTTI "T_nil"], 1)
@@ -424,7 +424,7 @@ module Code_Generation : CODE_GENERATION= struct
            "\tmov rax, qword [%s]\n"
            label
       | ScmVarGet' (Var' (v, Param minor)) -> 
-        Printf.sprintf "\tmov rax, qword [rbp + 8*(4 + %d)]\n" minor
+        Printf.sprintf "\tmov rax, PARAM(%d)\n" minor
       | ScmVarGet' (Var' (v, Bound (major, minor))) ->
          "\tmov rax, qword [rbp + 8*2]\n"
          ^ Printf.sprintf "\tmov rax, qword [rax + 8*%d]\n" major
@@ -579,7 +579,22 @@ module Code_Generation : CODE_GENERATION= struct
         ^ "\tpush rbx\n"
         ^ "\tmov rbx, SOB_CLOSURE_CODE(rax)\n"
         ^ "\tcall rbx\n"
-      | ScmApplic' (proc, args, Tail_Call) -> raise (X_not_yet_implemented "12")
+      | ScmApplic' (proc, args, Tail_Call) -> 
+        let argsStr = (List.fold_right (fun arg acc -> (acc ^ (run params env arg) ^ "\tpush rax\n")) args "") in
+        let procStr = run params env proc in
+        "\tmov rcx, RET_ADDR\n"
+        ^ "\tmov rdx, OLD_RDP\n"
+        ^ Printf.sprintf "\tadd rsp, 8 * (2 + %d)\n" params
+        ^ argsStr
+        ^ (Printf.sprintf "\tpush %d\n" (List.length args))
+        ^ procStr
+        ^ "\tassert_closure(rax)\n"
+        ^ "\tmov rbx, SOB_CLOSURE_ENV(rax)\n"
+        ^ "\tpush rbx\n"
+        ^ "\tpush rcx ; old return address\n"
+        ^ "\tmov rbp, rdx\n"
+        ^ "\tmov rbx, SOB_CLOSURE_CODE(rax)\n"
+        ^ "\tjmp rbx\n"
     and runs params env exprs' =
       List.map
         (fun expr' ->
