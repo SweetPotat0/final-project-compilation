@@ -582,17 +582,15 @@ module Code_Generation : CODE_GENERATION= struct
       | ScmApplic' (proc, args, Tail_Call) -> 
         let argsStr = (List.fold_right (fun arg acc -> (acc ^ (run params env arg) ^ "\tpush rax\n")) args "") in
         let procStr = run params env proc in
-        "\tmov rcx, RET_ADDR\n"
-        ^ "\tmov rdx, OLD_RDP\n"
-        ^ Printf.sprintf "\tadd rsp, 8 * (2 + %d)\n" params
+        "\tlea rsp, OLD_RDP\n"
         ^ argsStr
         ^ (Printf.sprintf "\tpush %d\n" (List.length args))
         ^ procStr
         ^ "\tassert_closure(rax)\n"
         ^ "\tmov rbx, SOB_CLOSURE_ENV(rax)\n"
         ^ "\tpush rbx\n"
-        ^ "\tpush rcx ; old return address\n"
-        ^ "\tmov rbp, rdx\n"
+        ^ "\tpush RET_ADDR ; old return address\n"
+        ^ "\tmov rbp, OLD_RDP\n"
         ^ "\tmov rbx, SOB_CLOSURE_CODE(rax)\n"
         ^ "\tjmp rbx\n"
     and runs params env exprs' =
@@ -642,4 +640,25 @@ let str_to_exprs' source_code =
     exprs';;
 
 (* end-of-input *)
+
+(*
+   %macro PRINT_TEST 0
+        push rax
+        push rbx
+        push rcx
+        push rdx
+        push rdi
+        push rsi
+        mov rdi, qword [stderr]
+        mov rsi, fmt_test
+        mov rax, 0
+        call fprintf
+        pop rsi
+        pop rdi
+        pop rdx
+        pop rcx
+        pop rbx
+        pop rax
+%endmacro
+*)
 

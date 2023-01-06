@@ -482,7 +482,7 @@ module Semantic_Analysis : SEMANTIC_ANALYSIS = struct
     let rec run in_tail = function
       | (ScmConst' _) as orig -> orig
       | (ScmVarGet' _) as orig -> orig
-      | ScmIf' (test, dit, dif) -> ScmIf' (run false test, run true dit, run true dif)
+      | ScmIf' (test, dit, dif) -> ScmIf' (run false test, run in_tail dit, run in_tail dif)
       | ScmSeq' [] -> ScmSeq' []
       | ScmSeq' (expr :: exprs) -> ScmSeq' (runl in_tail expr exprs)
       | ScmOr' [] -> ScmOr' []
