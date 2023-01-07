@@ -400,9 +400,17 @@ module Code_Generation : CODE_GENERATION= struct
     make_make_label ".L_lambda_opt_arity_check_more";;
   let make_lambda_opt_stack_ok =
     make_make_label ".L_lambda_opt_stack_adjusted";;
-  let make_lambda_opt_loop =
+  let make_lambda_opt_list_create_loop =
+    make_make_label ".L_lambda_opt_list_create_loop";;
+  let make_lambda_opt_list_create_loop_exit =
+    make_make_label ".L_lambda_opt_list_create_loop_exit";;
+  let make_lambda_opt_stack_enlarge_loop =
+    make_make_label ".L_lambda_opt_stack_enlarge_loop";;
+  let make_lambda_opt_stack_enlarge_exit =
+    make_make_label ".L_lambda_opt_stack_enlarge_loop_exit";;
+  let make_lambda_opt_stack_shrink_loop =
     make_make_label ".L_lambda_opt_stack_shrink_loop";;
-  let make_lambda_opt_loop_exit =
+  let make_lambda_opt_stack_shrink_exit =
     make_make_label ".L_lambda_opt_stack_shrink_loop_exit";;
   let make_tc_applic_recycle_frame_loop =
     make_make_label ".L_tc_recycle_frame_loop";;
@@ -567,7 +575,138 @@ module Code_Generation : CODE_GENERATION= struct
          ^ "\tleave\n"
          ^ (Printf.sprintf "\tret 8 * (2 + %d)\n" (List.length params'))
          ^ (Printf.sprintf "%s:\t; new closure is in rax\n" label_end)
-      | ScmLambda' (params', Opt opt, body) -> raise (X_not_yet_implemented "10")
+      | ScmLambda' (params', Opt opt, body) ->
+        let label_loop_env = make_lambda_opt_loop_env ()
+         and label_loop_env_end = make_lambda_opt_loop_env_end ()
+         and label_loop_params = make_lambda_opt_loop_params ()
+         and label_loop_params_end = make_lambda_opt_loop_params_end ()
+         and label_params_exact = make_lambda_opt_arity_exact ()
+         and label_params_more = make_lambda_opt_arity_more ()
+         and label_list_create_start = make_lambda_opt_list_create_loop ()
+         and label_list_create_exit = make_lambda_opt_list_create_loop_exit ()
+         and label_stack_shrink_start = make_lambda_opt_stack_shrink_loop ()
+         and label_stack_shrink_exit = make_lambda_opt_stack_shrink_exit ()
+         and label_stack_enlarge_start = make_lambda_opt_stack_enlarge_loop ()
+         and label_stack_enlarge_exit = make_lambda_opt_stack_enlarge_exit ()
+         and label_stack_ok = make_lambda_opt_stack_ok ()
+         and label_code = make_lambda_opt_code ()
+         and label_end = make_lambda_opt_end ()
+         in
+         "\tmov rdi, (1 + 8 + 8)\t; sob closure\n"
+         ^ "\tcall malloc\n"
+         ^ "\tpush rax\n"
+         ^ (Printf.sprintf "\tmov rdi, 8 * %d\t; new rib\n" params)
+         ^ "\tcall malloc\n"
+         ^ "\tpush rax\n"
+         ^ (Printf.sprintf "\tmov rdi, 8 * %d\t; extended env\n" (env + 1))
+         ^ "\tcall malloc\n"
+         ^ "\tmov rdi, ENV\n"(*env = macro for 'qword [rbp + 8 * 2]'*)
+         ^ "\tmov rsi, 0\n"
+         ^ "\tmov rdx, 1\n"
+         ^ (Printf.sprintf "%s:\t; ext_env[i + 1] <-- env[i]\n"
+              label_loop_env)
+         ^ (Printf.sprintf "\tcmp rsi, %d\n" (env))(*changed here from env+1 to env*)
+         ^ (Printf.sprintf "\tje %s\n" label_loop_env_end)
+         ^ "\tmov rcx, qword [rdi + 8 * rsi] ; Problem is here!!\n"
+         ^ "\tmov qword [rax + 8 * rdx], rcx\n"
+         ^ "\tinc rsi\n"
+         ^ "\tinc rdx\n"
+         ^ (Printf.sprintf "\tjmp %s\n" label_loop_env)
+         ^ (Printf.sprintf "%s:\n" label_loop_env_end)
+         ^ "\tpop rbx\n"
+         ^ "\tmov rsi, 0\n"
+         ^ (Printf.sprintf "%s:\t; copy params\n" label_loop_params)
+         ^ (Printf.sprintf "\tcmp rsi, %d\n" params)
+         ^ (Printf.sprintf "\tje %s\n" label_loop_params_end)
+         ^ "\tmov rdx, qword [rbp + 8 * rsi + 8 * 4]\n"
+         ^ "\tmov qword [rbx + 8 * rsi], rdx\n"
+         ^ "\tinc rsi\n"
+         ^ (Printf.sprintf "\tjmp %s\n" label_loop_params)
+         ^ (Printf.sprintf "%s:\n" label_loop_params_end)
+         ^ "\tmov qword [rax], rbx\t; ext_env[0] <-- new_rib \n"
+         ^ "\tmov rbx, rax\n"
+         ^ "\tpop rax\n"
+         ^ "\tmov byte [rax], T_closure\n"
+         ^ "\tmov SOB_CLOSURE_ENV(rax), rbx\n"
+         ^ (Printf.sprintf "\tmov SOB_CLOSURE_CODE(rax), %s\n" label_code)
+         ^ (Printf.sprintf "\tjmp %s\n" label_end)
+         ^ (Printf.sprintf "%s:\t; lambda-simple body\n" label_code)
+         ^ "\tmov rdi, qword [rsp + 8 * 2]\n"
+         ^ "\tmov rbx, rdi\n"
+         ^ (Printf.sprintf "\tsub rbx, %d\n" (List.length params'))
+         ^ (Printf.sprintf "\tjg %s\n" label_params_more)
+         ^ (Printf.sprintf "%s:\t ; if params in opt is exact\n" label_params_exact)
+         ^ "\tsub rsp, 8\n"
+         ^ "\tmov rsi, 0 ; index\n" 
+         ^ (Printf.sprintf "%s:\t ; stack loop enlarge start\n" label_stack_enlarge_start)
+         ^ (Printf.sprintf "\tcmp rsi, %d\n" (3 + (List.length params')))
+         ^ (Printf.sprintf "\tje %s\n" label_stack_enlarge_exit)
+         ^ "\tmov rdi, rsi\n"
+         ^ "\tshl rdi, 3\n"
+         ^ "\tadd rdi, rsp\n"
+         ^ "\tadd rdi, 8\n"
+         ^ "\tmov rbx, rdi\n"
+         ^ "\tsub rbx, 8\n"
+         ^ "\tmov rdi, [rdi]\n"
+         ^ "\tmov [rbx], rdi\n"
+         ^ "\tinc rsi\n"
+         ^ (Printf.sprintf "\tjmp %s\n" label_stack_enlarge_start)
+         ^ (Printf.sprintf "%s:\t ; end of stack enlarge loop\n" label_stack_enlarge_exit)
+         ^ "\tmov rdi, 0\n"
+         ^ "\tcall malloc\n"
+         ^ (Printf.sprintf "\tmov [rsp + %d*8], rax\n" (3 + (List.length params')))
+         ^ (Printf.sprintf "\tmov qword [rsp + 2*8], %d\n" (1 + (List.length params')))
+         ^ (Printf.sprintf "\tjmp %s\n" label_stack_ok)
+         ^ (Printf.sprintf "%s:\t ; if params in opt is more\n" label_params_more)
+         ^ "\tshl rdi,3\n"
+         ^ "\tcall malloc\n"
+         ^ "\tmov rsi, 0 ;index\n"
+         ^ (Printf.sprintf "%s:\t; start of list creation loop\n" label_list_create_start)
+         ^ "\tcmp rsi, rbx\n"
+         ^ (Printf.sprintf "\tje %s\n" label_list_create_exit)
+         ^ (Printf.sprintf "\tlea rcx, [rsi + (3 + %d)]\n" (List.length params'))
+         ^ "\tshl rcx, 3\n"
+         ^ "\tadd rcx, rsp\n"
+         ^ "\tmov rcx, [rcx]\n"
+         ^ "\tmov [rax + rsi], rcx\n"
+         ^ "\tinc rsi\n"
+         ^ (Printf.sprintf "\tjmp %s\n" label_list_create_start)
+         ^ (Printf.sprintf "%s:\t; end of list creation loop\n" label_list_create_exit)
+         ^ "\tmov rbx, qword [rsp + 8 * 2]\n"
+         ^ "\tadd rbx, 2\n"
+         ^ "\tmov rdi, rbx\n"
+         ^ "\tshl rdi,3\n"
+         ^ "\tadd rdi, rsp\n"
+         ^ "\tmov [rdi], rax\n"
+         ^ "\tmov rsi, 0 ;index\n"
+         ^ (Printf.sprintf "%s:\t; start of stack shrink loop\n" label_stack_shrink_start)
+         ^ (Printf.sprintf "\tcmp rsi, %d\n" (2 + (List.length params')))
+         ^ (Printf.sprintf "\tje %s\n" label_stack_shrink_exit)
+         ^ (Printf.sprintf "\tmov rdi, %d\n" (2 + (List.length params')))
+         ^ "\tsub rdi, rsi; the index of the current stack member to move\n"
+         ^ "\tmov rcx, rbx\n"
+         ^ "\tsub rcx, rsi\n"
+         ^ "\tsub rcx, 1; the index of the target stack place to put the member\n"
+         ^ "\tmov rdx, rdi\n"
+         ^ "\tshl rdx, 3\n"
+         ^ "\tadd rdx, rsp\n"
+         ^ "\tshl rcx, 3\n"
+         ^ "\tadd rcx, rsp\n"
+         ^ "\tmov rdx, [rdx]\n"
+         ^ "\tmov [rcx], rdx\n"
+         ^ "\tinc rsi\n"
+         ^ (Printf.sprintf "%s:\t; end of stack shrink loop\n" label_stack_shrink_exit)
+         ^ "\tmov rbx, [rsp + 8 * 2]\n"
+         ^ (Printf.sprintf "\tmov qword [rsp + 8 * 2], %d\n" (1 + (List.length params')))
+         ^ (Printf.sprintf "\tsub rbx, %d\n" ((List.length params') + 1))
+         ^ "\tadd rsp, rbx\n"
+         ^ (Printf.sprintf "%s:\n" label_stack_ok)
+         ^ "\tpush rbp\n"
+         ^ "\tmov rbp, rsp\n"
+         ^ (run (List.length params') (env + 1) body)
+         ^ "\tleave\n"
+         ^ (Printf.sprintf "\tret 8 * (2 + %d)\n" ((List.length params') + 2))
+         ^ (Printf.sprintf "%s:\t; new closure is in rax\n" label_end)
       | ScmApplic' (proc, args, Non_Tail_Call) -> 
         let argsStr = (List.fold_right (fun arg acc -> (acc ^ (run params env arg) ^ "\tpush rax\n")) args "") in
         let procStr = run params env proc in
@@ -642,7 +781,7 @@ let str_to_exprs' source_code =
 (* end-of-input *)
 
 (*
-   %macro PRINT_TEST 0
+   %macro PRINT_TEST 1
         push rax
         push rbx
         push rcx
@@ -651,6 +790,7 @@ let str_to_exprs' source_code =
         push rsi
         mov rdi, qword [stderr]
         mov rsi, fmt_test
+        mov rdx, %1
         mov rax, 0
         call fprintf
         pop rsi
