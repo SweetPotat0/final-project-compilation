@@ -468,7 +468,7 @@ module Semantic_Analysis : SEMANTIC_ANALYSIS = struct
       (* this code does not [yet?] support nested define-expressions *)
       | ScmVarDef(Var v, expr) -> ScmVarDef' (Var'(v, Free), run expr params env)
       | ScmLambda (params', Simple, expr) -> ScmLambda' (params', Simple, (run expr params' (params::env)))
-      | ScmLambda (params', Opt opt, expr) -> ScmLambda' (params', Opt opt, (run expr params' (params::env)))
+      | ScmLambda (params', Opt opt, expr) -> ScmLambda' (params', Opt opt, (run expr (params' @ [opt]) (params::env)))
       | ScmApplic (proc, args) ->
          ScmApplic' (run proc params env,
                      List.map (fun arg -> run arg params env) args,

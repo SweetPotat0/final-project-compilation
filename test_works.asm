@@ -14,7 +14,7 @@
 %define T_pair 				(T_collection | 1)
 %define T_vector 			(T_collection | 2)
 
-%macro PRINT_TEST 1
+%macro PRINT_TEST 2
         push rax
         push rbx
         push rcx
@@ -24,6 +24,7 @@
         mov rdi, qword [stderr]
         mov rsi, fmt_test
         mov rdx, %1
+        mov rcx, %2
         mov rax, 0
         ENTER
         call fprintf
@@ -102,8 +103,18 @@ L_constants:
 	db T_boolean_false
 	db T_boolean_true
 	db T_char, 0x00	; #\x0
+	db T_rational	; 1
+	dq 1, 1
+	db T_rational	; 1
+	dq 1, 1
 	db T_rational	; 2
 	dq 2, 1
+	db T_rational	; 3
+	dq 3, 1
+	db T_rational	; 5
+	dq 5, 1
+	db T_rational	; 8
+	dq 8, 1
 
 section .bss
 free_var_0:	; location of null?
@@ -505,9 +516,19 @@ main:
 	mov rsi, L_code_ptr_eq
 	call bind_primitive
 
+	lea rax, [91 + L_constants]
+	push rax
+	lea rax, [74 + L_constants]
+	push rax
+	lea rax, [57 + L_constants]
+	push rax
+	lea rax, [40 + L_constants]
+	push rax
 	lea rax, [6 + L_constants]
 	push rax
-	push 1
+	lea rax, [6 + L_constants]
+	push rax
+	push 6
 	mov rdi, (1 + 8 + 8)	; sob closure
 	call malloc
 	push rax
@@ -548,43 +569,47 @@ main:
 .L_lambda_opt_code_0001:	; lambda-simple body
 	mov rdi, qword [rsp + 8 * 2]
 	mov rbx, rdi
-	sub rbx, 1
+	sub rbx, 3
 	jg .L_lambda_opt_arity_check_more_0001
-.L_lambda_opt_arity_check_exact_0001:	 ; if params in opt is exacts
-        mov qword rbx, 1
-        push rbx
+.L_lambda_opt_arity_check_exact_0001:	 ; if params in opt is exact
+	sub rsp, 8
 	mov rsi, 0 ; index
 .L_lambda_opt_stack_enlarge_loop_0001:	 ; stack loop enlarge start
-	cmp rsi, 4
+	cmp rsi, 6
 	je .L_lambda_opt_stack_enlarge_loop_exit_0001
 	mov rdi, rsi
 	shl rdi, 3
 	add rdi, rsp
-        add rdi, 8
-        mov rbx, rdi
-        sub rbx, 8
+	add rdi, 8
+	mov rbx, rdi
+	sub rbx, 8
 	mov rdi, [rdi]
 	mov [rbx], rdi
 	inc rsi
 	jmp .L_lambda_opt_stack_enlarge_loop_0001
 .L_lambda_opt_stack_enlarge_loop_exit_0001:	 ; end of stack enlarge loop
-        mov rdi, 0
-	call malloc
-	mov [rsp + 4*8], rax
-	mov qword [rsp + 2*8], 2     
+	mov qword [rsp + 6*8], sob_nil
+	mov qword [rsp + 2*8], 4
 	jmp .L_lambda_opt_stack_adjusted_0001
 .L_lambda_opt_arity_check_more_0001:	 ; if params in opt is more
-	shl rdi,3
-	call malloc
+	mov rax, sob_nil
 	mov rsi, 0 ;index
 .L_lambda_opt_list_create_loop_0001:	; start of list creation loop
 	cmp rsi, rbx
 	je .L_lambda_opt_list_create_loop_exit_0001
-	lea rcx, [rsi + (3 + 1)]
+	lea rcx, [rsi + (3 + 3)]
 	shl rcx, 3
-	add rcx, rbp
+	add rcx, rsp
 	mov rcx, [rcx]
-	mov [rax + rsi], rcx
+	push rsi
+	push rbx
+	push rax
+	push rcx
+	push qword 2 ; push num of args
+	push qword 1 ; push garbage
+	call L_code_ptr_cons
+	pop rbx
+	pop rsi
 	inc rsi
 	jmp .L_lambda_opt_list_create_loop_0001
 .L_lambda_opt_list_create_loop_exit_0001:	; end of list creation loop
@@ -592,33 +617,42 @@ main:
 	add rbx, 2
 	mov rdi, rbx
 	shl rdi,3
-	add rdi, rbp
+	add rdi, rsp
 	mov [rdi], rax
+
 	mov rsi, 0 ;index
 .L_lambda_opt_stack_shrink_loop_0001:	; start of stack shrink loop
-	cmp rsi, 3
+	cmp rsi, 6
 	je .L_lambda_opt_stack_shrink_loop_exit_0001
-	mov rdi, 3
+	mov rdi, 5
 	sub rdi, rsi; the index of the current stack member to move
 	mov rcx, rbx
-	sub rcx, rsi
-	sub rcx, 1; the index of the target stack place to put the member
+        sub rcx, 1
+	sub rcx, rsi ; the index of the target stack place to put the member
 	mov rdx, rdi
 	shl rdx, 3
-	add rdx, rbp
+	add rdx, rsp
 	shl rcx, 3
-	add rcx, rbp
+	add rcx, rsp
 	mov rdx, [rdx]
 	mov [rcx], rdx
 	inc rsi
+        jmp .L_lambda_opt_stack_shrink_loop_0001
 .L_lambda_opt_stack_shrink_loop_exit_0001:	; end of stack shrink loop
-	mov qword [rbp + 8 * 2], 2
+
+        sub rbx, 2
+
+	;mov rbx, [rsp + 8 * 2]
+	sub rbx, 4
+        shl rbx, 3
+	add rsp, rbx
+        mov qword [rsp + 8 * 2], 4
 .L_lambda_opt_stack_adjusted_0001:
 	push rbp
 	mov rbp, rsp
-	mov rax, PARAM(0)
+	mov rax, PARAM(3)
 	leave
-	ret 8 * (2 + 3)
+	ret 8 * (2 + 5)
 .L_lambda_opt_end_0001:	; new closure is in rax
 	assert_closure(rax)
 	mov rbx, SOB_CLOSURE_ENV(rax)
@@ -688,7 +722,7 @@ fmt_non_closure:
 fmt_error_improper_list:
 	db `!!! The argument is not a proper list!\n\0`
 fmt_test:
-        db `test here %d\n\0`
+        db `test here %d at %d\n\0`
 
 section .bss
 memory:

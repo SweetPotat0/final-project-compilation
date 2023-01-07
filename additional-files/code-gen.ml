@@ -652,24 +652,30 @@ module Code_Generation : CODE_GENERATION= struct
          ^ "\tinc rsi\n"
          ^ (Printf.sprintf "\tjmp %s\n" label_stack_enlarge_start)
          ^ (Printf.sprintf "%s:\t ; end of stack enlarge loop\n" label_stack_enlarge_exit)
-         ^ "\tmov rdi, 0\n"
-         ^ "\tcall malloc\n"
-         ^ (Printf.sprintf "\tmov [rsp + %d*8], rax\n" (3 + (List.length params')))
+         ^ (Printf.sprintf "\tmov qword [rsp + %d*8], sob_nil\n" (3 + (List.length params')))
          ^ (Printf.sprintf "\tmov qword [rsp + 2*8], %d\n" (1 + (List.length params')))
          ^ (Printf.sprintf "\tjmp %s\n" label_stack_ok)
          ^ (Printf.sprintf "%s:\t ; if params in opt is more\n" label_params_more)
-         ^ "\tshl rdi,3\n"
-         ^ "\tcall malloc\n"
-         ^ "\tmov rsi, 0 ;index\n"
+         ^ "\tmov rax, sob_nil\n"
+         ^ "\tmov rsi, rbx ;index\n"
+         ^ "\tdec rsi\n"
          ^ (Printf.sprintf "%s:\t; start of list creation loop\n" label_list_create_start)
-         ^ "\tcmp rsi, rbx\n"
+         ^ "\tcmp rsi, -1\n"
          ^ (Printf.sprintf "\tje %s\n" label_list_create_exit)
          ^ (Printf.sprintf "\tlea rcx, [rsi + (3 + %d)]\n" (List.length params'))
          ^ "\tshl rcx, 3\n"
          ^ "\tadd rcx, rsp\n"
          ^ "\tmov rcx, [rcx]\n"
-         ^ "\tmov [rax + rsi], rcx\n"
-         ^ "\tinc rsi\n"
+         ^ "\tpush rsi\n"
+         ^ "\tpush rbx\n"
+         ^ "\tpush rax\n"
+         ^ "\tpush rcx\n"
+         ^ "\tpush qword 2 ; push num of args\n"
+         ^ "\tpush qword 1 ; push garbage\n"
+         ^ "\tcall L_code_ptr_cons\n"
+         ^ "\tpop rbx\n"
+         ^ "\tpop rsi\n"
+         ^ "\tdec rsi\n"
          ^ (Printf.sprintf "\tjmp %s\n" label_list_create_start)
          ^ (Printf.sprintf "%s:\t; end of list creation loop\n" label_list_create_exit)
          ^ "\tmov rbx, qword [rsp + 8 * 2]\n"
@@ -680,7 +686,7 @@ module Code_Generation : CODE_GENERATION= struct
          ^ "\tmov [rdi], rax\n"
          ^ "\tmov rsi, 0 ;index\n"
          ^ (Printf.sprintf "%s:\t; start of stack shrink loop\n" label_stack_shrink_start)
-         ^ (Printf.sprintf "\tcmp rsi, %d\n" (2 + (List.length params')))
+         ^ (Printf.sprintf "\tcmp rsi, %d\n" (3 + (List.length params')))
          ^ (Printf.sprintf "\tje %s\n" label_stack_shrink_exit)
          ^ (Printf.sprintf "\tmov rdi, %d\n" (2 + (List.length params')))
          ^ "\tsub rdi, rsi; the index of the current stack member to move\n"
@@ -695,11 +701,13 @@ module Code_Generation : CODE_GENERATION= struct
          ^ "\tmov rdx, [rdx]\n"
          ^ "\tmov [rcx], rdx\n"
          ^ "\tinc rsi\n"
+         ^ (Printf.sprintf "\tjmp %s\n" label_stack_shrink_start)
          ^ (Printf.sprintf "%s:\t; end of stack shrink loop\n" label_stack_shrink_exit)
-         ^ "\tmov rbx, [rsp + 8 * 2]\n"
-         ^ (Printf.sprintf "\tmov qword [rsp + 8 * 2], %d\n" (1 + (List.length params')))
+         ^ "\tsub rbx, 2 ; rbx has number of args\n"
          ^ (Printf.sprintf "\tsub rbx, %d\n" ((List.length params') + 1))
+         ^ "\tshl rbx, 3\n"
          ^ "\tadd rsp, rbx\n"
+         ^ (Printf.sprintf "\tmov qword [rsp + 8 * 2], %d\n" (1 + (List.length params')))
          ^ (Printf.sprintf "%s:\n" label_stack_ok)
          ^ "\tpush rbp\n"
          ^ "\tmov rbp, rsp\n"
@@ -792,7 +800,9 @@ let str_to_exprs' source_code =
         mov rsi, fmt_test
         mov rdx, %1
         mov rax, 0
+        ENTER
         call fprintf
+        LEAVE
         pop rsi
         pop rdi
         pop rdx
