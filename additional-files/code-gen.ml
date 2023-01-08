@@ -502,7 +502,9 @@ module Code_Generation : CODE_GENERATION= struct
          raise X_not_yet_supported
       | ScmVarDef' (Var' (v, Bound (major, minor)), expr') ->
          raise X_not_yet_supported
-      | ScmBox' (Var' (v, Param minor)) -> raise (X_not_yet_implemented "7")
+      | ScmBox' (Var' (v, Param minor)) ->
+        "\tmov qword rdi, 8\n"
+        ^ "\tcall malloc\n"
       | ScmBox' _ -> raise (X_not_yet_implemented "8")
       | ScmBoxGet' var' ->
          (run params env (ScmVarGet' var'))
@@ -727,17 +729,40 @@ module Code_Generation : CODE_GENERATION= struct
         ^ "\tmov rbx, SOB_CLOSURE_CODE(rax)\n"
         ^ "\tcall rbx\n"
       | ScmApplic' (proc, args, Tail_Call) -> 
+        let recycle_frame_loop_start = make_tc_applic_recycle_frame_loop () in
+        let recycle_frame_loop_end = make_tc_applic_recycle_frame_done () in
         let argsStr = (List.fold_right (fun arg acc -> (acc ^ (run params env arg) ^ "\tpush rax\n")) args "") in
         let procStr = run params env proc in
-        "\tlea rsp, OLD_RDP\n"
-        ^ argsStr
+        argsStr
         ^ (Printf.sprintf "\tpush %d\n" (List.length args))
         ^ procStr
         ^ "\tassert_closure(rax)\n"
         ^ "\tmov rbx, SOB_CLOSURE_ENV(rax)\n"
         ^ "\tpush rbx\n"
-        ^ "\tpush RET_ADDR ; old return address\n"
+        ^ "\tpush RET_ADDR\n"
         ^ "\tmov rbp, OLD_RDP\n"
+        ^ "\tadd rbp, 8\n"
+        ^ "\tmov rsi, 0\n"
+        ^ (Printf.sprintf "%s:\t ; start recycle frame loop\n" recycle_frame_loop_start)
+        ^ (Printf.sprintf "\tcmp rsi, %d\n" ((List.length args) + 3))
+        ^ (Printf.sprintf "\tje %s\n" recycle_frame_loop_end)
+        ^ Printf.sprintf "\tmov rcx, %d\n" ((List.length args) + 2)
+        ^ "\tsub rcx, rsi\n"
+        ^ "\tshl rcx, 3\n"
+        ^ "\tadd rcx, rsp ; rcx is the index to move\n"
+        ^ "\tmov rbx, rsi\n"
+        ^ "\tshl rbx, 3\n"
+        ^ "\tneg rbx\n"
+        ^ "\tadd rbx, rbp ; rbx is the index to move to\n"
+        ^ "\tmov rcx, [rcx]\n"
+        ^ "\tmov [rbx], rcx\n"
+        ^ "\tinc rsi\n"
+        ^ (Printf.sprintf "\tjmp %s\n" recycle_frame_loop_start)
+        ^ (Printf.sprintf "%s:\t ; end recycle frame loop\n" recycle_frame_loop_end)
+        ^ (Printf.sprintf "\tmov rbx, %d\n" ((List.length args) + 2))
+        ^ "\tshl rbx, 3\n"
+        ^ "\tsub rbp, rbx\n"
+        ^ "\tmov rsp, rbp\n"
         ^ "\tmov rbx, SOB_CLOSURE_CODE(rax)\n"
         ^ "\tjmp rbx\n"
     and runs params env exprs' =
@@ -789,7 +814,7 @@ let str_to_exprs' source_code =
 (* end-of-input *)
 
 (*
-   %macro PRINT_TEST 1
+   %macro PRINT_TEST 2
         push rax
         push rbx
         push rcx
@@ -799,6 +824,7 @@ let str_to_exprs' source_code =
         mov rdi, qword [stderr]
         mov rsi, fmt_test
         mov rdx, %1
+        mov rcx, %2
         mov rax, 0
         ENTER
         call fprintf

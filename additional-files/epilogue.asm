@@ -571,6 +571,9 @@ bind_primitive:
 
 ;;; PLEASE IMPLEMENT THIS PROCEDURE
 L_code_ptr_bin_apply:
+        ENTER
+        
+        LEAVE
 	
 L_code_ptr_is_null:
         ENTER
@@ -1276,7 +1279,6 @@ L_code_ptr_raw_less_than_qq:
 .L_exit:
         LEAVE
         ret AND_KILL_FRAME(2)
-
 
 L_code_ptr_raw_equal_rr:
         ENTER
