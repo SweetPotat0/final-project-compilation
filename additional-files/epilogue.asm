@@ -572,8 +572,81 @@ bind_primitive:
 ;;; PLEASE IMPLEMENT THIS PROCEDURE
 L_code_ptr_bin_apply:
         ENTER
-        
-        LEAVE
+        ; Assert that the num of args is atleast 2
+        ; Assert that the last element is a proper list
+        ; loop over arguments (after proc) and push them until one before the last
+        mov rsi, 1
+        L_bin_apply_args_loop_start:
+        mov rbx, COUNT
+        dec rbx
+        cmp rsi, rbx
+        je L_bin_apply_args_loop_end
+        mov rbx, rsi
+        add rbx, 4
+        shl rbx, 3
+        add rbx, rbp
+        mov rbx, [rbx] ; rbx = [rbp + 8 * (4 + rsi)]
+        push rbx
+        inc rsi
+        jmp L_bin_apply_args_loop_start
+
+        L_bin_apply_args_loop_end:
+        ; loop over the list and push its memebers as arguments
+        mov rbx, rsi
+        add rbx, 4
+        shl rbx, 3
+        add rbx, rbp
+        mov rbx, [rbx] ; rbx = [rbp + 8 * (4 + (COUNT - 1))]
+        L_bin_apply_list_loop_start:
+        cmp byte [rbx], T_nil
+        je L_bin_apply_list_loop_end
+        inc rsi
+        push SOB_PAIR_CAR(rbx)
+        mov rbx, SOB_PAIR_CDR(rbx)
+        jmp L_bin_apply_list_loop_start
+        L_bin_apply_list_loop_end:
+        ; push count
+        sub rsi, 1
+        push rsi
+        ; push ENV of proc
+        mov rbx, PARAM(0)
+        mov rbx, SOB_CLOSURE_ENV(rbx)
+        mov rdi, SOB_CLOSURE_CODE(rbx)
+        push rbx
+        ; push RET_ADDR
+        push RET_ADDR
+        ; push OLD_RDP
+        push OLD_RDP
+        ; fix the stack:
+        ; loop over the stack and move it to the top of the previos stack
+        mov rbp, OLD_RDP
+        add rbp, 8
+        mov rsi, 0
+        L_bin_apply_fix_stack_start:
+        mov rcx, [rsp + 8 * 2]
+        add rcx, 3
+        cmp rsi, rcx
+        je L_bin_apply_fix_stack_end
+        mov rcx, [rsp + 8 * 2]
+        add rcx, 2
+        sub rcx, rsi
+        shl rcx, 3
+        add rcx, rsp ; rcx is the index to move
+        mov rbx, rsi
+        shl rbx, 3
+        neg rbx
+        add rbx, rbp ; rbx is the index to move to
+        mov rcx, [rcx]
+        mov [rbx], rcx
+        jmp L_bin_apply_fix_stack_start
+        L_bin_apply_fix_stack_end:
+        ; fix rbp and rsp
+        mov rbx, [rsp + 8 * 2]
+        add rbx, 2
+        shl rbx, 3
+        sub rbp, rbx
+        mov rsp, rbp
+        jmp rdi
 	
 L_code_ptr_is_null:
         ENTER
@@ -1677,7 +1750,17 @@ L_error_arg_count_3:
 	LEAVE
         mov rax, -3
         call exit
-        
+
+L_error_arg_apply_no_list:
+        mov rdi, qword [stderr]
+        mov rsi, fmt_arg_apply_no_list
+        mov rax, 0
+	ENTER
+        call fprintf
+	LEAVE
+        mov rax, -4
+        call exit  
+
 L_error_incorrect_type:
         mov rdi, qword [stderr]
         mov rsi, fmt_type
@@ -1711,6 +1794,8 @@ fmt_arg_count_2:
         db `!!! Expecting two arguments. Found %d\n\0`
 fmt_arg_count_3:
         db `!!! Expecting three arguments. Found %d\n\0`
+fmt_arg_apply_no_list:
+        db `!!! The last argument in apply should be a proper list\n\0`
 fmt_type:
         db `!!! Function passed incorrect type\n\0`
 fmt_integer_range:
