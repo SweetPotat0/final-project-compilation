@@ -715,7 +715,7 @@ module Code_Generation : CODE_GENERATION= struct
          ^ "\tmov rbp, rsp\n"
          ^ (run (List.length params') (env + 1) body)
          ^ "\tleave\n"
-         ^ (Printf.sprintf "\tret 8 * (2 + %d)\n" ((List.length params') + 2))
+         ^ (Printf.sprintf "\tret AND_KILL_FRAME(%d)\n" ((List.length params') + 1))
          ^ (Printf.sprintf "%s:\t; new closure is in rax\n" label_end)
       | ScmApplic' (proc, args, Non_Tail_Call) -> 
         let argsStr = (List.fold_right (fun arg acc -> (acc ^ (run params env arg) ^ "\tpush rax\n")) args "") in
@@ -741,7 +741,6 @@ module Code_Generation : CODE_GENERATION= struct
         ^ "\tpush rbx\n"
         ^ "\tpush RET_ADDR\n"
         ^ "\tmov rbp, OLD_RDP\n"
-        ^ "\tadd rbp, 8\n"
         ^ "\tmov rsi, 0\n"
         ^ (Printf.sprintf "%s:\t ; start recycle frame loop\n" recycle_frame_loop_start)
         ^ (Printf.sprintf "\tcmp rsi, %d\n" ((List.length args) + 3))
@@ -761,8 +760,9 @@ module Code_Generation : CODE_GENERATION= struct
         ^ (Printf.sprintf "%s:\t ; end recycle frame loop\n" recycle_frame_loop_end)
         ^ (Printf.sprintf "\tmov rbx, %d\n" ((List.length args) + 2))
         ^ "\tshl rbx, 3\n"
-        ^ "\tsub rbp, rbx\n"
-        ^ "\tmov rsp, rbp\n"
+        ^ "\tneg rbx\n"
+        ^ "\tadd rbx, rbp\n"
+        ^ "\tmov rsp, rbx\n"
         ^ "\tmov rbx, SOB_CLOSURE_CODE(rax)\n"
         ^ "\tjmp rbx\n"
     and runs params env exprs' =
