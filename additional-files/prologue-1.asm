@@ -14,6 +14,29 @@
 %define T_pair 				(T_collection | 1)
 %define T_vector 			(T_collection | 2)
 
+%macro PRINT_TEST 2
+        push rax
+        push rbx
+        push rcx
+        push rdx
+        push rdi
+        push rsi
+        mov rdi, qword [stderr]
+        mov rsi, fmt_test
+        mov rdx, %1
+        mov rcx, %2
+        mov rax, 0
+        ENTER
+        call fprintf
+        LEAVE
+        pop rsi
+        pop rdi
+        pop rdx
+        pop rcx
+        pop rbx
+        pop rax
+%endmacro
+
 %define SOB_CHAR_VALUE(reg) 		byte [reg + 1]
 %define SOB_PAIR_CAR(reg)		qword [reg + 1]
 %define SOB_PAIR_CDR(reg)		qword [reg + 1 + 8]

@@ -57,6 +57,8 @@ fmt_non_closure:
         db `!!! Attempting to apply a non-closure!\n\0`
 fmt_error_improper_list:
 	db `!!! The argument is not a proper list!\n\0`
+fmt_test:
+        db `test here %d at %d\n\0`
 
 section .bss
 memory:
@@ -576,7 +578,7 @@ L_code_ptr_bin_apply:
         mov rsi, 0
         mov rbx, COUNT
         dec rbx
-        add rbx 4
+        add rbx, 4
         shl rbx, 3
         add rbx, rbp
         mov rbx, [rbx] ; rbx = [rbp + 8 * (4 + (COUNT-1))]
@@ -598,7 +600,7 @@ L_bin_apply_list_flip_start:
         cmp rcx, 0
         jle L_bin_apply_list_flip_end
         add rcx, rbx ; rcx is the relative higher. rbx is the relative lower
-        mov rdi, rsi
+        mov rdi, rbx
         shl rdi, 3
         add rdi, rsp ; rdi is the absolute higher
         mov rax, [rdi] ; rdi = [rsp + 8*rsi] ->  rax is the absolute higher value
@@ -614,7 +616,7 @@ L_bin_apply_list_flip_start:
 L_bin_apply_list_flip_end:
         ; push all the rest of the arguments
         mov rcx, COUNT
-        dec rcx
+        sub rcx, 2
 L_bin_apply_args_loop_start: ; start pushing the rest of args
         cmp rcx, 0
         je L_bin_apply_args_loop_end
@@ -637,14 +639,15 @@ L_bin_apply_args_loop_end:
         push RET_ADDR
         ; fix the stack
         ; loop over the stack and move it to the top of the previos stack
+        mov rdx, rsi
         mov rbp, OLD_RDP
         mov rsi, 0
 L_bin_apply_fix_stack_start:
-        mov rcx, [rsp + 8 * 2]
+        mov rcx, rdx
         add rcx, 3
         cmp rsi, rcx
         je L_bin_apply_fix_stack_end
-        mov rcx, [rsp + 8 * 2]
+        mov rcx, rdx
         add rcx, 2
         sub rcx, rsi
         shl rcx, 3
@@ -659,7 +662,7 @@ L_bin_apply_fix_stack_start:
         jmp L_bin_apply_fix_stack_start
 L_bin_apply_fix_stack_end:
         ; fix rsp
-        mov rbx, [rsp + 8*2]
+        mov rbx, rdx
         add rbx, 2
         shl rbx, 3
         neg rbx
