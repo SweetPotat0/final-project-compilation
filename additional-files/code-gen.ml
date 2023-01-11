@@ -713,7 +713,7 @@ module Code_Generation : CODE_GENERATION= struct
          ^ (Printf.sprintf "%s:\n" label_stack_ok)
          ^ "\tpush rbp\n"
          ^ "\tmov rbp, rsp\n"
-         ^ (run (List.length params') (env + 1) body)
+         ^ (run ((List.length params') + 1) (env + 1) body)
          ^ "\tleave\n"
          ^ (Printf.sprintf "\tret AND_KILL_FRAME(%d)\n" ((List.length params') + 1))
          ^ (Printf.sprintf "%s:\t; new closure is in rax\n" label_end)
@@ -790,8 +790,8 @@ module Code_Generation : CODE_GENERATION= struct
     code;;
 
   let compile_scheme_string file_out user =
-    (* let init = file_to_string "init.scm" in *)
-    let source_code = (*init ^*) user in
+    let init = file_to_string "my_init.scm" in
+    let source_code = init ^ user in
     let sexprs = (PC.star Reader.nt_sexpr source_code 0).found in
     let exprs = List.map Tag_Parser.tag_parse sexprs in
     let exprs' = List.map Semantic_Analysis.semantics exprs in
