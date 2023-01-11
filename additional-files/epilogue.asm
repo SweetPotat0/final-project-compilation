@@ -572,57 +572,74 @@ bind_primitive:
 ;;; PLEASE IMPLEMENT THIS PROCEDURE
 L_code_ptr_bin_apply:
         ENTER
-        ; Assert that the num of args is atleast 2
-        ; Assert that the last element is a proper list
-        ; loop over arguments (after proc) and push them until one before the last
-        mov rsi, 1
-        L_bin_apply_args_loop_start:
+        ; loop over the list and push all its members
+        mov rsi, 0
         mov rbx, COUNT
         dec rbx
-        cmp rsi, rbx
-        je L_bin_apply_args_loop_end
-        mov rbx, rsi
-        add rbx, 4
+        add rbx 4
         shl rbx, 3
         add rbx, rbp
-        mov rbx, [rbx] ; rbx = [rbp + 8 * (4 + rsi)]
-        push rbx
-        inc rsi
-        jmp L_bin_apply_args_loop_start
-
-        L_bin_apply_args_loop_end:
-        ; loop over the list and push its memebers as arguments
-        mov rbx, rsi
-        add rbx, 4
-        shl rbx, 3
-        add rbx, rbp
-        mov rbx, [rbx] ; rbx = [rbp + 8 * (4 + (COUNT - 1))]
-        L_bin_apply_list_loop_start:
+        mov rbx, [rbx] ; rbx = [rbp + 8 * (4 + (COUNT-1))]
+L_bin_apply_list_loop_start: ; start pushing list to stack
         cmp byte [rbx], T_nil
         je L_bin_apply_list_loop_end
         inc rsi
         push SOB_PAIR_CAR(rbx)
         mov rbx, SOB_PAIR_CDR(rbx)
         jmp L_bin_apply_list_loop_start
-        L_bin_apply_list_loop_end:
-        ; push count
-        sub rsi, 1
-        push rsi
-        ; push ENV of proc
-        mov rbx, PARAM(0)
-        mov rbx, SOB_CLOSURE_ENV(rbx)
-        mov rdi, SOB_CLOSURE_CODE(rbx)
+L_bin_apply_list_loop_end: ; end pushing list to stack
+        ; flip the list on the stack
+        mov rbx, 0 ; index
+L_bin_apply_list_flip_start:
+        mov rcx, rsi
+        dec rcx
+        sub rcx, rbx ; rcx is the higher 
+        sub rcx, rbx
+        cmp rcx, 0
+        jle L_bin_apply_list_flip_end
+        add rcx, rbx ; rcx is the relative higher. rbx is the relative lower
+        mov rdi, rsi
+        shl rdi, 3
+        add rdi, rsp ; rdi is the absolute higher
+        mov rax, [rdi] ; rdi = [rsp + 8*rsi] ->  rax is the absolute higher value
+        shl rcx, 3
+        add rcx, rsp ; rcx = rsp + 8*(length-1-index) -> rcx is the absolute lower
+        push rbx ; save rbx
+        mov rbx, [rcx]
+        mov [rdi], rbx ; [rsp + 8*rsi] = [rsp + 8*(length-1-index)]
+        mov [rcx], rax ; [rsp + 8*(length-1-index)] = [rsp + 8*rsi]
+        pop rbx ; restore rbx
+        inc rbx
+        jmp L_bin_apply_list_flip_start
+L_bin_apply_list_flip_end:
+        ; push all the rest of the arguments
+        mov rcx, COUNT
+        dec rcx
+L_bin_apply_args_loop_start: ; start pushing the rest of args
+        cmp rcx, 0
+        je L_bin_apply_args_loop_end
+        inc rsi ; for counting number of args
+        mov rbx, rcx
+        add rbx, 4
+        shl rbx, 3
+        add rbx, rbp
+        mov rbx, [rbx] ; rbx = [rbp + 8 * (4 + rcx)]
         push rbx
-        ; push RET_ADDR
+        dec rcx
+        jmp L_bin_apply_args_loop_start
+L_bin_apply_args_loop_end:
+        ; push number of arguments
+        push rsi
+        ; push lex env
+        mov rax, PARAM(0)
+        push SOB_CLOSURE_ENV(rax)
+        ; push ret add
         push RET_ADDR
-        ; push OLD_RDP
-        push OLD_RDP
-        ; fix the stack:
+        ; fix the stack
         ; loop over the stack and move it to the top of the previos stack
         mov rbp, OLD_RDP
-        add rbp, 8
         mov rsi, 0
-        L_bin_apply_fix_stack_start:
+L_bin_apply_fix_stack_start:
         mov rcx, [rsp + 8 * 2]
         add rcx, 3
         cmp rsi, rcx
@@ -638,15 +655,19 @@ L_code_ptr_bin_apply:
         add rbx, rbp ; rbx is the index to move to
         mov rcx, [rcx]
         mov [rbx], rcx
+        inc rsi
         jmp L_bin_apply_fix_stack_start
-        L_bin_apply_fix_stack_end:
-        ; fix rbp and rsp
-        mov rbx, [rsp + 8 * 2]
+L_bin_apply_fix_stack_end:
+        ; fix rsp
+        mov rbx, [rsp + 8*2]
         add rbx, 2
         shl rbx, 3
-        sub rbp, rbx
-        mov rsp, rbp
-        jmp rdi
+        neg rbx
+        add rbx, rbp
+        mov rsp, rbx
+        mov rbx, SOB_CLOSURE_CODE(rax)
+        jmp rbx
+        LEAVE
 	
 L_code_ptr_is_null:
         ENTER
