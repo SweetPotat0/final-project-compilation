@@ -573,7 +573,7 @@ bind_primitive:
 
 ;;; PLEASE IMPLEMENT THIS PROCEDURE
 L_code_ptr_bin_apply:
-        ENTER
+        enter 0,0
         ; loop over the list and push all its members
         mov rsi, 0
         mov rbx, COUNT
@@ -640,6 +640,10 @@ L_bin_apply_args_loop_end:
         ; fix the stack
         ; loop over the stack and move it to the top of the previos stack
         mov rdx, rsi
+
+        mov rdi, COUNT 
+        add rdi, 4 ; rdi = COUNT + 3 + 1 = COUNT + (num_of_args, lex, ret, OLD_RDP)
+
         mov rbp, OLD_RDP
         mov rsi, 0
 L_bin_apply_fix_stack_start:
@@ -647,27 +651,24 @@ L_bin_apply_fix_stack_start:
         add rcx, 3
         cmp rsi, rcx
         je L_bin_apply_fix_stack_end
-        mov rcx, rdx
-        add rcx, 2
-        sub rcx, rsi
+        mov rbx, rdx 
+        add rbx, 2 
+        sub rbx, rsi 
+        mov rcx, rbx 
         shl rcx, 3
-        add rcx, rsp ; rcx is the index to move
-        mov rbx, rsi
+        add rcx, rsp ; rcx is the index to move.
+        add rbx, rdi
         shl rbx, 3
-        neg rbx
-        add rbx, rbp ; rbx is the index to move to
+        add rbx, rsp ; rbx is the index to move to.
         mov rcx, [rcx]
         mov [rbx], rcx
         inc rsi
         jmp L_bin_apply_fix_stack_start
 L_bin_apply_fix_stack_end:
         ; fix rsp
-        mov rbx, rdx
-        add rbx, 2
-        shl rbx, 3
-        neg rbx
-        add rbx, rbp
-        mov rsp, rbx
+        mov rbx, rdi
+        shl rbx, 3				
+        add rsp, rbx
         mov rbx, SOB_CLOSURE_CODE(rax)
         jmp rbx
         LEAVE

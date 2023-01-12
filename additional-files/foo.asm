@@ -103,46 +103,37 @@ L_constants:
 	db T_boolean_false
 	db T_boolean_true
 	db T_char, 0x00	; #\x0
-	db T_rational	; 1001
-	dq 1001, 1
-	db T_rational	; 1002
-	dq 1002, 1
-	db T_rational	; 1003
-	dq 1003, 1
-	db T_rational	; 1004
-	dq 1004, 1
-	db T_rational	; 1005
-	dq 1005, 1
-	db T_rational	; 101
-	dq 101, 1
-	db T_rational	; 102
-	dq 102, 1
-	db T_rational	; 103
-	dq 103, 1
-	db T_rational	; 104
-	dq 104, 1
-	db T_rational	; 105
-	dq 105, 1
-	db T_rational	; 11
-	dq 11, 1
-	db T_rational	; 12
-	dq 12, 1
-	db T_rational	; 13
-	dq 13, 1
-	db T_rational	; 14
-	dq 14, 1
-	db T_rational	; 15
-	dq 15, 1
+	db T_boolean_false
+	db T_string	; "whatever"
+	dq 8
+	db 0x77, 0x68, 0x61, 0x74, 0x65, 0x76, 0x65, 0x72
+	db T_symbol	; whatever
+	dq L_constants + 7
+	db T_rational	; 0
+	dq 0, 1
+	db T_string	; "+"
+	dq 1
+	db 0x2B
+	db T_symbol	; +
+	dq L_constants + 50
+	db T_string	; "all arguments need ...
+	dq 32
+	db 0x61, 0x6C, 0x6C, 0x20, 0x61, 0x72, 0x67, 0x75
+	db 0x6D, 0x65, 0x6E, 0x74, 0x73, 0x20, 0x6E, 0x65
+	db 0x65, 0x64, 0x20, 0x74, 0x6F, 0x20, 0x62, 0x65
+	db 0x20, 0x6E, 0x75, 0x6D, 0x62, 0x65, 0x72, 0x73
 	db T_rational	; 1
 	dq 1, 1
 	db T_rational	; 2
 	dq 2, 1
 	db T_rational	; 3
 	dq 3, 1
-	db T_rational	; 4
-	dq 4, 1
-	db T_rational	; 5
-	dq 5, 1
+	db T_pair	; (3)
+	dq L_constants + 144, L_constants + 1
+	db T_pair	; (2 3)
+	dq L_constants + 127, L_constants + 161
+	db T_pair	; (1 2 3)
+	dq L_constants + 110, L_constants + 178
 
 section .bss
 free_var_0:	; location of null?
@@ -257,7 +248,133 @@ free_var_54:	; location of denominator
 	resq 1
 free_var_55:	; location of eq?
 	resq 1
-free_var_56:	; location of list
+free_var_56:	; location of ormap
+	resq 1
+free_var_57:	; location of pair?
+	resq 1
+free_var_58:	; location of car
+	resq 1
+free_var_59:	; location of apply
+	resq 1
+free_var_60:	; location of map
+	resq 1
+free_var_61:	; location of car
+	resq 1
+free_var_62:	; location of map
+	resq 1
+free_var_63:	; location of cdr
+	resq 1
+free_var_64:	; location of andmap
+	resq 1
+free_var_65:	; location of null?
+	resq 1
+free_var_66:	; location of car
+	resq 1
+free_var_67:	; location of apply
+	resq 1
+free_var_68:	; location of map
+	resq 1
+free_var_69:	; location of car
+	resq 1
+free_var_70:	; location of map
+	resq 1
+free_var_71:	; location of cdr
+	resq 1
+free_var_72:	; location of map
+	resq 1
+free_var_73:	; location of null?
+	resq 1
+free_var_74:	; location of cons
+	resq 1
+free_var_75:	; location of car
+	resq 1
+free_var_76:	; location of cdr
+	resq 1
+free_var_77:	; location of null?
+	resq 1
+free_var_78:	; location of car
+	resq 1
+free_var_79:	; location of cons
+	resq 1
+free_var_80:	; location of apply
+	resq 1
+free_var_81:	; location of car
+	resq 1
+free_var_82:	; location of cdr
+	resq 1
+free_var_83:	; location of null?
+	resq 1
+free_var_84:	; location of append
+	resq 1
+free_var_85:	; location of null?
+	resq 1
+free_var_86:	; location of car
+	resq 1
+free_var_87:	; location of cdr
+	resq 1
+free_var_88:	; location of null?
+	resq 1
+free_var_89:	; location of cons
+	resq 1
+free_var_90:	; location of car
+	resq 1
+free_var_91:	; location of cdr
+	resq 1
+free_var_92:	; location of null?
+	resq 1
+free_var_93:	; location of car
+	resq 1
+free_var_94:	; location of cdr
+	resq 1
+free_var_95:	; location of fold-left
+	resq 1
+free_var_96:	; location of ormap
+	resq 1
+free_var_97:	; location of null?
+	resq 1
+free_var_98:	; location of apply
+	resq 1
+free_var_99:	; location of map
+	resq 1
+free_var_100:	; location of car
+	resq 1
+free_var_101:	; location of map
+	resq 1
+free_var_102:	; location of cdr
+	resq 1
+free_var_103:	; location of +
+	resq 1
+free_var_104:	; location of fold-left
+	resq 1
+free_var_105:	; location of rational?
+	resq 1
+free_var_106:	; location of rational?
+	resq 1
+free_var_107:	; location of __bin-add-qq
+	resq 1
+free_var_108:	; location of real?
+	resq 1
+free_var_109:	; location of __bin-add-rr
+	resq 1
+free_var_110:	; location of rational->real
+	resq 1
+free_var_111:	; location of real?
+	resq 1
+free_var_112:	; location of rational?
+	resq 1
+free_var_113:	; location of __bin-add-rr
+	resq 1
+free_var_114:	; location of rational->real
+	resq 1
+free_var_115:	; location of real?
+	resq 1
+free_var_116:	; location of __bin-add-rr
+	resq 1
+free_var_117:	; location of error
+	resq 1
+free_var_118:	; location of apply
+	resq 1
+free_var_119:	; location of +
 	resq 1
 
 extern printf, fprintf, stdout, stderr, fwrite, exit, putchar
@@ -557,43 +674,43 @@ main:
 	mov rdi, ENV
 	mov rsi, 0
 	mov rdx, 1
-.L_lambda_opt_env_loop_004f:	; ext_env[i + 1] <-- env[i]
+.L_lambda_opt_env_loop_0156:	; ext_env[i + 1] <-- env[i]
 	cmp rsi, 0
-	je .L_lambda_opt_env_end_004f
+	je .L_lambda_opt_env_end_0156
 	mov rcx, qword [rdi + 8 * rsi] ; Problem is here!!
 	mov qword [rax + 8 * rdx], rcx
 	inc rsi
 	inc rdx
-	jmp .L_lambda_opt_env_loop_004f
-.L_lambda_opt_env_end_004f:
+	jmp .L_lambda_opt_env_loop_0156
+.L_lambda_opt_env_end_0156:
 	pop rbx
 	mov rsi, 0
-.L_lambda_opt_params_loop_004f:	; copy params
+.L_lambda_opt_params_loop_0156:	; copy params
 	cmp rsi, 0
-	je .L_lambda_opt_params_end_004f
+	je .L_lambda_opt_params_end_0156
 	mov rdx, qword [rbp + 8 * rsi + 8 * 4]
 	mov qword [rbx + 8 * rsi], rdx
 	inc rsi
-	jmp .L_lambda_opt_params_loop_004f
-.L_lambda_opt_params_end_004f:
+	jmp .L_lambda_opt_params_loop_0156
+.L_lambda_opt_params_end_0156:
 	mov qword [rax], rbx	; ext_env[0] <-- new_rib 
 	mov rbx, rax
 	pop rax
 	mov byte [rax], T_closure
 	mov SOB_CLOSURE_ENV(rax), rbx
-	mov SOB_CLOSURE_CODE(rax), .L_lambda_opt_code_004f
-	jmp .L_lambda_opt_end_004f
-.L_lambda_opt_code_004f:	; lambda-simple body
+	mov SOB_CLOSURE_CODE(rax), .L_lambda_opt_code_0156
+	jmp .L_lambda_opt_end_0156
+.L_lambda_opt_code_0156:	; lambda-simple body
 	mov rdi, qword [rsp + 8 * 2]
 	mov rbx, rdi
-	sub rbx, 0
-	jg .L_lambda_opt_arity_check_more_004f
-.L_lambda_opt_arity_check_exact_004f:	 ; if params in opt is exact
+	sub rbx, 1
+	jg .L_lambda_opt_arity_check_more_0156
+.L_lambda_opt_arity_check_exact_0156:	 ; if params in opt is exact
 	sub rsp, 8
 	mov rsi, 0 ; index
-.L_lambda_opt_stack_enlarge_loop_004f:	 ; stack loop enlarge start
-	cmp rsi, 3
-	je .L_lambda_opt_stack_enlarge_loop_exit_004f
+.L_lambda_opt_stack_enlarge_loop_0156:	 ; stack loop enlarge start
+	cmp rsi, 4
+	je .L_lambda_opt_stack_enlarge_loop_exit_0156
 	mov rdi, rsi
 	shl rdi, 3
 	add rdi, rsp
@@ -603,19 +720,19 @@ main:
 	mov rdi, [rdi]
 	mov [rbx], rdi
 	inc rsi
-	jmp .L_lambda_opt_stack_enlarge_loop_004f
-.L_lambda_opt_stack_enlarge_loop_exit_004f:	 ; end of stack enlarge loop
-	mov qword [rsp + 3*8], sob_nil
-	mov qword [rsp + 2*8], 1
-	jmp .L_lambda_opt_stack_adjusted_004f
-.L_lambda_opt_arity_check_more_004f:	 ; if params in opt is more
+	jmp .L_lambda_opt_stack_enlarge_loop_0156
+.L_lambda_opt_stack_enlarge_loop_exit_0156:	 ; end of stack enlarge loop
+	mov qword [rsp + 4*8], sob_nil
+	mov qword [rsp + 2*8], 2
+	jmp .L_lambda_opt_stack_adjusted_0156
+.L_lambda_opt_arity_check_more_0156:	 ; if params in opt is more
 	mov rax, sob_nil
 	mov rsi, rbx ;index
 	dec rsi
-.L_lambda_opt_list_create_loop_004f:	; start of list creation loop
+.L_lambda_opt_list_create_loop_0156:	; start of list creation loop
 	cmp rsi, -1
-	je .L_lambda_opt_list_create_loop_exit_004f
-	lea rcx, [rsi + (3 + 0)]
+	je .L_lambda_opt_list_create_loop_exit_0156
+	lea rcx, [rsi + (3 + 1)]
 	shl rcx, 3
 	add rcx, rsp
 	mov rcx, [rcx]
@@ -629,8 +746,8 @@ main:
 	pop rbx
 	pop rsi
 	dec rsi
-	jmp .L_lambda_opt_list_create_loop_004f
-.L_lambda_opt_list_create_loop_exit_004f:	; end of list creation loop
+	jmp .L_lambda_opt_list_create_loop_0156
+.L_lambda_opt_list_create_loop_exit_0156:	; end of list creation loop
 	mov rbx, qword [rsp + 8 * 2]
 	add rbx, 2
 	mov rdi, rbx
@@ -638,10 +755,10 @@ main:
 	add rdi, rsp
 	mov [rdi], rax
 	mov rsi, 0 ;index
-.L_lambda_opt_stack_shrink_loop_004f:	; start of stack shrink loop
-	cmp rsi, 3
-	je .L_lambda_opt_stack_shrink_loop_exit_004f
-	mov rdi, 2
+.L_lambda_opt_stack_shrink_loop_0156:	; start of stack shrink loop
+	cmp rsi, 4
+	je .L_lambda_opt_stack_shrink_loop_exit_0156
+	mov rdi, 3
 	sub rdi, rsi; the index of the current stack member to move
 	mov rcx, rbx
 	sub rcx, rsi
@@ -654,20 +771,291 @@ main:
 	mov rdx, [rdx]
 	mov [rcx], rdx
 	inc rsi
-	jmp .L_lambda_opt_stack_shrink_loop_004f
-.L_lambda_opt_stack_shrink_loop_exit_004f:	; end of stack shrink loop
+	jmp .L_lambda_opt_stack_shrink_loop_0156
+.L_lambda_opt_stack_shrink_loop_exit_0156:	; end of stack shrink loop
 	sub rbx, 2 ; rbx has number of args
-	sub rbx, 1
+	sub rbx, 2
 	shl rbx, 3
 	add rsp, rbx
-	mov qword [rsp + 8 * 2], 1
-.L_lambda_opt_stack_adjusted_004f:
+	mov qword [rsp + 8 * 2], 2
+.L_lambda_opt_stack_adjusted_0156:
 	push rbp
 	mov rbp, rsp
+	lea rax, [24 + L_constants]
+	push rax
+	push 1
+	mov rdi, (1 + 8 + 8)	; sob closure
+	call malloc
+	push rax
+	mov rdi, 8 * 2	; new rib
+	call malloc
+	push rax
+	mov rdi, 8 * 2	; extended env
+	call malloc
+	mov rdi, ENV
+	mov rsi, 0
+	mov rdx, 1
+.L_lambda_simple_env_loop_0234:	; ext_env[i + 1] <-- env[i]
+	cmp rsi, 1
+	je .L_lambda_simple_env_end_0234
+	mov rcx, qword [rdi + 8 * rsi] ; Problem is here!!
+	mov qword [rax + 8 * rdx], rcx
+	inc rsi
+	inc rdx
+	jmp .L_lambda_simple_env_loop_0234
+.L_lambda_simple_env_end_0234:
+	pop rbx
+	mov rsi, 0
+.L_lambda_simple_params_loop_0234:	; copy params
+	cmp rsi, 2
+	je .L_lambda_simple_params_end_0234
+	mov rdx, qword [rbp + 8 * rsi + 8 * 4]
+	mov qword [rbx + 8 * rsi], rdx
+	inc rsi
+	jmp .L_lambda_simple_params_loop_0234
+.L_lambda_simple_params_end_0234:
+	mov qword [rax], rbx	; ext_env[0] <-- new_rib 
+	mov rbx, rax
+	pop rax
+	mov byte [rax], T_closure
+	mov SOB_CLOSURE_ENV(rax), rbx
+	mov SOB_CLOSURE_CODE(rax), .L_lambda_simple_code_0234
+	jmp .L_lambda_simple_end_0234
+.L_lambda_simple_code_0234:	; lambda-simple body
+	cmp qword [rsp + 8 * 2], 1
+	je .L_lambda_simple_arity_check_ok_0234
+	push qword [rsp + 8 * 2]
+	push 1
+	jmp L_error_incorrect_arity_simple
+.L_lambda_simple_arity_check_ok_0234:
+	enter 0, 0
+	mov qword rdi, 8
+	call malloc
+	mov qword [rbp + 8*(4 + 0)], rax
+	mov rax, sob_void
+
+	mov rdi, (1 + 8 + 8)	; sob closure
+	call malloc
+	push rax
+	mov rdi, 8 * 1	; new rib
+	call malloc
+	push rax
+	mov rdi, 8 * 3	; extended env
+	call malloc
+	mov rdi, ENV
+	mov rsi, 0
+	mov rdx, 1
+.L_lambda_simple_env_loop_0235:	; ext_env[i + 1] <-- env[i]
+	cmp rsi, 2
+	je .L_lambda_simple_env_end_0235
+	mov rcx, qword [rdi + 8 * rsi] ; Problem is here!!
+	mov qword [rax + 8 * rdx], rcx
+	inc rsi
+	inc rdx
+	jmp .L_lambda_simple_env_loop_0235
+.L_lambda_simple_env_end_0235:
+	pop rbx
+	mov rsi, 0
+.L_lambda_simple_params_loop_0235:	; copy params
+	cmp rsi, 1
+	je .L_lambda_simple_params_end_0235
+	mov rdx, qword [rbp + 8 * rsi + 8 * 4]
+	mov qword [rbx + 8 * rsi], rdx
+	inc rsi
+	jmp .L_lambda_simple_params_loop_0235
+.L_lambda_simple_params_end_0235:
+	mov qword [rax], rbx	; ext_env[0] <-- new_rib 
+	mov rbx, rax
+	pop rax
+	mov byte [rax], T_closure
+	mov SOB_CLOSURE_ENV(rax), rbx
+	mov SOB_CLOSURE_CODE(rax), .L_lambda_simple_code_0235
+	jmp .L_lambda_simple_end_0235
+.L_lambda_simple_code_0235:	; lambda-simple body
+	cmp qword [rsp + 8 * 2], 1
+	je .L_lambda_simple_arity_check_ok_0235
+	push qword [rsp + 8 * 2]
+	push 1
+	jmp L_error_incorrect_arity_simple
+.L_lambda_simple_arity_check_ok_0235:
+	enter 0, 0
 	mov rax, PARAM(0)
+	push rax
+	push 1
+	mov rax, qword [free_var_16]
+	assert_closure(rax)
+	mov rbx, SOB_CLOSURE_ENV(rax)
+	push rbx
+	mov rbx, SOB_CLOSURE_CODE(rax)
+	call rbx
+	push rax
+	push 1
+	mov rax, qword [free_var_1]
+	assert_closure(rax)
+	mov rbx, SOB_CLOSURE_ENV(rax)
+	push rbx
+	mov rbx, SOB_CLOSURE_CODE(rax)
+	call rbx
+	cmp rax, sob_boolean_false
+	je .L_if_else_01ff
+	mov rax, PARAM(0)
+	push rax
+	mov rax, qword [free_var_16]
+	push rax
+	push 2
+	mov rax, qword [free_var_60]
+	assert_closure(rax)
+	mov rbx, SOB_CLOSURE_ENV(rax)
+	push rbx
+	mov rbx, SOB_CLOSURE_CODE(rax)
+	call rbx
+	push rax
+	mov rax, qword [rbp + 8*2]
+	mov rax, qword [rax + 8*1]
+	mov rax, qword [rax + 8*0]
+	push rax
+	push 2
+	mov rax, qword [free_var_59]
+	assert_closure(rax)
+	mov rbx, SOB_CLOSURE_ENV(rax)
+	push rbx
+	mov rbx, SOB_CLOSURE_CODE(rax)
+	call rbx
+	cmp rax, sob_boolean_false
+	jne .L_or_end_0045
+	mov rax, PARAM(0)
+	push rax
+	mov rax, qword [free_var_17]
+	push rax
+	push 2
+	mov rax, qword [free_var_60]
+	assert_closure(rax)
+	mov rbx, SOB_CLOSURE_ENV(rax)
+	push rbx
+	mov rbx, SOB_CLOSURE_CODE(rax)
+	call rbx
+	push rax
+	push 1
+	mov rax, qword [rbp + 8*2]
+	mov rax, qword [rax + 8*0]
+	mov rax, qword [rax + 8*0]
+	mov rax, qword [rax]
+	assert_closure(rax)
+	mov rbx, SOB_CLOSURE_ENV(rax)
+	push rbx
+	push RET_ADDR
+	mov rbp, OLD_RDP
+	mov rsi, 0
+.L_tc_recycle_frame_loop_03b4:	 ; start recycle frame loop
+	cmp rsi, 4
+	je .L_tc_recycle_frame_done_03b4
+	mov rcx, 3
+	sub rcx, rsi
+	shl rcx, 3
+	add rcx, rsp ; rcx is the index to move
+	mov rbx, rsi
+	inc rbx
+	shl rbx, 3
+	neg rbx
+	add rbx, rbp ; rbx is the index to move to
+	mov rcx, [rcx]
+	mov [rbx], rcx
+	inc rsi
+	jmp .L_tc_recycle_frame_loop_03b4
+.L_tc_recycle_frame_done_03b4:	 ; end recycle frame loop
+	mov rbx, 4
+	shl rbx, 3
+	neg rbx
+	add rbx, rbp
+	mov rsp, rbx
+	mov rbx, SOB_CLOSURE_CODE(rax)
+	jmp rbx
+.L_or_end_0045:
+	jmp .L_if_end_01ff
+	.L_if_else_01ff:
+	lea rax, [2 + L_constants]
+	.L_if_end_01ff:
 	leave
-	ret AND_KILL_FRAME(1)
-.L_lambda_opt_end_004f:	; new closure is in rax
+	ret 8 * (2 + 1)
+.L_lambda_simple_end_0235:	; new closure is in rax
+	push rax
+	mov rax, PARAM(0)
+	pop qword [rax]
+	mov rax, sob_void
+
+	mov rax, qword [rbp + 8*2]
+	mov rax, qword [rax + 8*0]
+	mov rax, qword [rax + 8*1]
+	push rax
+	push 1
+	mov rax, PARAM(0)
+	mov rax, qword [rax]
+	assert_closure(rax)
+	mov rbx, SOB_CLOSURE_ENV(rax)
+	push rbx
+	push RET_ADDR
+	mov rbp, OLD_RDP
+	mov rsi, 0
+.L_tc_recycle_frame_loop_03b5:	 ; start recycle frame loop
+	cmp rsi, 4
+	je .L_tc_recycle_frame_done_03b5
+	mov rcx, 3
+	sub rcx, rsi
+	shl rcx, 3
+	add rcx, rsp ; rcx is the index to move
+	mov rbx, rsi
+	inc rbx
+	shl rbx, 3
+	neg rbx
+	add rbx, rbp ; rbx is the index to move to
+	mov rcx, [rcx]
+	mov [rbx], rcx
+	inc rsi
+	jmp .L_tc_recycle_frame_loop_03b5
+.L_tc_recycle_frame_done_03b5:	 ; end recycle frame loop
+	mov rbx, 4
+	shl rbx, 3
+	neg rbx
+	add rbx, rbp
+	mov rsp, rbx
+	mov rbx, SOB_CLOSURE_CODE(rax)
+	jmp rbx
+	leave
+	ret 8 * (2 + 1)
+.L_lambda_simple_end_0234:	; new closure is in rax
+	assert_closure(rax)
+	mov rbx, SOB_CLOSURE_ENV(rax)
+	push rbx
+	push RET_ADDR
+	mov rbp, OLD_RDP
+	mov rsi, 0
+.L_tc_recycle_frame_loop_03b3:	 ; start recycle frame loop
+	cmp rsi, 4
+	je .L_tc_recycle_frame_done_03b3
+	mov rcx, 3
+	sub rcx, rsi
+	shl rcx, 3
+	add rcx, rsp ; rcx is the index to move
+	mov rbx, rsi
+	inc rbx
+	shl rbx, 3
+	neg rbx
+	add rbx, rbp ; rbx is the index to move to
+	mov rcx, [rcx]
+	mov [rbx], rcx
+	inc rsi
+	jmp .L_tc_recycle_frame_loop_03b3
+.L_tc_recycle_frame_done_03b3:	 ; end recycle frame loop
+	mov rbx, 4
+	shl rbx, 3
+	neg rbx
+	add rbx, rbp
+	mov rsp, rbx
+	mov rbx, SOB_CLOSURE_CODE(rax)
+	jmp rbx
+	leave
+	ret AND_KILL_FRAME(2)
+.L_lambda_opt_end_0156:	; new closure is in rax
 	mov qword [free_var_56], rax
 	mov rax, sob_void
 
@@ -685,223 +1073,43 @@ main:
 	mov rdi, ENV
 	mov rsi, 0
 	mov rdx, 1
-.L_lambda_opt_env_loop_0050:	; ext_env[i + 1] <-- env[i]
+.L_lambda_opt_env_loop_0157:	; ext_env[i + 1] <-- env[i]
 	cmp rsi, 0
-	je .L_lambda_opt_env_end_0050
+	je .L_lambda_opt_env_end_0157
 	mov rcx, qword [rdi + 8 * rsi] ; Problem is here!!
 	mov qword [rax + 8 * rdx], rcx
 	inc rsi
 	inc rdx
-	jmp .L_lambda_opt_env_loop_0050
-.L_lambda_opt_env_end_0050:
+	jmp .L_lambda_opt_env_loop_0157
+.L_lambda_opt_env_end_0157:
 	pop rbx
 	mov rsi, 0
-.L_lambda_opt_params_loop_0050:	; copy params
+.L_lambda_opt_params_loop_0157:	; copy params
 	cmp rsi, 0
-	je .L_lambda_opt_params_end_0050
+	je .L_lambda_opt_params_end_0157
 	mov rdx, qword [rbp + 8 * rsi + 8 * 4]
 	mov qword [rbx + 8 * rsi], rdx
 	inc rsi
-	jmp .L_lambda_opt_params_loop_0050
-.L_lambda_opt_params_end_0050:
+	jmp .L_lambda_opt_params_loop_0157
+.L_lambda_opt_params_end_0157:
 	mov qword [rax], rbx	; ext_env[0] <-- new_rib 
 	mov rbx, rax
 	pop rax
 	mov byte [rax], T_closure
 	mov SOB_CLOSURE_ENV(rax), rbx
-	mov SOB_CLOSURE_CODE(rax), .L_lambda_opt_code_0050
-	jmp .L_lambda_opt_end_0050
-.L_lambda_opt_code_0050:	; lambda-simple body
-	mov rdi, qword [rsp + 8 * 2]
-	mov rbx, rdi
-	sub rbx, 0
-	jg .L_lambda_opt_arity_check_more_0050
-.L_lambda_opt_arity_check_exact_0050:	 ; if params in opt is exact
-	sub rsp, 8
-	mov rsi, 0 ; index
-.L_lambda_opt_stack_enlarge_loop_0050:	 ; stack loop enlarge start
-	cmp rsi, 3
-	je .L_lambda_opt_stack_enlarge_loop_exit_0050
-	mov rdi, rsi
-	shl rdi, 3
-	add rdi, rsp
-	add rdi, 8
-	mov rbx, rdi
-	sub rbx, 8
-	mov rdi, [rdi]
-	mov [rbx], rdi
-	inc rsi
-	jmp .L_lambda_opt_stack_enlarge_loop_0050
-.L_lambda_opt_stack_enlarge_loop_exit_0050:	 ; end of stack enlarge loop
-	mov qword [rsp + 3*8], sob_nil
-	mov qword [rsp + 2*8], 1
-	jmp .L_lambda_opt_stack_adjusted_0050
-.L_lambda_opt_arity_check_more_0050:	 ; if params in opt is more
-	mov rax, sob_nil
-	mov rsi, rbx ;index
-	dec rsi
-.L_lambda_opt_list_create_loop_0050:	; start of list creation loop
-	cmp rsi, -1
-	je .L_lambda_opt_list_create_loop_exit_0050
-	lea rcx, [rsi + (3 + 0)]
-	shl rcx, 3
-	add rcx, rsp
-	mov rcx, [rcx]
-	push rsi
-	push rbx
-	push rax
-	push rcx
-	push qword 2 ; push num of args
-	push qword 1 ; push garbage
-	call L_code_ptr_cons
-	pop rbx
-	pop rsi
-	dec rsi
-	jmp .L_lambda_opt_list_create_loop_0050
-.L_lambda_opt_list_create_loop_exit_0050:	; end of list creation loop
-	mov rbx, qword [rsp + 8 * 2]
-	add rbx, 2
-	mov rdi, rbx
-	shl rdi,3
-	add rdi, rsp
-	mov [rdi], rax
-	mov rsi, 0 ;index
-.L_lambda_opt_stack_shrink_loop_0050:	; start of stack shrink loop
-	cmp rsi, 3
-	je .L_lambda_opt_stack_shrink_loop_exit_0050
-	mov rdi, 2
-	sub rdi, rsi; the index of the current stack member to move
-	mov rcx, rbx
-	sub rcx, rsi
-	sub rcx, 1; the index of the target stack place to put the member
-	mov rdx, rdi
-	shl rdx, 3
-	add rdx, rsp
-	shl rcx, 3
-	add rcx, rsp
-	mov rdx, [rdx]
-	mov [rcx], rdx
-	inc rsi
-	jmp .L_lambda_opt_stack_shrink_loop_0050
-.L_lambda_opt_stack_shrink_loop_exit_0050:	; end of stack shrink loop
-	sub rbx, 2 ; rbx has number of args
-	sub rbx, 1
-	shl rbx, 3
-	add rsp, rbx
-	mov qword [rsp + 8 * 2], 1
-.L_lambda_opt_stack_adjusted_0050:
-	push rbp
-	mov rbp, rsp
-	mov rax, PARAM(0)
-	leave
-	ret AND_KILL_FRAME(1)
-.L_lambda_opt_end_0050:	; new closure is in rax
-	push rax
-	push 1
-	mov rdi, (1 + 8 + 8)	; sob closure
-	call malloc
-	push rax
-	mov rdi, 8 * 0	; new rib
-	call malloc
-	push rax
-	mov rdi, 8 * 1	; extended env
-	call malloc
-	mov rdi, ENV
-	mov rsi, 0
-	mov rdx, 1
-.L_lambda_simple_env_loop_0012:	; ext_env[i + 1] <-- env[i]
-	cmp rsi, 0
-	je .L_lambda_simple_env_end_0012
-	mov rcx, qword [rdi + 8 * rsi] ; Problem is here!!
-	mov qword [rax + 8 * rdx], rcx
-	inc rsi
-	inc rdx
-	jmp .L_lambda_simple_env_loop_0012
-.L_lambda_simple_env_end_0012:
-	pop rbx
-	mov rsi, 0
-.L_lambda_simple_params_loop_0012:	; copy params
-	cmp rsi, 0
-	je .L_lambda_simple_params_end_0012
-	mov rdx, qword [rbp + 8 * rsi + 8 * 4]
-	mov qword [rbx + 8 * rsi], rdx
-	inc rsi
-	jmp .L_lambda_simple_params_loop_0012
-.L_lambda_simple_params_end_0012:
-	mov qword [rax], rbx	; ext_env[0] <-- new_rib 
-	mov rbx, rax
-	pop rax
-	mov byte [rax], T_closure
-	mov SOB_CLOSURE_ENV(rax), rbx
-	mov SOB_CLOSURE_CODE(rax), .L_lambda_simple_code_0012
-	jmp .L_lambda_simple_end_0012
-.L_lambda_simple_code_0012:	; lambda-simple body
-	cmp qword [rsp + 8 * 2], 1
-	je .L_lambda_simple_arity_check_ok_0012
-	push qword [rsp + 8 * 2]
-	push 1
-	jmp L_error_incorrect_arity_simple
-.L_lambda_simple_arity_check_ok_0012:
-	enter 0, 0
-	lea rax, [329 + L_constants]
-	push rax
-	lea rax, [312 + L_constants]
-	push rax
-	lea rax, [295 + L_constants]
-	push rax
-	lea rax, [278 + L_constants]
-	push rax
-	lea rax, [261 + L_constants]
-	push rax
-	push 5
-	mov rdi, (1 + 8 + 8)	; sob closure
-	call malloc
-	push rax
-	mov rdi, 8 * 1	; new rib
-	call malloc
-	push rax
-	mov rdi, 8 * 2	; extended env
-	call malloc
-	mov rdi, ENV
-	mov rsi, 0
-	mov rdx, 1
-.L_lambda_opt_env_loop_0051:	; ext_env[i + 1] <-- env[i]
-	cmp rsi, 1
-	je .L_lambda_opt_env_end_0051
-	mov rcx, qword [rdi + 8 * rsi] ; Problem is here!!
-	mov qword [rax + 8 * rdx], rcx
-	inc rsi
-	inc rdx
-	jmp .L_lambda_opt_env_loop_0051
-.L_lambda_opt_env_end_0051:
-	pop rbx
-	mov rsi, 0
-.L_lambda_opt_params_loop_0051:	; copy params
-	cmp rsi, 1
-	je .L_lambda_opt_params_end_0051
-	mov rdx, qword [rbp + 8 * rsi + 8 * 4]
-	mov qword [rbx + 8 * rsi], rdx
-	inc rsi
-	jmp .L_lambda_opt_params_loop_0051
-.L_lambda_opt_params_end_0051:
-	mov qword [rax], rbx	; ext_env[0] <-- new_rib 
-	mov rbx, rax
-	pop rax
-	mov byte [rax], T_closure
-	mov SOB_CLOSURE_ENV(rax), rbx
-	mov SOB_CLOSURE_CODE(rax), .L_lambda_opt_code_0051
-	jmp .L_lambda_opt_end_0051
-.L_lambda_opt_code_0051:	; lambda-simple body
+	mov SOB_CLOSURE_CODE(rax), .L_lambda_opt_code_0157
+	jmp .L_lambda_opt_end_0157
+.L_lambda_opt_code_0157:	; lambda-simple body
 	mov rdi, qword [rsp + 8 * 2]
 	mov rbx, rdi
 	sub rbx, 1
-	jg .L_lambda_opt_arity_check_more_0051
-.L_lambda_opt_arity_check_exact_0051:	 ; if params in opt is exact
+	jg .L_lambda_opt_arity_check_more_0157
+.L_lambda_opt_arity_check_exact_0157:	 ; if params in opt is exact
 	sub rsp, 8
 	mov rsi, 0 ; index
-.L_lambda_opt_stack_enlarge_loop_0051:	 ; stack loop enlarge start
+.L_lambda_opt_stack_enlarge_loop_0157:	 ; stack loop enlarge start
 	cmp rsi, 4
-	je .L_lambda_opt_stack_enlarge_loop_exit_0051
+	je .L_lambda_opt_stack_enlarge_loop_exit_0157
 	mov rdi, rsi
 	shl rdi, 3
 	add rdi, rsp
@@ -911,18 +1119,18 @@ main:
 	mov rdi, [rdi]
 	mov [rbx], rdi
 	inc rsi
-	jmp .L_lambda_opt_stack_enlarge_loop_0051
-.L_lambda_opt_stack_enlarge_loop_exit_0051:	 ; end of stack enlarge loop
+	jmp .L_lambda_opt_stack_enlarge_loop_0157
+.L_lambda_opt_stack_enlarge_loop_exit_0157:	 ; end of stack enlarge loop
 	mov qword [rsp + 4*8], sob_nil
 	mov qword [rsp + 2*8], 2
-	jmp .L_lambda_opt_stack_adjusted_0051
-.L_lambda_opt_arity_check_more_0051:	 ; if params in opt is more
+	jmp .L_lambda_opt_stack_adjusted_0157
+.L_lambda_opt_arity_check_more_0157:	 ; if params in opt is more
 	mov rax, sob_nil
 	mov rsi, rbx ;index
 	dec rsi
-.L_lambda_opt_list_create_loop_0051:	; start of list creation loop
+.L_lambda_opt_list_create_loop_0157:	; start of list creation loop
 	cmp rsi, -1
-	je .L_lambda_opt_list_create_loop_exit_0051
+	je .L_lambda_opt_list_create_loop_exit_0157
 	lea rcx, [rsi + (3 + 1)]
 	shl rcx, 3
 	add rcx, rsp
@@ -937,8 +1145,8 @@ main:
 	pop rbx
 	pop rsi
 	dec rsi
-	jmp .L_lambda_opt_list_create_loop_0051
-.L_lambda_opt_list_create_loop_exit_0051:	; end of list creation loop
+	jmp .L_lambda_opt_list_create_loop_0157
+.L_lambda_opt_list_create_loop_exit_0157:	; end of list creation loop
 	mov rbx, qword [rsp + 8 * 2]
 	add rbx, 2
 	mov rdi, rbx
@@ -946,9 +1154,9 @@ main:
 	add rdi, rsp
 	mov [rdi], rax
 	mov rsi, 0 ;index
-.L_lambda_opt_stack_shrink_loop_0051:	; start of stack shrink loop
+.L_lambda_opt_stack_shrink_loop_0157:	; start of stack shrink loop
 	cmp rsi, 4
-	je .L_lambda_opt_stack_shrink_loop_exit_0051
+	je .L_lambda_opt_stack_shrink_loop_exit_0157
 	mov rdi, 3
 	sub rdi, rsi; the index of the current stack member to move
 	mov rcx, rbx
@@ -962,31 +1170,73 @@ main:
 	mov rdx, [rdx]
 	mov [rcx], rdx
 	inc rsi
-	jmp .L_lambda_opt_stack_shrink_loop_0051
-.L_lambda_opt_stack_shrink_loop_exit_0051:	; end of stack shrink loop
+	jmp .L_lambda_opt_stack_shrink_loop_0157
+.L_lambda_opt_stack_shrink_loop_exit_0157:	; end of stack shrink loop
 	sub rbx, 2 ; rbx has number of args
 	sub rbx, 2
 	shl rbx, 3
 	add rsp, rbx
 	mov qword [rsp + 8 * 2], 2
-.L_lambda_opt_stack_adjusted_0051:
+.L_lambda_opt_stack_adjusted_0157:
 	push rbp
 	mov rbp, rsp
-	lea rax, [244 + L_constants]
+	lea rax, [24 + L_constants]
 	push rax
-	lea rax, [227 + L_constants]
-	push rax
-	lea rax, [210 + L_constants]
-	push rax
-	lea rax, [193 + L_constants]
-	push rax
-	lea rax, [176 + L_constants]
-	push rax
-	push 5
+	push 1
 	mov rdi, (1 + 8 + 8)	; sob closure
 	call malloc
 	push rax
 	mov rdi, 8 * 2	; new rib
+	call malloc
+	push rax
+	mov rdi, 8 * 2	; extended env
+	call malloc
+	mov rdi, ENV
+	mov rsi, 0
+	mov rdx, 1
+.L_lambda_simple_env_loop_0236:	; ext_env[i + 1] <-- env[i]
+	cmp rsi, 1
+	je .L_lambda_simple_env_end_0236
+	mov rcx, qword [rdi + 8 * rsi] ; Problem is here!!
+	mov qword [rax + 8 * rdx], rcx
+	inc rsi
+	inc rdx
+	jmp .L_lambda_simple_env_loop_0236
+.L_lambda_simple_env_end_0236:
+	pop rbx
+	mov rsi, 0
+.L_lambda_simple_params_loop_0236:	; copy params
+	cmp rsi, 2
+	je .L_lambda_simple_params_end_0236
+	mov rdx, qword [rbp + 8 * rsi + 8 * 4]
+	mov qword [rbx + 8 * rsi], rdx
+	inc rsi
+	jmp .L_lambda_simple_params_loop_0236
+.L_lambda_simple_params_end_0236:
+	mov qword [rax], rbx	; ext_env[0] <-- new_rib 
+	mov rbx, rax
+	pop rax
+	mov byte [rax], T_closure
+	mov SOB_CLOSURE_ENV(rax), rbx
+	mov SOB_CLOSURE_CODE(rax), .L_lambda_simple_code_0236
+	jmp .L_lambda_simple_end_0236
+.L_lambda_simple_code_0236:	; lambda-simple body
+	cmp qword [rsp + 8 * 2], 1
+	je .L_lambda_simple_arity_check_ok_0236
+	push qword [rsp + 8 * 2]
+	push 1
+	jmp L_error_incorrect_arity_simple
+.L_lambda_simple_arity_check_ok_0236:
+	enter 0, 0
+	mov qword rdi, 8
+	call malloc
+	mov qword [rbp + 8*(4 + 0)], rax
+	mov rax, sob_void
+
+	mov rdi, (1 + 8 + 8)	; sob closure
+	call malloc
+	push rax
+	mov rdi, 8 * 1	; new rib
 	call malloc
 	push rax
 	mov rdi, 8 * 3	; extended env
@@ -994,43 +1244,633 @@ main:
 	mov rdi, ENV
 	mov rsi, 0
 	mov rdx, 1
-.L_lambda_opt_env_loop_0052:	; ext_env[i + 1] <-- env[i]
+.L_lambda_simple_env_loop_0237:	; ext_env[i + 1] <-- env[i]
 	cmp rsi, 2
-	je .L_lambda_opt_env_end_0052
+	je .L_lambda_simple_env_end_0237
 	mov rcx, qword [rdi + 8 * rsi] ; Problem is here!!
 	mov qword [rax + 8 * rdx], rcx
 	inc rsi
 	inc rdx
-	jmp .L_lambda_opt_env_loop_0052
-.L_lambda_opt_env_end_0052:
+	jmp .L_lambda_simple_env_loop_0237
+.L_lambda_simple_env_end_0237:
 	pop rbx
 	mov rsi, 0
-.L_lambda_opt_params_loop_0052:	; copy params
-	cmp rsi, 2
-	je .L_lambda_opt_params_end_0052
+.L_lambda_simple_params_loop_0237:	; copy params
+	cmp rsi, 1
+	je .L_lambda_simple_params_end_0237
 	mov rdx, qword [rbp + 8 * rsi + 8 * 4]
 	mov qword [rbx + 8 * rsi], rdx
 	inc rsi
-	jmp .L_lambda_opt_params_loop_0052
-.L_lambda_opt_params_end_0052:
+	jmp .L_lambda_simple_params_loop_0237
+.L_lambda_simple_params_end_0237:
 	mov qword [rax], rbx	; ext_env[0] <-- new_rib 
 	mov rbx, rax
 	pop rax
 	mov byte [rax], T_closure
 	mov SOB_CLOSURE_ENV(rax), rbx
-	mov SOB_CLOSURE_CODE(rax), .L_lambda_opt_code_0052
-	jmp .L_lambda_opt_end_0052
-.L_lambda_opt_code_0052:	; lambda-simple body
+	mov SOB_CLOSURE_CODE(rax), .L_lambda_simple_code_0237
+	jmp .L_lambda_simple_end_0237
+.L_lambda_simple_code_0237:	; lambda-simple body
+	cmp qword [rsp + 8 * 2], 1
+	je .L_lambda_simple_arity_check_ok_0237
+	push qword [rsp + 8 * 2]
+	push 1
+	jmp L_error_incorrect_arity_simple
+.L_lambda_simple_arity_check_ok_0237:
+	enter 0, 0
+	mov rax, PARAM(0)
+	push rax
+	push 1
+	mov rax, qword [free_var_16]
+	assert_closure(rax)
+	mov rbx, SOB_CLOSURE_ENV(rax)
+	push rbx
+	mov rbx, SOB_CLOSURE_CODE(rax)
+	call rbx
+	push rax
+	push 1
+	mov rax, qword [free_var_0]
+	assert_closure(rax)
+	mov rbx, SOB_CLOSURE_ENV(rax)
+	push rbx
+	mov rbx, SOB_CLOSURE_CODE(rax)
+	call rbx
+	cmp rax, sob_boolean_false
+	jne .L_or_end_0046
+	mov rax, PARAM(0)
+	push rax
+	mov rax, qword [free_var_16]
+	push rax
+	push 2
+	mov rax, qword [free_var_60]
+	assert_closure(rax)
+	mov rbx, SOB_CLOSURE_ENV(rax)
+	push rbx
+	mov rbx, SOB_CLOSURE_CODE(rax)
+	call rbx
+	push rax
+	mov rax, qword [rbp + 8*2]
+	mov rax, qword [rax + 8*1]
+	mov rax, qword [rax + 8*0]
+	push rax
+	push 2
+	mov rax, qword [free_var_59]
+	assert_closure(rax)
+	mov rbx, SOB_CLOSURE_ENV(rax)
+	push rbx
+	mov rbx, SOB_CLOSURE_CODE(rax)
+	call rbx
+	cmp rax, sob_boolean_false
+	je .L_if_else_0200
+	mov rax, PARAM(0)
+	push rax
+	mov rax, qword [free_var_17]
+	push rax
+	push 2
+	mov rax, qword [free_var_60]
+	assert_closure(rax)
+	mov rbx, SOB_CLOSURE_ENV(rax)
+	push rbx
+	mov rbx, SOB_CLOSURE_CODE(rax)
+	call rbx
+	push rax
+	push 1
+	mov rax, qword [rbp + 8*2]
+	mov rax, qword [rax + 8*0]
+	mov rax, qword [rax + 8*0]
+	mov rax, qword [rax]
+	assert_closure(rax)
+	mov rbx, SOB_CLOSURE_ENV(rax)
+	push rbx
+	push RET_ADDR
+	mov rbp, OLD_RDP
+	mov rsi, 0
+.L_tc_recycle_frame_loop_03b7:	 ; start recycle frame loop
+	cmp rsi, 4
+	je .L_tc_recycle_frame_done_03b7
+	mov rcx, 3
+	sub rcx, rsi
+	shl rcx, 3
+	add rcx, rsp ; rcx is the index to move
+	mov rbx, rsi
+	inc rbx
+	shl rbx, 3
+	neg rbx
+	add rbx, rbp ; rbx is the index to move to
+	mov rcx, [rcx]
+	mov [rbx], rcx
+	inc rsi
+	jmp .L_tc_recycle_frame_loop_03b7
+.L_tc_recycle_frame_done_03b7:	 ; end recycle frame loop
+	mov rbx, 4
+	shl rbx, 3
+	neg rbx
+	add rbx, rbp
+	mov rsp, rbx
+	mov rbx, SOB_CLOSURE_CODE(rax)
+	jmp rbx
+	jmp .L_if_end_0200
+	.L_if_else_0200:
+	lea rax, [2 + L_constants]
+	.L_if_end_0200:
+.L_or_end_0046:
+	leave
+	ret 8 * (2 + 1)
+.L_lambda_simple_end_0237:	; new closure is in rax
+	push rax
+	mov rax, PARAM(0)
+	pop qword [rax]
+	mov rax, sob_void
+
+	mov rax, qword [rbp + 8*2]
+	mov rax, qword [rax + 8*0]
+	mov rax, qword [rax + 8*1]
+	push rax
+	push 1
+	mov rax, PARAM(0)
+	mov rax, qword [rax]
+	assert_closure(rax)
+	mov rbx, SOB_CLOSURE_ENV(rax)
+	push rbx
+	push RET_ADDR
+	mov rbp, OLD_RDP
+	mov rsi, 0
+.L_tc_recycle_frame_loop_03b8:	 ; start recycle frame loop
+	cmp rsi, 4
+	je .L_tc_recycle_frame_done_03b8
+	mov rcx, 3
+	sub rcx, rsi
+	shl rcx, 3
+	add rcx, rsp ; rcx is the index to move
+	mov rbx, rsi
+	inc rbx
+	shl rbx, 3
+	neg rbx
+	add rbx, rbp ; rbx is the index to move to
+	mov rcx, [rcx]
+	mov [rbx], rcx
+	inc rsi
+	jmp .L_tc_recycle_frame_loop_03b8
+.L_tc_recycle_frame_done_03b8:	 ; end recycle frame loop
+	mov rbx, 4
+	shl rbx, 3
+	neg rbx
+	add rbx, rbp
+	mov rsp, rbx
+	mov rbx, SOB_CLOSURE_CODE(rax)
+	jmp rbx
+	leave
+	ret 8 * (2 + 1)
+.L_lambda_simple_end_0236:	; new closure is in rax
+	assert_closure(rax)
+	mov rbx, SOB_CLOSURE_ENV(rax)
+	push rbx
+	push RET_ADDR
+	mov rbp, OLD_RDP
+	mov rsi, 0
+.L_tc_recycle_frame_loop_03b6:	 ; start recycle frame loop
+	cmp rsi, 4
+	je .L_tc_recycle_frame_done_03b6
+	mov rcx, 3
+	sub rcx, rsi
+	shl rcx, 3
+	add rcx, rsp ; rcx is the index to move
+	mov rbx, rsi
+	inc rbx
+	shl rbx, 3
+	neg rbx
+	add rbx, rbp ; rbx is the index to move to
+	mov rcx, [rcx]
+	mov [rbx], rcx
+	inc rsi
+	jmp .L_tc_recycle_frame_loop_03b6
+.L_tc_recycle_frame_done_03b6:	 ; end recycle frame loop
+	mov rbx, 4
+	shl rbx, 3
+	neg rbx
+	add rbx, rbp
+	mov rsp, rbx
+	mov rbx, SOB_CLOSURE_CODE(rax)
+	jmp rbx
+	leave
+	ret AND_KILL_FRAME(2)
+.L_lambda_opt_end_0157:	; new closure is in rax
+	mov qword [free_var_64], rax
+	mov rax, sob_void
+
+	mov rdi, rax
+	call print_sexpr_if_not_void
+
+	lea rax, [24 + L_constants]
+	push rax
+	lea rax, [24 + L_constants]
+	push rax
+	push 2
+	mov rdi, (1 + 8 + 8)	; sob closure
+	call malloc
+	push rax
+	mov rdi, 8 * 0	; new rib
+	call malloc
+	push rax
+	mov rdi, 8 * 1	; extended env
+	call malloc
+	mov rdi, ENV
+	mov rsi, 0
+	mov rdx, 1
+.L_lambda_simple_env_loop_0238:	; ext_env[i + 1] <-- env[i]
+	cmp rsi, 0
+	je .L_lambda_simple_env_end_0238
+	mov rcx, qword [rdi + 8 * rsi] ; Problem is here!!
+	mov qword [rax + 8 * rdx], rcx
+	inc rsi
+	inc rdx
+	jmp .L_lambda_simple_env_loop_0238
+.L_lambda_simple_env_end_0238:
+	pop rbx
+	mov rsi, 0
+.L_lambda_simple_params_loop_0238:	; copy params
+	cmp rsi, 0
+	je .L_lambda_simple_params_end_0238
+	mov rdx, qword [rbp + 8 * rsi + 8 * 4]
+	mov qword [rbx + 8 * rsi], rdx
+	inc rsi
+	jmp .L_lambda_simple_params_loop_0238
+.L_lambda_simple_params_end_0238:
+	mov qword [rax], rbx	; ext_env[0] <-- new_rib 
+	mov rbx, rax
+	pop rax
+	mov byte [rax], T_closure
+	mov SOB_CLOSURE_ENV(rax), rbx
+	mov SOB_CLOSURE_CODE(rax), .L_lambda_simple_code_0238
+	jmp .L_lambda_simple_end_0238
+.L_lambda_simple_code_0238:	; lambda-simple body
+	cmp qword [rsp + 8 * 2], 2
+	je .L_lambda_simple_arity_check_ok_0238
+	push qword [rsp + 8 * 2]
+	push 2
+	jmp L_error_incorrect_arity_simple
+.L_lambda_simple_arity_check_ok_0238:
+	enter 0, 0
+	mov qword rdi, 8
+	call malloc
+	mov qword [rbp + 8*(4 + 0)], rax
+	mov rax, sob_void
+
+	mov qword rdi, 8
+	call malloc
+	mov qword [rbp + 8*(4 + 1)], rax
+	mov rax, sob_void
+
+	mov rdi, (1 + 8 + 8)	; sob closure
+	call malloc
+	push rax
+	mov rdi, 8 * 2	; new rib
+	call malloc
+	push rax
+	mov rdi, 8 * 2	; extended env
+	call malloc
+	mov rdi, ENV
+	mov rsi, 0
+	mov rdx, 1
+.L_lambda_simple_env_loop_0239:	; ext_env[i + 1] <-- env[i]
+	cmp rsi, 1
+	je .L_lambda_simple_env_end_0239
+	mov rcx, qword [rdi + 8 * rsi] ; Problem is here!!
+	mov qword [rax + 8 * rdx], rcx
+	inc rsi
+	inc rdx
+	jmp .L_lambda_simple_env_loop_0239
+.L_lambda_simple_env_end_0239:
+	pop rbx
+	mov rsi, 0
+.L_lambda_simple_params_loop_0239:	; copy params
+	cmp rsi, 2
+	je .L_lambda_simple_params_end_0239
+	mov rdx, qword [rbp + 8 * rsi + 8 * 4]
+	mov qword [rbx + 8 * rsi], rdx
+	inc rsi
+	jmp .L_lambda_simple_params_loop_0239
+.L_lambda_simple_params_end_0239:
+	mov qword [rax], rbx	; ext_env[0] <-- new_rib 
+	mov rbx, rax
+	pop rax
+	mov byte [rax], T_closure
+	mov SOB_CLOSURE_ENV(rax), rbx
+	mov SOB_CLOSURE_CODE(rax), .L_lambda_simple_code_0239
+	jmp .L_lambda_simple_end_0239
+.L_lambda_simple_code_0239:	; lambda-simple body
+	cmp qword [rsp + 8 * 2], 2
+	je .L_lambda_simple_arity_check_ok_0239
+	push qword [rsp + 8 * 2]
+	push 2
+	jmp L_error_incorrect_arity_simple
+.L_lambda_simple_arity_check_ok_0239:
+	enter 0, 0
+	mov rax, PARAM(1)
+	push rax
+	push 1
+	mov rax, qword [free_var_0]
+	assert_closure(rax)
+	mov rbx, SOB_CLOSURE_ENV(rax)
+	push rbx
+	mov rbx, SOB_CLOSURE_CODE(rax)
+	call rbx
+	cmp rax, sob_boolean_false
+	je .L_if_else_0201
+	lea rax, [1 + L_constants]
+	jmp .L_if_end_0201
+	.L_if_else_0201:
+	mov rax, PARAM(1)
+	push rax
+	push 1
+	mov rax, qword [free_var_17]
+	assert_closure(rax)
+	mov rbx, SOB_CLOSURE_ENV(rax)
+	push rbx
+	mov rbx, SOB_CLOSURE_CODE(rax)
+	call rbx
+	push rax
+	mov rax, PARAM(0)
+	push rax
+	push 2
+	mov rax, qword [rbp + 8*2]
+	mov rax, qword [rax + 8*0]
+	mov rax, qword [rax + 8*0]
+	mov rax, qword [rax]
+	assert_closure(rax)
+	mov rbx, SOB_CLOSURE_ENV(rax)
+	push rbx
+	mov rbx, SOB_CLOSURE_CODE(rax)
+	call rbx
+	push rax
+	mov rax, PARAM(1)
+	push rax
+	push 1
+	mov rax, qword [free_var_16]
+	assert_closure(rax)
+	mov rbx, SOB_CLOSURE_ENV(rax)
+	push rbx
+	mov rbx, SOB_CLOSURE_CODE(rax)
+	call rbx
+	push rax
+	push 1
+	mov rax, PARAM(0)
+	assert_closure(rax)
+	mov rbx, SOB_CLOSURE_ENV(rax)
+	push rbx
+	mov rbx, SOB_CLOSURE_CODE(rax)
+	call rbx
+	push rax
+	push 2
+	mov rax, qword [free_var_13]
+	assert_closure(rax)
+	mov rbx, SOB_CLOSURE_ENV(rax)
+	push rbx
+	push RET_ADDR
+	mov rbp, OLD_RDP
+	mov rsi, 0
+.L_tc_recycle_frame_loop_03b9:	 ; start recycle frame loop
+	cmp rsi, 5
+	je .L_tc_recycle_frame_done_03b9
+	mov rcx, 4
+	sub rcx, rsi
+	shl rcx, 3
+	add rcx, rsp ; rcx is the index to move
+	mov rbx, rsi
+	inc rbx
+	shl rbx, 3
+	neg rbx
+	add rbx, rbp ; rbx is the index to move to
+	mov rcx, [rcx]
+	mov [rbx], rcx
+	inc rsi
+	jmp .L_tc_recycle_frame_loop_03b9
+.L_tc_recycle_frame_done_03b9:	 ; end recycle frame loop
+	mov rbx, 5
+	shl rbx, 3
+	neg rbx
+	add rbx, rbp
+	mov rsp, rbx
+	mov rbx, SOB_CLOSURE_CODE(rax)
+	jmp rbx
+	.L_if_end_0201:
+	leave
+	ret 8 * (2 + 2)
+.L_lambda_simple_end_0239:	; new closure is in rax
+	push rax
+	mov rax, PARAM(0)
+	pop qword [rax]
+	mov rax, sob_void
+
+	mov rdi, (1 + 8 + 8)	; sob closure
+	call malloc
+	push rax
+	mov rdi, 8 * 2	; new rib
+	call malloc
+	push rax
+	mov rdi, 8 * 2	; extended env
+	call malloc
+	mov rdi, ENV
+	mov rsi, 0
+	mov rdx, 1
+.L_lambda_simple_env_loop_023a:	; ext_env[i + 1] <-- env[i]
+	cmp rsi, 1
+	je .L_lambda_simple_env_end_023a
+	mov rcx, qword [rdi + 8 * rsi] ; Problem is here!!
+	mov qword [rax + 8 * rdx], rcx
+	inc rsi
+	inc rdx
+	jmp .L_lambda_simple_env_loop_023a
+.L_lambda_simple_env_end_023a:
+	pop rbx
+	mov rsi, 0
+.L_lambda_simple_params_loop_023a:	; copy params
+	cmp rsi, 2
+	je .L_lambda_simple_params_end_023a
+	mov rdx, qword [rbp + 8 * rsi + 8 * 4]
+	mov qword [rbx + 8 * rsi], rdx
+	inc rsi
+	jmp .L_lambda_simple_params_loop_023a
+.L_lambda_simple_params_end_023a:
+	mov qword [rax], rbx	; ext_env[0] <-- new_rib 
+	mov rbx, rax
+	pop rax
+	mov byte [rax], T_closure
+	mov SOB_CLOSURE_ENV(rax), rbx
+	mov SOB_CLOSURE_CODE(rax), .L_lambda_simple_code_023a
+	jmp .L_lambda_simple_end_023a
+.L_lambda_simple_code_023a:	; lambda-simple body
+	cmp qword [rsp + 8 * 2], 2
+	je .L_lambda_simple_arity_check_ok_023a
+	push qword [rsp + 8 * 2]
+	push 2
+	jmp L_error_incorrect_arity_simple
+.L_lambda_simple_arity_check_ok_023a:
+	enter 0, 0
+	mov rax, PARAM(1)
+	push rax
+	push 1
+	mov rax, qword [free_var_16]
+	assert_closure(rax)
+	mov rbx, SOB_CLOSURE_ENV(rax)
+	push rbx
+	mov rbx, SOB_CLOSURE_CODE(rax)
+	call rbx
+	push rax
+	push 1
+	mov rax, qword [free_var_0]
+	assert_closure(rax)
+	mov rbx, SOB_CLOSURE_ENV(rax)
+	push rbx
+	mov rbx, SOB_CLOSURE_CODE(rax)
+	call rbx
+	cmp rax, sob_boolean_false
+	je .L_if_else_0202
+	lea rax, [1 + L_constants]
+	jmp .L_if_end_0202
+	.L_if_else_0202:
+	mov rax, PARAM(1)
+	push rax
+	mov rax, qword [free_var_17]
+	push rax
+	push 2
+	mov rax, qword [rbp + 8*2]
+	mov rax, qword [rax + 8*0]
+	mov rax, qword [rax + 8*0]
+	mov rax, qword [rax]
+	assert_closure(rax)
+	mov rbx, SOB_CLOSURE_ENV(rax)
+	push rbx
+	mov rbx, SOB_CLOSURE_CODE(rax)
+	call rbx
+	push rax
+	mov rax, PARAM(0)
+	push rax
+	push 2
+	mov rax, qword [rbp + 8*2]
+	mov rax, qword [rax + 8*0]
+	mov rax, qword [rax + 8*1]
+	mov rax, qword [rax]
+	assert_closure(rax)
+	mov rbx, SOB_CLOSURE_ENV(rax)
+	push rbx
+	mov rbx, SOB_CLOSURE_CODE(rax)
+	call rbx
+	push rax
+	mov rax, PARAM(1)
+	push rax
+	mov rax, qword [free_var_16]
+	push rax
+	push 2
+	mov rax, qword [rbp + 8*2]
+	mov rax, qword [rax + 8*0]
+	mov rax, qword [rax + 8*0]
+	mov rax, qword [rax]
+	assert_closure(rax)
+	mov rbx, SOB_CLOSURE_ENV(rax)
+	push rbx
+	mov rbx, SOB_CLOSURE_CODE(rax)
+	call rbx
+	push rax
+	mov rax, PARAM(0)
+	push rax
+	push 2
+	mov rax, qword [free_var_59]
+	assert_closure(rax)
+	mov rbx, SOB_CLOSURE_ENV(rax)
+	push rbx
+	mov rbx, SOB_CLOSURE_CODE(rax)
+	call rbx
+	push rax
+	push 2
+	mov rax, qword [free_var_13]
+	assert_closure(rax)
+	mov rbx, SOB_CLOSURE_ENV(rax)
+	push rbx
+	push RET_ADDR
+	mov rbp, OLD_RDP
+	mov rsi, 0
+.L_tc_recycle_frame_loop_03ba:	 ; start recycle frame loop
+	cmp rsi, 5
+	je .L_tc_recycle_frame_done_03ba
+	mov rcx, 4
+	sub rcx, rsi
+	shl rcx, 3
+	add rcx, rsp ; rcx is the index to move
+	mov rbx, rsi
+	inc rbx
+	shl rbx, 3
+	neg rbx
+	add rbx, rbp ; rbx is the index to move to
+	mov rcx, [rcx]
+	mov [rbx], rcx
+	inc rsi
+	jmp .L_tc_recycle_frame_loop_03ba
+.L_tc_recycle_frame_done_03ba:	 ; end recycle frame loop
+	mov rbx, 5
+	shl rbx, 3
+	neg rbx
+	add rbx, rbp
+	mov rsp, rbx
+	mov rbx, SOB_CLOSURE_CODE(rax)
+	jmp rbx
+	.L_if_end_0202:
+	leave
+	ret 8 * (2 + 2)
+.L_lambda_simple_end_023a:	; new closure is in rax
+	push rax
+	mov rax, PARAM(1)
+	pop qword [rax]
+	mov rax, sob_void
+
+	mov rdi, (1 + 8 + 8)	; sob closure
+	call malloc
+	push rax
+	mov rdi, 8 * 2	; new rib
+	call malloc
+	push rax
+	mov rdi, 8 * 2	; extended env
+	call malloc
+	mov rdi, ENV
+	mov rsi, 0
+	mov rdx, 1
+.L_lambda_opt_env_loop_0158:	; ext_env[i + 1] <-- env[i]
+	cmp rsi, 1
+	je .L_lambda_opt_env_end_0158
+	mov rcx, qword [rdi + 8 * rsi] ; Problem is here!!
+	mov qword [rax + 8 * rdx], rcx
+	inc rsi
+	inc rdx
+	jmp .L_lambda_opt_env_loop_0158
+.L_lambda_opt_env_end_0158:
+	pop rbx
+	mov rsi, 0
+.L_lambda_opt_params_loop_0158:	; copy params
+	cmp rsi, 2
+	je .L_lambda_opt_params_end_0158
+	mov rdx, qword [rbp + 8 * rsi + 8 * 4]
+	mov qword [rbx + 8 * rsi], rdx
+	inc rsi
+	jmp .L_lambda_opt_params_loop_0158
+.L_lambda_opt_params_end_0158:
+	mov qword [rax], rbx	; ext_env[0] <-- new_rib 
+	mov rbx, rax
+	pop rax
+	mov byte [rax], T_closure
+	mov SOB_CLOSURE_ENV(rax), rbx
+	mov SOB_CLOSURE_CODE(rax), .L_lambda_opt_code_0158
+	jmp .L_lambda_opt_end_0158
+.L_lambda_opt_code_0158:	; lambda-simple body
 	mov rdi, qword [rsp + 8 * 2]
 	mov rbx, rdi
-	sub rbx, 2
-	jg .L_lambda_opt_arity_check_more_0052
-.L_lambda_opt_arity_check_exact_0052:	 ; if params in opt is exact
+	sub rbx, 1
+	jg .L_lambda_opt_arity_check_more_0158
+.L_lambda_opt_arity_check_exact_0158:	 ; if params in opt is exact
 	sub rsp, 8
 	mov rsi, 0 ; index
-.L_lambda_opt_stack_enlarge_loop_0052:	 ; stack loop enlarge start
-	cmp rsi, 5
-	je .L_lambda_opt_stack_enlarge_loop_exit_0052
+.L_lambda_opt_stack_enlarge_loop_0158:	 ; stack loop enlarge start
+	cmp rsi, 4
+	je .L_lambda_opt_stack_enlarge_loop_exit_0158
 	mov rdi, rsi
 	shl rdi, 3
 	add rdi, rsp
@@ -1040,18 +1880,937 @@ main:
 	mov rdi, [rdi]
 	mov [rbx], rdi
 	inc rsi
-	jmp .L_lambda_opt_stack_enlarge_loop_0052
-.L_lambda_opt_stack_enlarge_loop_exit_0052:	 ; end of stack enlarge loop
-	mov qword [rsp + 5*8], sob_nil
-	mov qword [rsp + 2*8], 3
-	jmp .L_lambda_opt_stack_adjusted_0052
-.L_lambda_opt_arity_check_more_0052:	 ; if params in opt is more
+	jmp .L_lambda_opt_stack_enlarge_loop_0158
+.L_lambda_opt_stack_enlarge_loop_exit_0158:	 ; end of stack enlarge loop
+	mov qword [rsp + 4*8], sob_nil
+	mov qword [rsp + 2*8], 2
+	jmp .L_lambda_opt_stack_adjusted_0158
+.L_lambda_opt_arity_check_more_0158:	 ; if params in opt is more
 	mov rax, sob_nil
 	mov rsi, rbx ;index
 	dec rsi
-.L_lambda_opt_list_create_loop_0052:	; start of list creation loop
+.L_lambda_opt_list_create_loop_0158:	; start of list creation loop
 	cmp rsi, -1
-	je .L_lambda_opt_list_create_loop_exit_0052
+	je .L_lambda_opt_list_create_loop_exit_0158
+	lea rcx, [rsi + (3 + 1)]
+	shl rcx, 3
+	add rcx, rsp
+	mov rcx, [rcx]
+	push rsi
+	push rbx
+	push rax
+	push rcx
+	push qword 2 ; push num of args
+	push qword 1 ; push garbage
+	call L_code_ptr_cons
+	pop rbx
+	pop rsi
+	dec rsi
+	jmp .L_lambda_opt_list_create_loop_0158
+.L_lambda_opt_list_create_loop_exit_0158:	; end of list creation loop
+	mov rbx, qword [rsp + 8 * 2]
+	add rbx, 2
+	mov rdi, rbx
+	shl rdi,3
+	add rdi, rsp
+	mov [rdi], rax
+	mov rsi, 0 ;index
+.L_lambda_opt_stack_shrink_loop_0158:	; start of stack shrink loop
+	cmp rsi, 4
+	je .L_lambda_opt_stack_shrink_loop_exit_0158
+	mov rdi, 3
+	sub rdi, rsi; the index of the current stack member to move
+	mov rcx, rbx
+	sub rcx, rsi
+	sub rcx, 1; the index of the target stack place to put the member
+	mov rdx, rdi
+	shl rdx, 3
+	add rdx, rsp
+	shl rcx, 3
+	add rcx, rsp
+	mov rdx, [rdx]
+	mov [rcx], rdx
+	inc rsi
+	jmp .L_lambda_opt_stack_shrink_loop_0158
+.L_lambda_opt_stack_shrink_loop_exit_0158:	; end of stack shrink loop
+	sub rbx, 2 ; rbx has number of args
+	sub rbx, 2
+	shl rbx, 3
+	add rsp, rbx
+	mov qword [rsp + 8 * 2], 2
+.L_lambda_opt_stack_adjusted_0158:
+	push rbp
+	mov rbp, rsp
+	mov rax, PARAM(1)
+	push rax
+	push 1
+	mov rax, qword [free_var_0]
+	assert_closure(rax)
+	mov rbx, SOB_CLOSURE_ENV(rax)
+	push rbx
+	mov rbx, SOB_CLOSURE_CODE(rax)
+	call rbx
+	cmp rax, sob_boolean_false
+	je .L_if_else_0203
+	lea rax, [1 + L_constants]
+	jmp .L_if_end_0203
+	.L_if_else_0203:
+	mov rax, PARAM(1)
+	push rax
+	mov rax, PARAM(0)
+	push rax
+	push 2
+	mov rax, qword [rbp + 8*2]
+	mov rax, qword [rax + 8*0]
+	mov rax, qword [rax + 8*1]
+	mov rax, qword [rax]
+	assert_closure(rax)
+	mov rbx, SOB_CLOSURE_ENV(rax)
+	push rbx
+	push RET_ADDR
+	mov rbp, OLD_RDP
+	mov rsi, 0
+.L_tc_recycle_frame_loop_03bb:	 ; start recycle frame loop
+	cmp rsi, 5
+	je .L_tc_recycle_frame_done_03bb
+	mov rcx, 4
+	sub rcx, rsi
+	shl rcx, 3
+	add rcx, rsp ; rcx is the index to move
+	mov rbx, rsi
+	inc rbx
+	shl rbx, 3
+	neg rbx
+	add rbx, rbp ; rbx is the index to move to
+	mov rcx, [rcx]
+	mov [rbx], rcx
+	inc rsi
+	jmp .L_tc_recycle_frame_loop_03bb
+.L_tc_recycle_frame_done_03bb:	 ; end recycle frame loop
+	mov rbx, 5
+	shl rbx, 3
+	neg rbx
+	add rbx, rbp
+	mov rsp, rbx
+	mov rbx, SOB_CLOSURE_CODE(rax)
+	jmp rbx
+	.L_if_end_0203:
+	leave
+	ret AND_KILL_FRAME(2)
+.L_lambda_opt_end_0158:	; new closure is in rax
+	leave
+	ret 8 * (2 + 2)
+.L_lambda_simple_end_0238:	; new closure is in rax
+	assert_closure(rax)
+	mov rbx, SOB_CLOSURE_ENV(rax)
+	push rbx
+	mov rbx, SOB_CLOSURE_CODE(rax)
+	call rbx
+	mov qword [free_var_60], rax
+	mov rax, sob_void
+
+	mov rdi, rax
+	call print_sexpr_if_not_void
+
+	lea rax, [24 + L_constants]
+	push rax
+	lea rax, [24 + L_constants]
+	push rax
+	push 2
+	mov rdi, (1 + 8 + 8)	; sob closure
+	call malloc
+	push rax
+	mov rdi, 8 * 0	; new rib
+	call malloc
+	push rax
+	mov rdi, 8 * 1	; extended env
+	call malloc
+	mov rdi, ENV
+	mov rsi, 0
+	mov rdx, 1
+.L_lambda_simple_env_loop_023b:	; ext_env[i + 1] <-- env[i]
+	cmp rsi, 0
+	je .L_lambda_simple_env_end_023b
+	mov rcx, qword [rdi + 8 * rsi] ; Problem is here!!
+	mov qword [rax + 8 * rdx], rcx
+	inc rsi
+	inc rdx
+	jmp .L_lambda_simple_env_loop_023b
+.L_lambda_simple_env_end_023b:
+	pop rbx
+	mov rsi, 0
+.L_lambda_simple_params_loop_023b:	; copy params
+	cmp rsi, 0
+	je .L_lambda_simple_params_end_023b
+	mov rdx, qword [rbp + 8 * rsi + 8 * 4]
+	mov qword [rbx + 8 * rsi], rdx
+	inc rsi
+	jmp .L_lambda_simple_params_loop_023b
+.L_lambda_simple_params_end_023b:
+	mov qword [rax], rbx	; ext_env[0] <-- new_rib 
+	mov rbx, rax
+	pop rax
+	mov byte [rax], T_closure
+	mov SOB_CLOSURE_ENV(rax), rbx
+	mov SOB_CLOSURE_CODE(rax), .L_lambda_simple_code_023b
+	jmp .L_lambda_simple_end_023b
+.L_lambda_simple_code_023b:	; lambda-simple body
+	cmp qword [rsp + 8 * 2], 2
+	je .L_lambda_simple_arity_check_ok_023b
+	push qword [rsp + 8 * 2]
+	push 2
+	jmp L_error_incorrect_arity_simple
+.L_lambda_simple_arity_check_ok_023b:
+	enter 0, 0
+	mov qword rdi, 8
+	call malloc
+	mov qword [rbp + 8*(4 + 0)], rax
+	mov rax, sob_void
+
+	mov qword rdi, 8
+	call malloc
+	mov qword [rbp + 8*(4 + 1)], rax
+	mov rax, sob_void
+
+	mov rdi, (1 + 8 + 8)	; sob closure
+	call malloc
+	push rax
+	mov rdi, 8 * 2	; new rib
+	call malloc
+	push rax
+	mov rdi, 8 * 2	; extended env
+	call malloc
+	mov rdi, ENV
+	mov rsi, 0
+	mov rdx, 1
+.L_lambda_simple_env_loop_023c:	; ext_env[i + 1] <-- env[i]
+	cmp rsi, 1
+	je .L_lambda_simple_env_end_023c
+	mov rcx, qword [rdi + 8 * rsi] ; Problem is here!!
+	mov qword [rax + 8 * rdx], rcx
+	inc rsi
+	inc rdx
+	jmp .L_lambda_simple_env_loop_023c
+.L_lambda_simple_env_end_023c:
+	pop rbx
+	mov rsi, 0
+.L_lambda_simple_params_loop_023c:	; copy params
+	cmp rsi, 2
+	je .L_lambda_simple_params_end_023c
+	mov rdx, qword [rbp + 8 * rsi + 8 * 4]
+	mov qword [rbx + 8 * rsi], rdx
+	inc rsi
+	jmp .L_lambda_simple_params_loop_023c
+.L_lambda_simple_params_end_023c:
+	mov qword [rax], rbx	; ext_env[0] <-- new_rib 
+	mov rbx, rax
+	pop rax
+	mov byte [rax], T_closure
+	mov SOB_CLOSURE_ENV(rax), rbx
+	mov SOB_CLOSURE_CODE(rax), .L_lambda_simple_code_023c
+	jmp .L_lambda_simple_end_023c
+.L_lambda_simple_code_023c:	; lambda-simple body
+	cmp qword [rsp + 8 * 2], 2
+	je .L_lambda_simple_arity_check_ok_023c
+	push qword [rsp + 8 * 2]
+	push 2
+	jmp L_error_incorrect_arity_simple
+.L_lambda_simple_arity_check_ok_023c:
+	enter 0, 0
+	mov rax, PARAM(1)
+	push rax
+	push 1
+	mov rax, qword [free_var_0]
+	assert_closure(rax)
+	mov rbx, SOB_CLOSURE_ENV(rax)
+	push rbx
+	mov rbx, SOB_CLOSURE_CODE(rax)
+	call rbx
+	cmp rax, sob_boolean_false
+	je .L_if_else_0204
+	mov rax, PARAM(0)
+	jmp .L_if_end_0204
+	.L_if_else_0204:
+	mov rax, PARAM(1)
+	push rax
+	push 1
+	mov rax, qword [free_var_17]
+	assert_closure(rax)
+	mov rbx, SOB_CLOSURE_ENV(rax)
+	push rbx
+	mov rbx, SOB_CLOSURE_CODE(rax)
+	call rbx
+	push rax
+	mov rax, PARAM(1)
+	push rax
+	push 1
+	mov rax, qword [free_var_16]
+	assert_closure(rax)
+	mov rbx, SOB_CLOSURE_ENV(rax)
+	push rbx
+	mov rbx, SOB_CLOSURE_CODE(rax)
+	call rbx
+	push rax
+	push 2
+	mov rax, qword [rbp + 8*2]
+	mov rax, qword [rax + 8*0]
+	mov rax, qword [rax + 8*0]
+	mov rax, qword [rax]
+	assert_closure(rax)
+	mov rbx, SOB_CLOSURE_ENV(rax)
+	push rbx
+	mov rbx, SOB_CLOSURE_CODE(rax)
+	call rbx
+	push rax
+	mov rax, PARAM(0)
+	push rax
+	push 2
+	mov rax, qword [rbp + 8*2]
+	mov rax, qword [rax + 8*0]
+	mov rax, qword [rax + 8*1]
+	mov rax, qword [rax]
+	assert_closure(rax)
+	mov rbx, SOB_CLOSURE_ENV(rax)
+	push rbx
+	push RET_ADDR
+	mov rbp, OLD_RDP
+	mov rsi, 0
+.L_tc_recycle_frame_loop_03bc:	 ; start recycle frame loop
+	cmp rsi, 5
+	je .L_tc_recycle_frame_done_03bc
+	mov rcx, 4
+	sub rcx, rsi
+	shl rcx, 3
+	add rcx, rsp ; rcx is the index to move
+	mov rbx, rsi
+	inc rbx
+	shl rbx, 3
+	neg rbx
+	add rbx, rbp ; rbx is the index to move to
+	mov rcx, [rcx]
+	mov [rbx], rcx
+	inc rsi
+	jmp .L_tc_recycle_frame_loop_03bc
+.L_tc_recycle_frame_done_03bc:	 ; end recycle frame loop
+	mov rbx, 5
+	shl rbx, 3
+	neg rbx
+	add rbx, rbp
+	mov rsp, rbx
+	mov rbx, SOB_CLOSURE_CODE(rax)
+	jmp rbx
+	.L_if_end_0204:
+	leave
+	ret 8 * (2 + 2)
+.L_lambda_simple_end_023c:	; new closure is in rax
+	push rax
+	mov rax, PARAM(0)
+	pop qword [rax]
+	mov rax, sob_void
+
+	mov rdi, (1 + 8 + 8)	; sob closure
+	call malloc
+	push rax
+	mov rdi, 8 * 2	; new rib
+	call malloc
+	push rax
+	mov rdi, 8 * 2	; extended env
+	call malloc
+	mov rdi, ENV
+	mov rsi, 0
+	mov rdx, 1
+.L_lambda_simple_env_loop_023d:	; ext_env[i + 1] <-- env[i]
+	cmp rsi, 1
+	je .L_lambda_simple_env_end_023d
+	mov rcx, qword [rdi + 8 * rsi] ; Problem is here!!
+	mov qword [rax + 8 * rdx], rcx
+	inc rsi
+	inc rdx
+	jmp .L_lambda_simple_env_loop_023d
+.L_lambda_simple_env_end_023d:
+	pop rbx
+	mov rsi, 0
+.L_lambda_simple_params_loop_023d:	; copy params
+	cmp rsi, 2
+	je .L_lambda_simple_params_end_023d
+	mov rdx, qword [rbp + 8 * rsi + 8 * 4]
+	mov qword [rbx + 8 * rsi], rdx
+	inc rsi
+	jmp .L_lambda_simple_params_loop_023d
+.L_lambda_simple_params_end_023d:
+	mov qword [rax], rbx	; ext_env[0] <-- new_rib 
+	mov rbx, rax
+	pop rax
+	mov byte [rax], T_closure
+	mov SOB_CLOSURE_ENV(rax), rbx
+	mov SOB_CLOSURE_CODE(rax), .L_lambda_simple_code_023d
+	jmp .L_lambda_simple_end_023d
+.L_lambda_simple_code_023d:	; lambda-simple body
+	cmp qword [rsp + 8 * 2], 2
+	je .L_lambda_simple_arity_check_ok_023d
+	push qword [rsp + 8 * 2]
+	push 2
+	jmp L_error_incorrect_arity_simple
+.L_lambda_simple_arity_check_ok_023d:
+	enter 0, 0
+	mov rax, PARAM(0)
+	push rax
+	push 1
+	mov rax, qword [free_var_0]
+	assert_closure(rax)
+	mov rbx, SOB_CLOSURE_ENV(rax)
+	push rbx
+	mov rbx, SOB_CLOSURE_CODE(rax)
+	call rbx
+	cmp rax, sob_boolean_false
+	je .L_if_else_0205
+	mov rax, PARAM(1)
+	jmp .L_if_end_0205
+	.L_if_else_0205:
+	mov rax, PARAM(1)
+	push rax
+	mov rax, PARAM(0)
+	push rax
+	push 1
+	mov rax, qword [free_var_17]
+	assert_closure(rax)
+	mov rbx, SOB_CLOSURE_ENV(rax)
+	push rbx
+	mov rbx, SOB_CLOSURE_CODE(rax)
+	call rbx
+	push rax
+	push 2
+	mov rax, qword [rbp + 8*2]
+	mov rax, qword [rax + 8*0]
+	mov rax, qword [rax + 8*1]
+	mov rax, qword [rax]
+	assert_closure(rax)
+	mov rbx, SOB_CLOSURE_ENV(rax)
+	push rbx
+	mov rbx, SOB_CLOSURE_CODE(rax)
+	call rbx
+	push rax
+	mov rax, PARAM(0)
+	push rax
+	push 1
+	mov rax, qword [free_var_16]
+	assert_closure(rax)
+	mov rbx, SOB_CLOSURE_ENV(rax)
+	push rbx
+	mov rbx, SOB_CLOSURE_CODE(rax)
+	call rbx
+	push rax
+	push 2
+	mov rax, qword [free_var_13]
+	assert_closure(rax)
+	mov rbx, SOB_CLOSURE_ENV(rax)
+	push rbx
+	push RET_ADDR
+	mov rbp, OLD_RDP
+	mov rsi, 0
+.L_tc_recycle_frame_loop_03bd:	 ; start recycle frame loop
+	cmp rsi, 5
+	je .L_tc_recycle_frame_done_03bd
+	mov rcx, 4
+	sub rcx, rsi
+	shl rcx, 3
+	add rcx, rsp ; rcx is the index to move
+	mov rbx, rsi
+	inc rbx
+	shl rbx, 3
+	neg rbx
+	add rbx, rbp ; rbx is the index to move to
+	mov rcx, [rcx]
+	mov [rbx], rcx
+	inc rsi
+	jmp .L_tc_recycle_frame_loop_03bd
+.L_tc_recycle_frame_done_03bd:	 ; end recycle frame loop
+	mov rbx, 5
+	shl rbx, 3
+	neg rbx
+	add rbx, rbp
+	mov rsp, rbx
+	mov rbx, SOB_CLOSURE_CODE(rax)
+	jmp rbx
+	.L_if_end_0205:
+	leave
+	ret 8 * (2 + 2)
+.L_lambda_simple_end_023d:	; new closure is in rax
+	push rax
+	mov rax, PARAM(1)
+	pop qword [rax]
+	mov rax, sob_void
+
+	mov rdi, (1 + 8 + 8)	; sob closure
+	call malloc
+	push rax
+	mov rdi, 8 * 2	; new rib
+	call malloc
+	push rax
+	mov rdi, 8 * 2	; extended env
+	call malloc
+	mov rdi, ENV
+	mov rsi, 0
+	mov rdx, 1
+.L_lambda_opt_env_loop_0159:	; ext_env[i + 1] <-- env[i]
+	cmp rsi, 1
+	je .L_lambda_opt_env_end_0159
+	mov rcx, qword [rdi + 8 * rsi] ; Problem is here!!
+	mov qword [rax + 8 * rdx], rcx
+	inc rsi
+	inc rdx
+	jmp .L_lambda_opt_env_loop_0159
+.L_lambda_opt_env_end_0159:
+	pop rbx
+	mov rsi, 0
+.L_lambda_opt_params_loop_0159:	; copy params
+	cmp rsi, 2
+	je .L_lambda_opt_params_end_0159
+	mov rdx, qword [rbp + 8 * rsi + 8 * 4]
+	mov qword [rbx + 8 * rsi], rdx
+	inc rsi
+	jmp .L_lambda_opt_params_loop_0159
+.L_lambda_opt_params_end_0159:
+	mov qword [rax], rbx	; ext_env[0] <-- new_rib 
+	mov rbx, rax
+	pop rax
+	mov byte [rax], T_closure
+	mov SOB_CLOSURE_ENV(rax), rbx
+	mov SOB_CLOSURE_CODE(rax), .L_lambda_opt_code_0159
+	jmp .L_lambda_opt_end_0159
+.L_lambda_opt_code_0159:	; lambda-simple body
+	mov rdi, qword [rsp + 8 * 2]
+	mov rbx, rdi
+	sub rbx, 0
+	jg .L_lambda_opt_arity_check_more_0159
+.L_lambda_opt_arity_check_exact_0159:	 ; if params in opt is exact
+	sub rsp, 8
+	mov rsi, 0 ; index
+.L_lambda_opt_stack_enlarge_loop_0159:	 ; stack loop enlarge start
+	cmp rsi, 3
+	je .L_lambda_opt_stack_enlarge_loop_exit_0159
+	mov rdi, rsi
+	shl rdi, 3
+	add rdi, rsp
+	add rdi, 8
+	mov rbx, rdi
+	sub rbx, 8
+	mov rdi, [rdi]
+	mov [rbx], rdi
+	inc rsi
+	jmp .L_lambda_opt_stack_enlarge_loop_0159
+.L_lambda_opt_stack_enlarge_loop_exit_0159:	 ; end of stack enlarge loop
+	mov qword [rsp + 3*8], sob_nil
+	mov qword [rsp + 2*8], 1
+	jmp .L_lambda_opt_stack_adjusted_0159
+.L_lambda_opt_arity_check_more_0159:	 ; if params in opt is more
+	mov rax, sob_nil
+	mov rsi, rbx ;index
+	dec rsi
+.L_lambda_opt_list_create_loop_0159:	; start of list creation loop
+	cmp rsi, -1
+	je .L_lambda_opt_list_create_loop_exit_0159
+	lea rcx, [rsi + (3 + 0)]
+	shl rcx, 3
+	add rcx, rsp
+	mov rcx, [rcx]
+	push rsi
+	push rbx
+	push rax
+	push rcx
+	push qword 2 ; push num of args
+	push qword 1 ; push garbage
+	call L_code_ptr_cons
+	pop rbx
+	pop rsi
+	dec rsi
+	jmp .L_lambda_opt_list_create_loop_0159
+.L_lambda_opt_list_create_loop_exit_0159:	; end of list creation loop
+	mov rbx, qword [rsp + 8 * 2]
+	add rbx, 2
+	mov rdi, rbx
+	shl rdi,3
+	add rdi, rsp
+	mov [rdi], rax
+	mov rsi, 0 ;index
+.L_lambda_opt_stack_shrink_loop_0159:	; start of stack shrink loop
+	cmp rsi, 3
+	je .L_lambda_opt_stack_shrink_loop_exit_0159
+	mov rdi, 2
+	sub rdi, rsi; the index of the current stack member to move
+	mov rcx, rbx
+	sub rcx, rsi
+	sub rcx, 1; the index of the target stack place to put the member
+	mov rdx, rdi
+	shl rdx, 3
+	add rdx, rsp
+	shl rcx, 3
+	add rcx, rsp
+	mov rdx, [rdx]
+	mov [rcx], rdx
+	inc rsi
+	jmp .L_lambda_opt_stack_shrink_loop_0159
+.L_lambda_opt_stack_shrink_loop_exit_0159:	; end of stack shrink loop
+	sub rbx, 2 ; rbx has number of args
+	sub rbx, 1
+	shl rbx, 3
+	add rsp, rbx
+	mov qword [rsp + 8 * 2], 1
+.L_lambda_opt_stack_adjusted_0159:
+	push rbp
+	mov rbp, rsp
+	mov rax, PARAM(0)
+	push rax
+	push 1
+	mov rax, qword [free_var_0]
+	assert_closure(rax)
+	mov rbx, SOB_CLOSURE_ENV(rax)
+	push rbx
+	mov rbx, SOB_CLOSURE_CODE(rax)
+	call rbx
+	cmp rax, sob_boolean_false
+	je .L_if_else_0206
+	lea rax, [1 + L_constants]
+	jmp .L_if_end_0206
+	.L_if_else_0206:
+	mov rax, PARAM(0)
+	push rax
+	push 1
+	mov rax, qword [free_var_17]
+	assert_closure(rax)
+	mov rbx, SOB_CLOSURE_ENV(rax)
+	push rbx
+	mov rbx, SOB_CLOSURE_CODE(rax)
+	call rbx
+	push rax
+	mov rax, PARAM(0)
+	push rax
+	push 1
+	mov rax, qword [free_var_16]
+	assert_closure(rax)
+	mov rbx, SOB_CLOSURE_ENV(rax)
+	push rbx
+	mov rbx, SOB_CLOSURE_CODE(rax)
+	call rbx
+	push rax
+	push 2
+	mov rax, qword [rbp + 8*2]
+	mov rax, qword [rax + 8*0]
+	mov rax, qword [rax + 8*0]
+	mov rax, qword [rax]
+	assert_closure(rax)
+	mov rbx, SOB_CLOSURE_ENV(rax)
+	push rbx
+	push RET_ADDR
+	mov rbp, OLD_RDP
+	mov rsi, 0
+.L_tc_recycle_frame_loop_03be:	 ; start recycle frame loop
+	cmp rsi, 5
+	je .L_tc_recycle_frame_done_03be
+	mov rcx, 4
+	sub rcx, rsi
+	shl rcx, 3
+	add rcx, rsp ; rcx is the index to move
+	mov rbx, rsi
+	inc rbx
+	shl rbx, 3
+	neg rbx
+	add rbx, rbp ; rbx is the index to move to
+	mov rcx, [rcx]
+	mov [rbx], rcx
+	inc rsi
+	jmp .L_tc_recycle_frame_loop_03be
+.L_tc_recycle_frame_done_03be:	 ; end recycle frame loop
+	mov rbx, 5
+	shl rbx, 3
+	neg rbx
+	add rbx, rbp
+	mov rsp, rbx
+	mov rbx, SOB_CLOSURE_CODE(rax)
+	jmp rbx
+	.L_if_end_0206:
+	leave
+	ret AND_KILL_FRAME(1)
+.L_lambda_opt_end_0159:	; new closure is in rax
+	leave
+	ret 8 * (2 + 2)
+.L_lambda_simple_end_023b:	; new closure is in rax
+	assert_closure(rax)
+	mov rbx, SOB_CLOSURE_ENV(rax)
+	push rbx
+	mov rbx, SOB_CLOSURE_CODE(rax)
+	call rbx
+	mov qword [free_var_84], rax
+	mov rax, sob_void
+
+	mov rdi, rax
+	call print_sexpr_if_not_void
+
+	lea rax, [24 + L_constants]
+	push rax
+	push 1
+	mov rdi, (1 + 8 + 8)	; sob closure
+	call malloc
+	push rax
+	mov rdi, 8 * 0	; new rib
+	call malloc
+	push rax
+	mov rdi, 8 * 1	; extended env
+	call malloc
+	mov rdi, ENV
+	mov rsi, 0
+	mov rdx, 1
+.L_lambda_simple_env_loop_023e:	; ext_env[i + 1] <-- env[i]
+	cmp rsi, 0
+	je .L_lambda_simple_env_end_023e
+	mov rcx, qword [rdi + 8 * rsi] ; Problem is here!!
+	mov qword [rax + 8 * rdx], rcx
+	inc rsi
+	inc rdx
+	jmp .L_lambda_simple_env_loop_023e
+.L_lambda_simple_env_end_023e:
+	pop rbx
+	mov rsi, 0
+.L_lambda_simple_params_loop_023e:	; copy params
+	cmp rsi, 0
+	je .L_lambda_simple_params_end_023e
+	mov rdx, qword [rbp + 8 * rsi + 8 * 4]
+	mov qword [rbx + 8 * rsi], rdx
+	inc rsi
+	jmp .L_lambda_simple_params_loop_023e
+.L_lambda_simple_params_end_023e:
+	mov qword [rax], rbx	; ext_env[0] <-- new_rib 
+	mov rbx, rax
+	pop rax
+	mov byte [rax], T_closure
+	mov SOB_CLOSURE_ENV(rax), rbx
+	mov SOB_CLOSURE_CODE(rax), .L_lambda_simple_code_023e
+	jmp .L_lambda_simple_end_023e
+.L_lambda_simple_code_023e:	; lambda-simple body
+	cmp qword [rsp + 8 * 2], 1
+	je .L_lambda_simple_arity_check_ok_023e
+	push qword [rsp + 8 * 2]
+	push 1
+	jmp L_error_incorrect_arity_simple
+.L_lambda_simple_arity_check_ok_023e:
+	enter 0, 0
+	mov qword rdi, 8
+	call malloc
+	mov qword [rbp + 8*(4 + 0)], rax
+	mov rax, sob_void
+
+	mov rdi, (1 + 8 + 8)	; sob closure
+	call malloc
+	push rax
+	mov rdi, 8 * 1	; new rib
+	call malloc
+	push rax
+	mov rdi, 8 * 2	; extended env
+	call malloc
+	mov rdi, ENV
+	mov rsi, 0
+	mov rdx, 1
+.L_lambda_simple_env_loop_023f:	; ext_env[i + 1] <-- env[i]
+	cmp rsi, 1
+	je .L_lambda_simple_env_end_023f
+	mov rcx, qword [rdi + 8 * rsi] ; Problem is here!!
+	mov qword [rax + 8 * rdx], rcx
+	inc rsi
+	inc rdx
+	jmp .L_lambda_simple_env_loop_023f
+.L_lambda_simple_env_end_023f:
+	pop rbx
+	mov rsi, 0
+.L_lambda_simple_params_loop_023f:	; copy params
+	cmp rsi, 1
+	je .L_lambda_simple_params_end_023f
+	mov rdx, qword [rbp + 8 * rsi + 8 * 4]
+	mov qword [rbx + 8 * rsi], rdx
+	inc rsi
+	jmp .L_lambda_simple_params_loop_023f
+.L_lambda_simple_params_end_023f:
+	mov qword [rax], rbx	; ext_env[0] <-- new_rib 
+	mov rbx, rax
+	pop rax
+	mov byte [rax], T_closure
+	mov SOB_CLOSURE_ENV(rax), rbx
+	mov SOB_CLOSURE_CODE(rax), .L_lambda_simple_code_023f
+	jmp .L_lambda_simple_end_023f
+.L_lambda_simple_code_023f:	; lambda-simple body
+	cmp qword [rsp + 8 * 2], 3
+	je .L_lambda_simple_arity_check_ok_023f
+	push qword [rsp + 8 * 2]
+	push 3
+	jmp L_error_incorrect_arity_simple
+.L_lambda_simple_arity_check_ok_023f:
+	enter 0, 0
+	mov rax, PARAM(2)
+	push rax
+	mov rax, qword [free_var_0]
+	push rax
+	push 2
+	mov rax, qword [free_var_56]
+	assert_closure(rax)
+	mov rbx, SOB_CLOSURE_ENV(rax)
+	push rbx
+	mov rbx, SOB_CLOSURE_CODE(rax)
+	call rbx
+	cmp rax, sob_boolean_false
+	je .L_if_else_0207
+	mov rax, PARAM(1)
+	jmp .L_if_end_0207
+	.L_if_else_0207:
+	mov rax, PARAM(2)
+	push rax
+	mov rax, qword [free_var_17]
+	push rax
+	push 2
+	mov rax, qword [free_var_60]
+	assert_closure(rax)
+	mov rbx, SOB_CLOSURE_ENV(rax)
+	push rbx
+	mov rbx, SOB_CLOSURE_CODE(rax)
+	call rbx
+	push rax
+	mov rax, PARAM(2)
+	push rax
+	mov rax, qword [free_var_16]
+	push rax
+	push 2
+	mov rax, qword [free_var_60]
+	assert_closure(rax)
+	mov rbx, SOB_CLOSURE_ENV(rax)
+	push rbx
+	mov rbx, SOB_CLOSURE_CODE(rax)
+	call rbx
+	push rax
+	mov rax, PARAM(1)
+	push rax
+	mov rax, PARAM(0)
+	push rax
+	push 3
+	mov rax, qword [free_var_59]
+	assert_closure(rax)
+	mov rbx, SOB_CLOSURE_ENV(rax)
+	push rbx
+	mov rbx, SOB_CLOSURE_CODE(rax)
+	call rbx
+	push rax
+	mov rax, PARAM(0)
+	push rax
+	push 3
+	mov rax, qword [rbp + 8*2]
+	mov rax, qword [rax + 8*0]
+	mov rax, qword [rax + 8*0]
+	mov rax, qword [rax]
+	assert_closure(rax)
+	mov rbx, SOB_CLOSURE_ENV(rax)
+	push rbx
+	push RET_ADDR
+	mov rbp, OLD_RDP
+	mov rsi, 0
+.L_tc_recycle_frame_loop_03bf:	 ; start recycle frame loop
+	cmp rsi, 6
+	je .L_tc_recycle_frame_done_03bf
+	mov rcx, 5
+	sub rcx, rsi
+	shl rcx, 3
+	add rcx, rsp ; rcx is the index to move
+	mov rbx, rsi
+	inc rbx
+	shl rbx, 3
+	neg rbx
+	add rbx, rbp ; rbx is the index to move to
+	mov rcx, [rcx]
+	mov [rbx], rcx
+	inc rsi
+	jmp .L_tc_recycle_frame_loop_03bf
+.L_tc_recycle_frame_done_03bf:	 ; end recycle frame loop
+	mov rbx, 6
+	shl rbx, 3
+	neg rbx
+	add rbx, rbp
+	mov rsp, rbx
+	mov rbx, SOB_CLOSURE_CODE(rax)
+	jmp rbx
+	.L_if_end_0207:
+	leave
+	ret 8 * (2 + 3)
+.L_lambda_simple_end_023f:	; new closure is in rax
+	push rax
+	mov rax, PARAM(0)
+	pop qword [rax]
+	mov rax, sob_void
+
+	mov rdi, (1 + 8 + 8)	; sob closure
+	call malloc
+	push rax
+	mov rdi, 8 * 1	; new rib
+	call malloc
+	push rax
+	mov rdi, 8 * 2	; extended env
+	call malloc
+	mov rdi, ENV
+	mov rsi, 0
+	mov rdx, 1
+.L_lambda_opt_env_loop_015a:	; ext_env[i + 1] <-- env[i]
+	cmp rsi, 1
+	je .L_lambda_opt_env_end_015a
+	mov rcx, qword [rdi + 8 * rsi] ; Problem is here!!
+	mov qword [rax + 8 * rdx], rcx
+	inc rsi
+	inc rdx
+	jmp .L_lambda_opt_env_loop_015a
+.L_lambda_opt_env_end_015a:
+	pop rbx
+	mov rsi, 0
+.L_lambda_opt_params_loop_015a:	; copy params
+	cmp rsi, 1
+	je .L_lambda_opt_params_end_015a
+	mov rdx, qword [rbp + 8 * rsi + 8 * 4]
+	mov qword [rbx + 8 * rsi], rdx
+	inc rsi
+	jmp .L_lambda_opt_params_loop_015a
+.L_lambda_opt_params_end_015a:
+	mov qword [rax], rbx	; ext_env[0] <-- new_rib 
+	mov rbx, rax
+	pop rax
+	mov byte [rax], T_closure
+	mov SOB_CLOSURE_ENV(rax), rbx
+	mov SOB_CLOSURE_CODE(rax), .L_lambda_opt_code_015a
+	jmp .L_lambda_opt_end_015a
+.L_lambda_opt_code_015a:	; lambda-simple body
+	mov rdi, qword [rsp + 8 * 2]
+	mov rbx, rdi
+	sub rbx, 2
+	jg .L_lambda_opt_arity_check_more_015a
+.L_lambda_opt_arity_check_exact_015a:	 ; if params in opt is exact
+	sub rsp, 8
+	mov rsi, 0 ; index
+.L_lambda_opt_stack_enlarge_loop_015a:	 ; stack loop enlarge start
+	cmp rsi, 5
+	je .L_lambda_opt_stack_enlarge_loop_exit_015a
+	mov rdi, rsi
+	shl rdi, 3
+	add rdi, rsp
+	add rdi, 8
+	mov rbx, rdi
+	sub rbx, 8
+	mov rdi, [rdi]
+	mov [rbx], rdi
+	inc rsi
+	jmp .L_lambda_opt_stack_enlarge_loop_015a
+.L_lambda_opt_stack_enlarge_loop_exit_015a:	 ; end of stack enlarge loop
+	mov qword [rsp + 5*8], sob_nil
+	mov qword [rsp + 2*8], 3
+	jmp .L_lambda_opt_stack_adjusted_015a
+.L_lambda_opt_arity_check_more_015a:	 ; if params in opt is more
+	mov rax, sob_nil
+	mov rsi, rbx ;index
+	dec rsi
+.L_lambda_opt_list_create_loop_015a:	; start of list creation loop
+	cmp rsi, -1
+	je .L_lambda_opt_list_create_loop_exit_015a
 	lea rcx, [rsi + (3 + 2)]
 	shl rcx, 3
 	add rcx, rsp
@@ -1066,8 +2825,8 @@ main:
 	pop rbx
 	pop rsi
 	dec rsi
-	jmp .L_lambda_opt_list_create_loop_0052
-.L_lambda_opt_list_create_loop_exit_0052:	; end of list creation loop
+	jmp .L_lambda_opt_list_create_loop_015a
+.L_lambda_opt_list_create_loop_exit_015a:	; end of list creation loop
 	mov rbx, qword [rsp + 8 * 2]
 	add rbx, 2
 	mov rdi, rbx
@@ -1075,9 +2834,9 @@ main:
 	add rdi, rsp
 	mov [rdi], rax
 	mov rsi, 0 ;index
-.L_lambda_opt_stack_shrink_loop_0052:	; start of stack shrink loop
+.L_lambda_opt_stack_shrink_loop_015a:	; start of stack shrink loop
 	cmp rsi, 5
-	je .L_lambda_opt_stack_shrink_loop_exit_0052
+	je .L_lambda_opt_stack_shrink_loop_exit_015a
 	mov rdi, 4
 	sub rdi, rsi; the index of the current stack member to move
 	mov rcx, rbx
@@ -1091,407 +2850,17 @@ main:
 	mov rdx, [rdx]
 	mov [rcx], rdx
 	inc rsi
-	jmp .L_lambda_opt_stack_shrink_loop_0052
-.L_lambda_opt_stack_shrink_loop_exit_0052:	; end of stack shrink loop
+	jmp .L_lambda_opt_stack_shrink_loop_015a
+.L_lambda_opt_stack_shrink_loop_exit_015a:	; end of stack shrink loop
 	sub rbx, 2 ; rbx has number of args
 	sub rbx, 3
 	shl rbx, 3
 	add rsp, rbx
 	mov qword [rsp + 8 * 2], 3
-.L_lambda_opt_stack_adjusted_0052:
+.L_lambda_opt_stack_adjusted_015a:
 	push rbp
 	mov rbp, rsp
-	lea rax, [159 + L_constants]
-	push rax
-	lea rax, [142 + L_constants]
-	push rax
-	lea rax, [125 + L_constants]
-	push rax
-	lea rax, [108 + L_constants]
-	push rax
-	lea rax, [91 + L_constants]
-	push rax
-	push 5
-	mov rdi, (1 + 8 + 8)	; sob closure
-	call malloc
-	push rax
-	mov rdi, 8 * 3	; new rib
-	call malloc
-	push rax
-	mov rdi, 8 * 4	; extended env
-	call malloc
-	mov rdi, ENV
-	mov rsi, 0
-	mov rdx, 1
-.L_lambda_opt_env_loop_0053:	; ext_env[i + 1] <-- env[i]
-	cmp rsi, 3
-	je .L_lambda_opt_env_end_0053
-	mov rcx, qword [rdi + 8 * rsi] ; Problem is here!!
-	mov qword [rax + 8 * rdx], rcx
-	inc rsi
-	inc rdx
-	jmp .L_lambda_opt_env_loop_0053
-.L_lambda_opt_env_end_0053:
-	pop rbx
-	mov rsi, 0
-.L_lambda_opt_params_loop_0053:	; copy params
-	cmp rsi, 3
-	je .L_lambda_opt_params_end_0053
-	mov rdx, qword [rbp + 8 * rsi + 8 * 4]
-	mov qword [rbx + 8 * rsi], rdx
-	inc rsi
-	jmp .L_lambda_opt_params_loop_0053
-.L_lambda_opt_params_end_0053:
-	mov qword [rax], rbx	; ext_env[0] <-- new_rib 
-	mov rbx, rax
-	pop rax
-	mov byte [rax], T_closure
-	mov SOB_CLOSURE_ENV(rax), rbx
-	mov SOB_CLOSURE_CODE(rax), .L_lambda_opt_code_0053
-	jmp .L_lambda_opt_end_0053
-.L_lambda_opt_code_0053:	; lambda-simple body
-	mov rdi, qword [rsp + 8 * 2]
-	mov rbx, rdi
-	sub rbx, 3
-	jg .L_lambda_opt_arity_check_more_0053
-.L_lambda_opt_arity_check_exact_0053:	 ; if params in opt is exact
-	sub rsp, 8
-	mov rsi, 0 ; index
-.L_lambda_opt_stack_enlarge_loop_0053:	 ; stack loop enlarge start
-	cmp rsi, 6
-	je .L_lambda_opt_stack_enlarge_loop_exit_0053
-	mov rdi, rsi
-	shl rdi, 3
-	add rdi, rsp
-	add rdi, 8
-	mov rbx, rdi
-	sub rbx, 8
-	mov rdi, [rdi]
-	mov [rbx], rdi
-	inc rsi
-	jmp .L_lambda_opt_stack_enlarge_loop_0053
-.L_lambda_opt_stack_enlarge_loop_exit_0053:	 ; end of stack enlarge loop
-	mov qword [rsp + 6*8], sob_nil
-	mov qword [rsp + 2*8], 4
-	jmp .L_lambda_opt_stack_adjusted_0053
-.L_lambda_opt_arity_check_more_0053:	 ; if params in opt is more
-	mov rax, sob_nil
-	mov rsi, rbx ;index
-	dec rsi
-.L_lambda_opt_list_create_loop_0053:	; start of list creation loop
-	cmp rsi, -1
-	je .L_lambda_opt_list_create_loop_exit_0053
-	lea rcx, [rsi + (3 + 3)]
-	shl rcx, 3
-	add rcx, rsp
-	mov rcx, [rcx]
-	push rsi
-	push rbx
-	push rax
-	push rcx
-	push qword 2 ; push num of args
-	push qword 1 ; push garbage
-	call L_code_ptr_cons
-	pop rbx
-	pop rsi
-	dec rsi
-	jmp .L_lambda_opt_list_create_loop_0053
-.L_lambda_opt_list_create_loop_exit_0053:	; end of list creation loop
-	mov rbx, qword [rsp + 8 * 2]
-	add rbx, 2
-	mov rdi, rbx
-	shl rdi,3
-	add rdi, rsp
-	mov [rdi], rax
-	mov rsi, 0 ;index
-.L_lambda_opt_stack_shrink_loop_0053:	; start of stack shrink loop
-	cmp rsi, 6
-	je .L_lambda_opt_stack_shrink_loop_exit_0053
-	mov rdi, 5
-	sub rdi, rsi; the index of the current stack member to move
-	mov rcx, rbx
-	sub rcx, rsi
-	sub rcx, 1; the index of the target stack place to put the member
-	mov rdx, rdi
-	shl rdx, 3
-	add rdx, rsp
-	shl rcx, 3
-	add rcx, rsp
-	mov rdx, [rdx]
-	mov [rcx], rdx
-	inc rsi
-	jmp .L_lambda_opt_stack_shrink_loop_0053
-.L_lambda_opt_stack_shrink_loop_exit_0053:	; end of stack shrink loop
-	sub rbx, 2 ; rbx has number of args
-	sub rbx, 4
-	shl rbx, 3
-	add rsp, rbx
-	mov qword [rsp + 8 * 2], 4
-.L_lambda_opt_stack_adjusted_0053:
-	push rbp
-	mov rbp, rsp
-	lea rax, [74 + L_constants]
-	push rax
-	lea rax, [57 + L_constants]
-	push rax
-	lea rax, [40 + L_constants]
-	push rax
-	lea rax, [23 + L_constants]
-	push rax
-	lea rax, [6 + L_constants]
-	push rax
-	push 5
-	mov rdi, (1 + 8 + 8)	; sob closure
-	call malloc
-	push rax
-	mov rdi, 8 * 4	; new rib
-	call malloc
-	push rax
-	mov rdi, 8 * 5	; extended env
-	call malloc
-	mov rdi, ENV
-	mov rsi, 0
-	mov rdx, 1
-.L_lambda_opt_env_loop_0054:	; ext_env[i + 1] <-- env[i]
-	cmp rsi, 4
-	je .L_lambda_opt_env_end_0054
-	mov rcx, qword [rdi + 8 * rsi] ; Problem is here!!
-	mov qword [rax + 8 * rdx], rcx
-	inc rsi
-	inc rdx
-	jmp .L_lambda_opt_env_loop_0054
-.L_lambda_opt_env_end_0054:
-	pop rbx
-	mov rsi, 0
-.L_lambda_opt_params_loop_0054:	; copy params
-	cmp rsi, 4
-	je .L_lambda_opt_params_end_0054
-	mov rdx, qword [rbp + 8 * rsi + 8 * 4]
-	mov qword [rbx + 8 * rsi], rdx
-	inc rsi
-	jmp .L_lambda_opt_params_loop_0054
-.L_lambda_opt_params_end_0054:
-	mov qword [rax], rbx	; ext_env[0] <-- new_rib 
-	mov rbx, rax
-	pop rax
-	mov byte [rax], T_closure
-	mov SOB_CLOSURE_ENV(rax), rbx
-	mov SOB_CLOSURE_CODE(rax), .L_lambda_opt_code_0054
-	jmp .L_lambda_opt_end_0054
-.L_lambda_opt_code_0054:	; lambda-simple body
-	mov rdi, qword [rsp + 8 * 2]
-	mov rbx, rdi
-	sub rbx, 4
-	jg .L_lambda_opt_arity_check_more_0054
-.L_lambda_opt_arity_check_exact_0054:	 ; if params in opt is exact
-	sub rsp, 8
-	mov rsi, 0 ; index
-.L_lambda_opt_stack_enlarge_loop_0054:	 ; stack loop enlarge start
-	cmp rsi, 7
-	je .L_lambda_opt_stack_enlarge_loop_exit_0054
-	mov rdi, rsi
-	shl rdi, 3
-	add rdi, rsp
-	add rdi, 8
-	mov rbx, rdi
-	sub rbx, 8
-	mov rdi, [rdi]
-	mov [rbx], rdi
-	inc rsi
-	jmp .L_lambda_opt_stack_enlarge_loop_0054
-.L_lambda_opt_stack_enlarge_loop_exit_0054:	 ; end of stack enlarge loop
-	mov qword [rsp + 7*8], sob_nil
-	mov qword [rsp + 2*8], 5
-	jmp .L_lambda_opt_stack_adjusted_0054
-.L_lambda_opt_arity_check_more_0054:	 ; if params in opt is more
-	mov rax, sob_nil
-	mov rsi, rbx ;index
-	dec rsi
-.L_lambda_opt_list_create_loop_0054:	; start of list creation loop
-	cmp rsi, -1
-	je .L_lambda_opt_list_create_loop_exit_0054
-	lea rcx, [rsi + (3 + 4)]
-	shl rcx, 3
-	add rcx, rsp
-	mov rcx, [rcx]
-	push rsi
-	push rbx
-	push rax
-	push rcx
-	push qword 2 ; push num of args
-	push qword 1 ; push garbage
-	call L_code_ptr_cons
-	pop rbx
-	pop rsi
-	dec rsi
-	jmp .L_lambda_opt_list_create_loop_0054
-.L_lambda_opt_list_create_loop_exit_0054:	; end of list creation loop
-	mov rbx, qword [rsp + 8 * 2]
-	add rbx, 2
-	mov rdi, rbx
-	shl rdi,3
-	add rdi, rsp
-	mov [rdi], rax
-	mov rsi, 0 ;index
-.L_lambda_opt_stack_shrink_loop_0054:	; start of stack shrink loop
-	cmp rsi, 7
-	je .L_lambda_opt_stack_shrink_loop_exit_0054
-	mov rdi, 6
-	sub rdi, rsi; the index of the current stack member to move
-	mov rcx, rbx
-	sub rcx, rsi
-	sub rcx, 1; the index of the target stack place to put the member
-	mov rdx, rdi
-	shl rdx, 3
-	add rdx, rsp
-	shl rcx, 3
-	add rcx, rsp
-	mov rdx, [rdx]
-	mov [rcx], rdx
-	inc rsi
-	jmp .L_lambda_opt_stack_shrink_loop_0054
-.L_lambda_opt_stack_shrink_loop_exit_0054:	; end of stack shrink loop
-	sub rbx, 2 ; rbx has number of args
-	sub rbx, 5
-	shl rbx, 3
-	add rsp, rbx
-	mov qword [rsp + 8 * 2], 5
-.L_lambda_opt_stack_adjusted_0054:
-	push rbp
-	mov rbp, rsp
-	mov rax, PARAM(4)
-	push rax
-	mov rax, PARAM(3)
-	push rax
 	mov rax, PARAM(2)
-	push rax
-	mov rax, PARAM(1)
-	push rax
-	mov rax, PARAM(0)
-	push rax
-	push 5
-	mov rax, qword [rbp + 8*2]
-	mov rax, qword [rax + 8*3]
-	mov rax, qword [rax + 8*0]
-	assert_closure(rax)
-	mov rbx, SOB_CLOSURE_ENV(rax)
-	push rbx
-	push RET_ADDR
-	mov rbp, OLD_RDP
-	mov rsi, 0
-.L_tc_recycle_frame_loop_000e:	 ; start recycle frame loop
-	cmp rsi, 8
-	je .L_tc_recycle_frame_done_000e
-	mov rcx, 7
-	sub rcx, rsi
-	shl rcx, 3
-	add rcx, rsp ; rcx is the index to move
-	mov rbx, rsi
-	shl rbx, 3
-	neg rbx
-	add rbx, rbp ; rbx is the index to move to
-	mov rcx, [rcx]
-	mov [rbx], rcx
-	inc rsi
-	jmp .L_tc_recycle_frame_loop_000e
-.L_tc_recycle_frame_done_000e:	 ; end recycle frame loop
-	mov rbx, 7
-	shl rbx, 3
-	neg rbx
-	add rbx, rbp
-	mov rsp, rbx
-	mov rbx, SOB_CLOSURE_CODE(rax)
-	jmp rbx
-	leave
-	ret AND_KILL_FRAME(5)
-.L_lambda_opt_end_0054:	; new closure is in rax
-	assert_closure(rax)
-	mov rbx, SOB_CLOSURE_ENV(rax)
-	push rbx
-	mov rbx, SOB_CLOSURE_CODE(rax)
-	call rbx
-	push rax
-	mov rax, PARAM(3)
-	push rax
-	mov rax, PARAM(2)
-	push rax
-	mov rax, PARAM(1)
-	push rax
-	mov rax, PARAM(0)
-	push rax
-	push 5
-	mov rax, qword [rbp + 8*2]
-	mov rax, qword [rax + 8*2]
-	mov rax, qword [rax + 8*0]
-	assert_closure(rax)
-	mov rbx, SOB_CLOSURE_ENV(rax)
-	push rbx
-	push RET_ADDR
-	mov rbp, OLD_RDP
-	mov rsi, 0
-.L_tc_recycle_frame_loop_000d:	 ; start recycle frame loop
-	cmp rsi, 8
-	je .L_tc_recycle_frame_done_000d
-	mov rcx, 7
-	sub rcx, rsi
-	shl rcx, 3
-	add rcx, rsp ; rcx is the index to move
-	mov rbx, rsi
-	shl rbx, 3
-	neg rbx
-	add rbx, rbp ; rbx is the index to move to
-	mov rcx, [rcx]
-	mov [rbx], rcx
-	inc rsi
-	jmp .L_tc_recycle_frame_loop_000d
-.L_tc_recycle_frame_done_000d:	 ; end recycle frame loop
-	mov rbx, 7
-	shl rbx, 3
-	neg rbx
-	add rbx, rbp
-	mov rsp, rbx
-	mov rbx, SOB_CLOSURE_CODE(rax)
-	jmp rbx
-	leave
-	ret AND_KILL_FRAME(4)
-.L_lambda_opt_end_0053:	; new closure is in rax
-	assert_closure(rax)
-	mov rbx, SOB_CLOSURE_ENV(rax)
-	push rbx
-	push RET_ADDR
-	mov rbp, OLD_RDP
-	mov rsi, 0
-.L_tc_recycle_frame_loop_000c:	 ; start recycle frame loop
-	cmp rsi, 8
-	je .L_tc_recycle_frame_done_000c
-	mov rcx, 7
-	sub rcx, rsi
-	shl rcx, 3
-	add rcx, rsp ; rcx is the index to move
-	mov rbx, rsi
-	shl rbx, 3
-	neg rbx
-	add rbx, rbp ; rbx is the index to move to
-	mov rcx, [rcx]
-	mov [rbx], rcx
-	inc rsi
-	jmp .L_tc_recycle_frame_loop_000c
-.L_tc_recycle_frame_done_000c:	 ; end recycle frame loop
-	mov rbx, 7
-	shl rbx, 3
-	neg rbx
-	add rbx, rbp
-	mov rsp, rbx
-	mov rbx, SOB_CLOSURE_CODE(rax)
-	jmp rbx
-	leave
-	ret AND_KILL_FRAME(3)
-.L_lambda_opt_end_0052:	; new closure is in rax
-	assert_closure(rax)
-	mov rbx, SOB_CLOSURE_ENV(rax)
-	push rbx
-	mov rbx, SOB_CLOSURE_CODE(rax)
-	call rbx
 	push rax
 	mov rax, PARAM(1)
 	push rax
@@ -1501,28 +2870,128 @@ main:
 	mov rax, qword [rbp + 8*2]
 	mov rax, qword [rax + 8*0]
 	mov rax, qword [rax + 8*0]
+	mov rax, qword [rax]
 	assert_closure(rax)
 	mov rbx, SOB_CLOSURE_ENV(rax)
 	push rbx
 	push RET_ADDR
 	mov rbp, OLD_RDP
 	mov rsi, 0
-.L_tc_recycle_frame_loop_000b:	 ; start recycle frame loop
+.L_tc_recycle_frame_loop_03c0:	 ; start recycle frame loop
 	cmp rsi, 6
-	je .L_tc_recycle_frame_done_000b
+	je .L_tc_recycle_frame_done_03c0
 	mov rcx, 5
 	sub rcx, rsi
 	shl rcx, 3
 	add rcx, rsp ; rcx is the index to move
 	mov rbx, rsi
+	inc rbx
 	shl rbx, 3
 	neg rbx
 	add rbx, rbp ; rbx is the index to move to
 	mov rcx, [rcx]
 	mov [rbx], rcx
 	inc rsi
-	jmp .L_tc_recycle_frame_loop_000b
-.L_tc_recycle_frame_done_000b:	 ; end recycle frame loop
+	jmp .L_tc_recycle_frame_loop_03c0
+.L_tc_recycle_frame_done_03c0:	 ; end recycle frame loop
+	mov rbx, 6
+	shl rbx, 3
+	neg rbx
+	add rbx, rbp
+	mov rsp, rbx
+	mov rbx, SOB_CLOSURE_CODE(rax)
+	jmp rbx
+	leave
+	ret AND_KILL_FRAME(3)
+.L_lambda_opt_end_015a:	; new closure is in rax
+	leave
+	ret 8 * (2 + 1)
+.L_lambda_simple_end_023e:	; new closure is in rax
+	assert_closure(rax)
+	mov rbx, SOB_CLOSURE_ENV(rax)
+	push rbx
+	mov rbx, SOB_CLOSURE_CODE(rax)
+	call rbx
+	mov qword [free_var_95], rax
+	mov rax, sob_void
+
+	mov rdi, rax
+	call print_sexpr_if_not_void
+
+	mov rdi, (1 + 8 + 8)	; sob closure
+	call malloc
+	push rax
+	mov rdi, 8 * 0	; new rib
+	call malloc
+	push rax
+	mov rdi, 8 * 1	; extended env
+	call malloc
+	mov rdi, ENV
+	mov rsi, 0
+	mov rdx, 1
+.L_lambda_simple_env_loop_0240:	; ext_env[i + 1] <-- env[i]
+	cmp rsi, 0
+	je .L_lambda_simple_env_end_0240
+	mov rcx, qword [rdi + 8 * rsi] ; Problem is here!!
+	mov qword [rax + 8 * rdx], rcx
+	inc rsi
+	inc rdx
+	jmp .L_lambda_simple_env_loop_0240
+.L_lambda_simple_env_end_0240:
+	pop rbx
+	mov rsi, 0
+.L_lambda_simple_params_loop_0240:	; copy params
+	cmp rsi, 0
+	je .L_lambda_simple_params_end_0240
+	mov rdx, qword [rbp + 8 * rsi + 8 * 4]
+	mov qword [rbx + 8 * rsi], rdx
+	inc rsi
+	jmp .L_lambda_simple_params_loop_0240
+.L_lambda_simple_params_end_0240:
+	mov qword [rax], rbx	; ext_env[0] <-- new_rib 
+	mov rbx, rax
+	pop rax
+	mov byte [rax], T_closure
+	mov SOB_CLOSURE_ENV(rax), rbx
+	mov SOB_CLOSURE_CODE(rax), .L_lambda_simple_code_0240
+	jmp .L_lambda_simple_end_0240
+.L_lambda_simple_code_0240:	; lambda-simple body
+	cmp qword [rsp + 8 * 2], 0
+	je .L_lambda_simple_arity_check_ok_0240
+	push qword [rsp + 8 * 2]
+	push 0
+	jmp L_error_incorrect_arity_simple
+.L_lambda_simple_arity_check_ok_0240:
+	enter 0, 0
+	lea rax, [69 + L_constants]
+	push rax
+	lea rax, [60 + L_constants]
+	push rax
+	push 2
+	mov rax, qword [free_var_38]
+	assert_closure(rax)
+	mov rbx, SOB_CLOSURE_ENV(rax)
+	push rbx
+	push RET_ADDR
+	mov rbp, OLD_RDP
+	mov rsi, 0
+.L_tc_recycle_frame_loop_03c1:	 ; start recycle frame loop
+	cmp rsi, 5
+	je .L_tc_recycle_frame_done_03c1
+	mov rcx, 4
+	sub rcx, rsi
+	shl rcx, 3
+	add rcx, rsp ; rcx is the index to move
+	mov rbx, rsi
+	inc rbx
+	shl rbx, 3
+	neg rbx
+	add rbx, rbp ; rbx is the index to move to
+	mov rcx, [rcx]
+	mov [rbx], rcx
+	inc rsi
+	jmp .L_tc_recycle_frame_loop_03c1
+.L_tc_recycle_frame_done_03c1:	 ; end recycle frame loop
 	mov rbx, 5
 	shl rbx, 3
 	neg rbx
@@ -1531,31 +3000,684 @@ main:
 	mov rbx, SOB_CLOSURE_CODE(rax)
 	jmp rbx
 	leave
-	ret AND_KILL_FRAME(2)
-.L_lambda_opt_end_0051:	; new closure is in rax
+	ret 8 * (2 + 0)
+.L_lambda_simple_end_0240:	; new closure is in rax
+	push rax
+	push 1
+	mov rdi, (1 + 8 + 8)	; sob closure
+	call malloc
+	push rax
+	mov rdi, 8 * 0	; new rib
+	call malloc
+	push rax
+	mov rdi, 8 * 1	; extended env
+	call malloc
+	mov rdi, ENV
+	mov rsi, 0
+	mov rdx, 1
+.L_lambda_simple_env_loop_0241:	; ext_env[i + 1] <-- env[i]
+	cmp rsi, 0
+	je .L_lambda_simple_env_end_0241
+	mov rcx, qword [rdi + 8 * rsi] ; Problem is here!!
+	mov qword [rax + 8 * rdx], rcx
+	inc rsi
+	inc rdx
+	jmp .L_lambda_simple_env_loop_0241
+.L_lambda_simple_env_end_0241:
+	pop rbx
+	mov rsi, 0
+.L_lambda_simple_params_loop_0241:	; copy params
+	cmp rsi, 0
+	je .L_lambda_simple_params_end_0241
+	mov rdx, qword [rbp + 8 * rsi + 8 * 4]
+	mov qword [rbx + 8 * rsi], rdx
+	inc rsi
+	jmp .L_lambda_simple_params_loop_0241
+.L_lambda_simple_params_end_0241:
+	mov qword [rax], rbx	; ext_env[0] <-- new_rib 
+	mov rbx, rax
+	pop rax
+	mov byte [rax], T_closure
+	mov SOB_CLOSURE_ENV(rax), rbx
+	mov SOB_CLOSURE_CODE(rax), .L_lambda_simple_code_0241
+	jmp .L_lambda_simple_end_0241
+.L_lambda_simple_code_0241:	; lambda-simple body
+	cmp qword [rsp + 8 * 2], 1
+	je .L_lambda_simple_arity_check_ok_0241
+	push qword [rsp + 8 * 2]
+	push 1
+	jmp L_error_incorrect_arity_simple
+.L_lambda_simple_arity_check_ok_0241:
+	enter 0, 0
+	mov rdi, (1 + 8 + 8)	; sob closure
+	call malloc
+	push rax
+	mov rdi, 8 * 1	; new rib
+	call malloc
+	push rax
+	mov rdi, 8 * 2	; extended env
+	call malloc
+	mov rdi, ENV
+	mov rsi, 0
+	mov rdx, 1
+.L_lambda_simple_env_loop_0242:	; ext_env[i + 1] <-- env[i]
+	cmp rsi, 1
+	je .L_lambda_simple_env_end_0242
+	mov rcx, qword [rdi + 8 * rsi] ; Problem is here!!
+	mov qword [rax + 8 * rdx], rcx
+	inc rsi
+	inc rdx
+	jmp .L_lambda_simple_env_loop_0242
+.L_lambda_simple_env_end_0242:
+	pop rbx
+	mov rsi, 0
+.L_lambda_simple_params_loop_0242:	; copy params
+	cmp rsi, 1
+	je .L_lambda_simple_params_end_0242
+	mov rdx, qword [rbp + 8 * rsi + 8 * 4]
+	mov qword [rbx + 8 * rsi], rdx
+	inc rsi
+	jmp .L_lambda_simple_params_loop_0242
+.L_lambda_simple_params_end_0242:
+	mov qword [rax], rbx	; ext_env[0] <-- new_rib 
+	mov rbx, rax
+	pop rax
+	mov byte [rax], T_closure
+	mov SOB_CLOSURE_ENV(rax), rbx
+	mov SOB_CLOSURE_CODE(rax), .L_lambda_simple_code_0242
+	jmp .L_lambda_simple_end_0242
+.L_lambda_simple_code_0242:	; lambda-simple body
+	cmp qword [rsp + 8 * 2], 2
+	je .L_lambda_simple_arity_check_ok_0242
+	push qword [rsp + 8 * 2]
+	push 2
+	jmp L_error_incorrect_arity_simple
+.L_lambda_simple_arity_check_ok_0242:
+	enter 0, 0
+	mov rax, PARAM(0)
+	push rax
+	push 1
+	mov rax, qword [free_var_9]
+	assert_closure(rax)
+	mov rbx, SOB_CLOSURE_ENV(rax)
+	push rbx
+	mov rbx, SOB_CLOSURE_CODE(rax)
+	call rbx
+	cmp rax, sob_boolean_false
+	je .L_if_else_0208
+	mov rax, PARAM(1)
+	push rax
+	push 1
+	mov rax, qword [free_var_9]
+	assert_closure(rax)
+	mov rbx, SOB_CLOSURE_ENV(rax)
+	push rbx
+	mov rbx, SOB_CLOSURE_CODE(rax)
+	call rbx
+	cmp rax, sob_boolean_false
+	je .L_if_else_0209
+	mov rax, PARAM(1)
+	push rax
+	mov rax, PARAM(0)
+	push rax
+	push 2
+	mov rax, qword [free_var_34]
 	assert_closure(rax)
 	mov rbx, SOB_CLOSURE_ENV(rax)
 	push rbx
 	push RET_ADDR
 	mov rbp, OLD_RDP
 	mov rsi, 0
-.L_tc_recycle_frame_loop_000a:	 ; start recycle frame loop
-	cmp rsi, 8
-	je .L_tc_recycle_frame_done_000a
-	mov rcx, 7
+.L_tc_recycle_frame_loop_03c3:	 ; start recycle frame loop
+	cmp rsi, 5
+	je .L_tc_recycle_frame_done_03c3
+	mov rcx, 4
 	sub rcx, rsi
 	shl rcx, 3
 	add rcx, rsp ; rcx is the index to move
 	mov rbx, rsi
+	inc rbx
 	shl rbx, 3
 	neg rbx
 	add rbx, rbp ; rbx is the index to move to
 	mov rcx, [rcx]
 	mov [rbx], rcx
 	inc rsi
-	jmp .L_tc_recycle_frame_loop_000a
-.L_tc_recycle_frame_done_000a:	 ; end recycle frame loop
-	mov rbx, 7
+	jmp .L_tc_recycle_frame_loop_03c3
+.L_tc_recycle_frame_done_03c3:	 ; end recycle frame loop
+	mov rbx, 5
+	shl rbx, 3
+	neg rbx
+	add rbx, rbp
+	mov rsp, rbx
+	mov rbx, SOB_CLOSURE_CODE(rax)
+	jmp rbx
+	jmp .L_if_end_0209
+	.L_if_else_0209:
+	mov rax, PARAM(1)
+	push rax
+	push 1
+	mov rax, qword [free_var_8]
+	assert_closure(rax)
+	mov rbx, SOB_CLOSURE_ENV(rax)
+	push rbx
+	mov rbx, SOB_CLOSURE_CODE(rax)
+	call rbx
+	cmp rax, sob_boolean_false
+	je .L_if_else_020a
+	mov rax, PARAM(1)
+	push rax
+	mov rax, PARAM(0)
+	push rax
+	push 1
+	mov rax, qword [free_var_23]
+	assert_closure(rax)
+	mov rbx, SOB_CLOSURE_ENV(rax)
+	push rbx
+	mov rbx, SOB_CLOSURE_CODE(rax)
+	call rbx
+	push rax
+	push 2
+	mov rax, qword [free_var_30]
+	assert_closure(rax)
+	mov rbx, SOB_CLOSURE_ENV(rax)
+	push rbx
+	push RET_ADDR
+	mov rbp, OLD_RDP
+	mov rsi, 0
+.L_tc_recycle_frame_loop_03c4:	 ; start recycle frame loop
+	cmp rsi, 5
+	je .L_tc_recycle_frame_done_03c4
+	mov rcx, 4
+	sub rcx, rsi
+	shl rcx, 3
+	add rcx, rsp ; rcx is the index to move
+	mov rbx, rsi
+	inc rbx
+	shl rbx, 3
+	neg rbx
+	add rbx, rbp ; rbx is the index to move to
+	mov rcx, [rcx]
+	mov [rbx], rcx
+	inc rsi
+	jmp .L_tc_recycle_frame_loop_03c4
+.L_tc_recycle_frame_done_03c4:	 ; end recycle frame loop
+	mov rbx, 5
+	shl rbx, 3
+	neg rbx
+	add rbx, rbp
+	mov rsp, rbx
+	mov rbx, SOB_CLOSURE_CODE(rax)
+	jmp rbx
+	jmp .L_if_end_020a
+	.L_if_else_020a:
+	push 0
+	mov rax, qword [rbp + 8*2]
+	mov rax, qword [rax + 8*0]
+	mov rax, qword [rax + 8*0]
+	assert_closure(rax)
+	mov rbx, SOB_CLOSURE_ENV(rax)
+	push rbx
+	push RET_ADDR
+	mov rbp, OLD_RDP
+	mov rsi, 0
+.L_tc_recycle_frame_loop_03c5:	 ; start recycle frame loop
+	cmp rsi, 3
+	je .L_tc_recycle_frame_done_03c5
+	mov rcx, 2
+	sub rcx, rsi
+	shl rcx, 3
+	add rcx, rsp ; rcx is the index to move
+	mov rbx, rsi
+	inc rbx
+	shl rbx, 3
+	neg rbx
+	add rbx, rbp ; rbx is the index to move to
+	mov rcx, [rcx]
+	mov [rbx], rcx
+	inc rsi
+	jmp .L_tc_recycle_frame_loop_03c5
+.L_tc_recycle_frame_done_03c5:	 ; end recycle frame loop
+	mov rbx, 3
+	shl rbx, 3
+	neg rbx
+	add rbx, rbp
+	mov rsp, rbx
+	mov rbx, SOB_CLOSURE_CODE(rax)
+	jmp rbx
+	.L_if_end_020a:
+	.L_if_end_0209:
+	jmp .L_if_end_0208
+	.L_if_else_0208:
+	mov rax, PARAM(0)
+	push rax
+	push 1
+	mov rax, qword [free_var_8]
+	assert_closure(rax)
+	mov rbx, SOB_CLOSURE_ENV(rax)
+	push rbx
+	mov rbx, SOB_CLOSURE_CODE(rax)
+	call rbx
+	cmp rax, sob_boolean_false
+	je .L_if_else_020b
+	mov rax, PARAM(1)
+	push rax
+	push 1
+	mov rax, qword [free_var_9]
+	assert_closure(rax)
+	mov rbx, SOB_CLOSURE_ENV(rax)
+	push rbx
+	mov rbx, SOB_CLOSURE_CODE(rax)
+	call rbx
+	cmp rax, sob_boolean_false
+	je .L_if_else_020c
+	mov rax, PARAM(1)
+	push rax
+	push 1
+	mov rax, qword [free_var_23]
+	assert_closure(rax)
+	mov rbx, SOB_CLOSURE_ENV(rax)
+	push rbx
+	mov rbx, SOB_CLOSURE_CODE(rax)
+	call rbx
+	push rax
+	mov rax, PARAM(0)
+	push rax
+	push 2
+	mov rax, qword [free_var_30]
+	assert_closure(rax)
+	mov rbx, SOB_CLOSURE_ENV(rax)
+	push rbx
+	push RET_ADDR
+	mov rbp, OLD_RDP
+	mov rsi, 0
+.L_tc_recycle_frame_loop_03c6:	 ; start recycle frame loop
+	cmp rsi, 5
+	je .L_tc_recycle_frame_done_03c6
+	mov rcx, 4
+	sub rcx, rsi
+	shl rcx, 3
+	add rcx, rsp ; rcx is the index to move
+	mov rbx, rsi
+	inc rbx
+	shl rbx, 3
+	neg rbx
+	add rbx, rbp ; rbx is the index to move to
+	mov rcx, [rcx]
+	mov [rbx], rcx
+	inc rsi
+	jmp .L_tc_recycle_frame_loop_03c6
+.L_tc_recycle_frame_done_03c6:	 ; end recycle frame loop
+	mov rbx, 5
+	shl rbx, 3
+	neg rbx
+	add rbx, rbp
+	mov rsp, rbx
+	mov rbx, SOB_CLOSURE_CODE(rax)
+	jmp rbx
+	jmp .L_if_end_020c
+	.L_if_else_020c:
+	mov rax, PARAM(1)
+	push rax
+	push 1
+	mov rax, qword [free_var_8]
+	assert_closure(rax)
+	mov rbx, SOB_CLOSURE_ENV(rax)
+	push rbx
+	mov rbx, SOB_CLOSURE_CODE(rax)
+	call rbx
+	cmp rax, sob_boolean_false
+	je .L_if_else_020d
+	mov rax, PARAM(1)
+	push rax
+	mov rax, PARAM(0)
+	push rax
+	push 2
+	mov rax, qword [free_var_30]
+	assert_closure(rax)
+	mov rbx, SOB_CLOSURE_ENV(rax)
+	push rbx
+	push RET_ADDR
+	mov rbp, OLD_RDP
+	mov rsi, 0
+.L_tc_recycle_frame_loop_03c7:	 ; start recycle frame loop
+	cmp rsi, 5
+	je .L_tc_recycle_frame_done_03c7
+	mov rcx, 4
+	sub rcx, rsi
+	shl rcx, 3
+	add rcx, rsp ; rcx is the index to move
+	mov rbx, rsi
+	inc rbx
+	shl rbx, 3
+	neg rbx
+	add rbx, rbp ; rbx is the index to move to
+	mov rcx, [rcx]
+	mov [rbx], rcx
+	inc rsi
+	jmp .L_tc_recycle_frame_loop_03c7
+.L_tc_recycle_frame_done_03c7:	 ; end recycle frame loop
+	mov rbx, 5
+	shl rbx, 3
+	neg rbx
+	add rbx, rbp
+	mov rsp, rbx
+	mov rbx, SOB_CLOSURE_CODE(rax)
+	jmp rbx
+	jmp .L_if_end_020d
+	.L_if_else_020d:
+	push 0
+	mov rax, qword [rbp + 8*2]
+	mov rax, qword [rax + 8*0]
+	mov rax, qword [rax + 8*0]
+	assert_closure(rax)
+	mov rbx, SOB_CLOSURE_ENV(rax)
+	push rbx
+	push RET_ADDR
+	mov rbp, OLD_RDP
+	mov rsi, 0
+.L_tc_recycle_frame_loop_03c8:	 ; start recycle frame loop
+	cmp rsi, 3
+	je .L_tc_recycle_frame_done_03c8
+	mov rcx, 2
+	sub rcx, rsi
+	shl rcx, 3
+	add rcx, rsp ; rcx is the index to move
+	mov rbx, rsi
+	inc rbx
+	shl rbx, 3
+	neg rbx
+	add rbx, rbp ; rbx is the index to move to
+	mov rcx, [rcx]
+	mov [rbx], rcx
+	inc rsi
+	jmp .L_tc_recycle_frame_loop_03c8
+.L_tc_recycle_frame_done_03c8:	 ; end recycle frame loop
+	mov rbx, 3
+	shl rbx, 3
+	neg rbx
+	add rbx, rbp
+	mov rsp, rbx
+	mov rbx, SOB_CLOSURE_CODE(rax)
+	jmp rbx
+	.L_if_end_020d:
+	.L_if_end_020c:
+	jmp .L_if_end_020b
+	.L_if_else_020b:
+	push 0
+	mov rax, qword [rbp + 8*2]
+	mov rax, qword [rax + 8*0]
+	mov rax, qword [rax + 8*0]
+	assert_closure(rax)
+	mov rbx, SOB_CLOSURE_ENV(rax)
+	push rbx
+	push RET_ADDR
+	mov rbp, OLD_RDP
+	mov rsi, 0
+.L_tc_recycle_frame_loop_03c9:	 ; start recycle frame loop
+	cmp rsi, 3
+	je .L_tc_recycle_frame_done_03c9
+	mov rcx, 2
+	sub rcx, rsi
+	shl rcx, 3
+	add rcx, rsp ; rcx is the index to move
+	mov rbx, rsi
+	inc rbx
+	shl rbx, 3
+	neg rbx
+	add rbx, rbp ; rbx is the index to move to
+	mov rcx, [rcx]
+	mov [rbx], rcx
+	inc rsi
+	jmp .L_tc_recycle_frame_loop_03c9
+.L_tc_recycle_frame_done_03c9:	 ; end recycle frame loop
+	mov rbx, 3
+	shl rbx, 3
+	neg rbx
+	add rbx, rbp
+	mov rsp, rbx
+	mov rbx, SOB_CLOSURE_CODE(rax)
+	jmp rbx
+	.L_if_end_020b:
+	.L_if_end_0208:
+	leave
+	ret 8 * (2 + 2)
+.L_lambda_simple_end_0242:	; new closure is in rax
+	push rax
+	push 1
+	mov rdi, (1 + 8 + 8)	; sob closure
+	call malloc
+	push rax
+	mov rdi, 8 * 1	; new rib
+	call malloc
+	push rax
+	mov rdi, 8 * 2	; extended env
+	call malloc
+	mov rdi, ENV
+	mov rsi, 0
+	mov rdx, 1
+.L_lambda_simple_env_loop_0243:	; ext_env[i + 1] <-- env[i]
+	cmp rsi, 1
+	je .L_lambda_simple_env_end_0243
+	mov rcx, qword [rdi + 8 * rsi] ; Problem is here!!
+	mov qword [rax + 8 * rdx], rcx
+	inc rsi
+	inc rdx
+	jmp .L_lambda_simple_env_loop_0243
+.L_lambda_simple_env_end_0243:
+	pop rbx
+	mov rsi, 0
+.L_lambda_simple_params_loop_0243:	; copy params
+	cmp rsi, 1
+	je .L_lambda_simple_params_end_0243
+	mov rdx, qword [rbp + 8 * rsi + 8 * 4]
+	mov qword [rbx + 8 * rsi], rdx
+	inc rsi
+	jmp .L_lambda_simple_params_loop_0243
+.L_lambda_simple_params_end_0243:
+	mov qword [rax], rbx	; ext_env[0] <-- new_rib 
+	mov rbx, rax
+	pop rax
+	mov byte [rax], T_closure
+	mov SOB_CLOSURE_ENV(rax), rbx
+	mov SOB_CLOSURE_CODE(rax), .L_lambda_simple_code_0243
+	jmp .L_lambda_simple_end_0243
+.L_lambda_simple_code_0243:	; lambda-simple body
+	cmp qword [rsp + 8 * 2], 1
+	je .L_lambda_simple_arity_check_ok_0243
+	push qword [rsp + 8 * 2]
+	push 1
+	jmp L_error_incorrect_arity_simple
+.L_lambda_simple_arity_check_ok_0243:
+	enter 0, 0
+	mov rdi, (1 + 8 + 8)	; sob closure
+	call malloc
+	push rax
+	mov rdi, 8 * 1	; new rib
+	call malloc
+	push rax
+	mov rdi, 8 * 3	; extended env
+	call malloc
+	mov rdi, ENV
+	mov rsi, 0
+	mov rdx, 1
+.L_lambda_opt_env_loop_015b:	; ext_env[i + 1] <-- env[i]
+	cmp rsi, 2
+	je .L_lambda_opt_env_end_015b
+	mov rcx, qword [rdi + 8 * rsi] ; Problem is here!!
+	mov qword [rax + 8 * rdx], rcx
+	inc rsi
+	inc rdx
+	jmp .L_lambda_opt_env_loop_015b
+.L_lambda_opt_env_end_015b:
+	pop rbx
+	mov rsi, 0
+.L_lambda_opt_params_loop_015b:	; copy params
+	cmp rsi, 1
+	je .L_lambda_opt_params_end_015b
+	mov rdx, qword [rbp + 8 * rsi + 8 * 4]
+	mov qword [rbx + 8 * rsi], rdx
+	inc rsi
+	jmp .L_lambda_opt_params_loop_015b
+.L_lambda_opt_params_end_015b:
+	mov qword [rax], rbx	; ext_env[0] <-- new_rib 
+	mov rbx, rax
+	pop rax
+	mov byte [rax], T_closure
+	mov SOB_CLOSURE_ENV(rax), rbx
+	mov SOB_CLOSURE_CODE(rax), .L_lambda_opt_code_015b
+	jmp .L_lambda_opt_end_015b
+.L_lambda_opt_code_015b:	; lambda-simple body
+	mov rdi, qword [rsp + 8 * 2]
+	mov rbx, rdi
+	sub rbx, 0
+	jg .L_lambda_opt_arity_check_more_015b
+.L_lambda_opt_arity_check_exact_015b:	 ; if params in opt is exact
+	sub rsp, 8
+	mov rsi, 0 ; index
+.L_lambda_opt_stack_enlarge_loop_015b:	 ; stack loop enlarge start
+	cmp rsi, 3
+	je .L_lambda_opt_stack_enlarge_loop_exit_015b
+	mov rdi, rsi
+	shl rdi, 3
+	add rdi, rsp
+	add rdi, 8
+	mov rbx, rdi
+	sub rbx, 8
+	mov rdi, [rdi]
+	mov [rbx], rdi
+	inc rsi
+	jmp .L_lambda_opt_stack_enlarge_loop_015b
+.L_lambda_opt_stack_enlarge_loop_exit_015b:	 ; end of stack enlarge loop
+	mov qword [rsp + 3*8], sob_nil
+	mov qword [rsp + 2*8], 1
+	jmp .L_lambda_opt_stack_adjusted_015b
+.L_lambda_opt_arity_check_more_015b:	 ; if params in opt is more
+	mov rax, sob_nil
+	mov rsi, rbx ;index
+	dec rsi
+.L_lambda_opt_list_create_loop_015b:	; start of list creation loop
+	cmp rsi, -1
+	je .L_lambda_opt_list_create_loop_exit_015b
+	lea rcx, [rsi + (3 + 0)]
+	shl rcx, 3
+	add rcx, rsp
+	mov rcx, [rcx]
+	push rsi
+	push rbx
+	push rax
+	push rcx
+	push qword 2 ; push num of args
+	push qword 1 ; push garbage
+	call L_code_ptr_cons
+	pop rbx
+	pop rsi
+	dec rsi
+	jmp .L_lambda_opt_list_create_loop_015b
+.L_lambda_opt_list_create_loop_exit_015b:	; end of list creation loop
+	mov rbx, qword [rsp + 8 * 2]
+	add rbx, 2
+	mov rdi, rbx
+	shl rdi,3
+	add rdi, rsp
+	mov [rdi], rax
+	mov rsi, 0 ;index
+.L_lambda_opt_stack_shrink_loop_015b:	; start of stack shrink loop
+	cmp rsi, 3
+	je .L_lambda_opt_stack_shrink_loop_exit_015b
+	mov rdi, 2
+	sub rdi, rsi; the index of the current stack member to move
+	mov rcx, rbx
+	sub rcx, rsi
+	sub rcx, 1; the index of the target stack place to put the member
+	mov rdx, rdi
+	shl rdx, 3
+	add rdx, rsp
+	shl rcx, 3
+	add rcx, rsp
+	mov rdx, [rdx]
+	mov [rcx], rdx
+	inc rsi
+	jmp .L_lambda_opt_stack_shrink_loop_015b
+.L_lambda_opt_stack_shrink_loop_exit_015b:	; end of stack shrink loop
+	sub rbx, 2 ; rbx has number of args
+	sub rbx, 1
+	shl rbx, 3
+	add rsp, rbx
+	mov qword [rsp + 8 * 2], 1
+.L_lambda_opt_stack_adjusted_015b:
+	push rbp
+	mov rbp, rsp
+	mov rax, PARAM(0)
+	push rax
+	lea rax, [33 + L_constants]
+	push rax
+	mov rax, qword [rbp + 8*2]
+	mov rax, qword [rax + 8*0]
+	mov rax, qword [rax + 8*0]
+	push rax
+	push 3
+	mov rax, qword [free_var_95]
+	assert_closure(rax)
+	mov rbx, SOB_CLOSURE_ENV(rax)
+	push rbx
+	push RET_ADDR
+	mov rbp, OLD_RDP
+	mov rsi, 0
+.L_tc_recycle_frame_loop_03ca:	 ; start recycle frame loop
+	cmp rsi, 6
+	je .L_tc_recycle_frame_done_03ca
+	mov rcx, 5
+	sub rcx, rsi
+	shl rcx, 3
+	add rcx, rsp ; rcx is the index to move
+	mov rbx, rsi
+	inc rbx
+	shl rbx, 3
+	neg rbx
+	add rbx, rbp ; rbx is the index to move to
+	mov rcx, [rcx]
+	mov [rbx], rcx
+	inc rsi
+	jmp .L_tc_recycle_frame_loop_03ca
+.L_tc_recycle_frame_done_03ca:	 ; end recycle frame loop
+	mov rbx, 6
+	shl rbx, 3
+	neg rbx
+	add rbx, rbp
+	mov rsp, rbx
+	mov rbx, SOB_CLOSURE_CODE(rax)
+	jmp rbx
+	leave
+	ret AND_KILL_FRAME(1)
+.L_lambda_opt_end_015b:	; new closure is in rax
+	leave
+	ret 8 * (2 + 1)
+.L_lambda_simple_end_0243:	; new closure is in rax
+	assert_closure(rax)
+	mov rbx, SOB_CLOSURE_ENV(rax)
+	push rbx
+	push RET_ADDR
+	mov rbp, OLD_RDP
+	mov rsi, 0
+.L_tc_recycle_frame_loop_03c2:	 ; start recycle frame loop
+	cmp rsi, 4
+	je .L_tc_recycle_frame_done_03c2
+	mov rcx, 3
+	sub rcx, rsi
+	shl rcx, 3
+	add rcx, rsp ; rcx is the index to move
+	mov rbx, rsi
+	inc rbx
+	shl rbx, 3
+	neg rbx
+	add rbx, rbp ; rbx is the index to move to
+	mov rcx, [rcx]
+	mov [rbx], rcx
+	inc rsi
+	jmp .L_tc_recycle_frame_loop_03c2
+.L_tc_recycle_frame_done_03c2:	 ; end recycle frame loop
+	mov rbx, 4
 	shl rbx, 3
 	neg rbx
 	add rbx, rbp
@@ -1564,7 +3686,24 @@ main:
 	jmp rbx
 	leave
 	ret 8 * (2 + 1)
-.L_lambda_simple_end_0012:	; new closure is in rax
+.L_lambda_simple_end_0241:	; new closure is in rax
+	assert_closure(rax)
+	mov rbx, SOB_CLOSURE_ENV(rax)
+	push rbx
+	mov rbx, SOB_CLOSURE_CODE(rax)
+	call rbx
+	mov qword [free_var_103], rax
+	mov rax, sob_void
+
+	mov rdi, rax
+	call print_sexpr_if_not_void
+
+	lea rax, [195 + L_constants]
+	push rax
+	mov rax, qword [free_var_103]
+	push rax
+	push 2
+	mov rax, qword [free_var_59]
 	assert_closure(rax)
 	mov rbx, SOB_CLOSURE_ENV(rax)
 	push rbx
@@ -2148,7 +4287,7 @@ bind_primitive:
 
 ;;; PLEASE IMPLEMENT THIS PROCEDURE
 L_code_ptr_bin_apply:
-        ENTER
+        enter 0,0
         ; loop over the list and push all its members
         mov rsi, 0
         mov rbx, COUNT
@@ -2215,6 +4354,10 @@ L_bin_apply_args_loop_end:
         ; fix the stack
         ; loop over the stack and move it to the top of the previos stack
         mov rdx, rsi
+
+        mov rdi, COUNT 
+        add rdi, 4 ; rdi = COUNT + 3 + 1 = COUNT + (num_of_args, lex, ret, OLD_RDP)
+
         mov rbp, OLD_RDP
         mov rsi, 0
 L_bin_apply_fix_stack_start:
@@ -2222,27 +4365,24 @@ L_bin_apply_fix_stack_start:
         add rcx, 3
         cmp rsi, rcx
         je L_bin_apply_fix_stack_end
-        mov rcx, rdx
-        add rcx, 2
-        sub rcx, rsi
+        mov rbx, rdx 
+        add rbx, 2 
+        sub rbx, rsi 
+        mov rcx, rbx 
         shl rcx, 3
-        add rcx, rsp ; rcx is the index to move
-        mov rbx, rsi
+        add rcx, rsp ; rcx is the index to move.
+        add rbx, rdi
         shl rbx, 3
-        neg rbx
-        add rbx, rbp ; rbx is the index to move to
+        add rbx, rsp ; rbx is the index to move to.
         mov rcx, [rcx]
         mov [rbx], rcx
         inc rsi
         jmp L_bin_apply_fix_stack_start
 L_bin_apply_fix_stack_end:
         ; fix rsp
-        mov rbx, rdx
-        add rbx, 2
-        shl rbx, 3
-        neg rbx
-        add rbx, rbp
-        mov rsp, rbx
+        mov rbx, rdi
+        shl rbx, 3				
+        add rsp, rbx
         mov rbx, SOB_CLOSURE_CODE(rax)
         jmp rbx
         LEAVE

@@ -750,6 +750,7 @@ module Code_Generation : CODE_GENERATION= struct
         ^ "\tshl rcx, 3\n"
         ^ "\tadd rcx, rsp ; rcx is the index to move\n"
         ^ "\tmov rbx, rsi\n"
+        ^ "\tinc rbx\n"
         ^ "\tshl rbx, 3\n"
         ^ "\tneg rbx\n"
         ^ "\tadd rbx, rbp ; rbx is the index to move to\n"
@@ -758,7 +759,7 @@ module Code_Generation : CODE_GENERATION= struct
         ^ "\tinc rsi\n"
         ^ (Printf.sprintf "\tjmp %s\n" recycle_frame_loop_start)
         ^ (Printf.sprintf "%s:\t ; end recycle frame loop\n" recycle_frame_loop_end)
-        ^ (Printf.sprintf "\tmov rbx, %d\n" ((List.length args) + 2))
+        ^ (Printf.sprintf "\tmov rbx, %d\n" ((List.length args) + 3))
         ^ "\tshl rbx, 3\n"
         ^ "\tneg rbx\n"
         ^ "\tadd rbx, rbp\n"
