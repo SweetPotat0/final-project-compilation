@@ -14,29 +14,6 @@
 %define T_pair 				(T_collection | 1)
 %define T_vector 			(T_collection | 2)
 
-%macro PRINT_TEST 2
-        push rax
-        push rbx
-        push rcx
-        push rdx
-        push rdi
-        push rsi
-        mov rdi, qword [stderr]
-        mov rsi, fmt_test
-        mov rdx, %1
-        mov rcx, %2
-        mov rax, 0
-        ENTER
-        call fprintf
-        LEAVE
-        pop rsi
-        pop rdi
-        pop rdx
-        pop rcx
-        pop rbx
-        pop rax
-%endmacro
-
 %define SOB_CHAR_VALUE(reg) 		byte [reg + 1]
 %define SOB_PAIR_CAR(reg)		qword [reg + 1]
 %define SOB_PAIR_CDR(reg)		qword [reg + 1 + 8]
@@ -797,7 +774,7 @@ main:
 .L_lambda_simple_env_loop_4f29:	; ext_env[i + 1] <-- env[i]
 	cmp rsi, 0
 	je .L_lambda_simple_env_end_4f29
-	mov rcx, qword [rdi + 8 * rsi] ; Problem is here!!
+	mov rcx, qword [rdi + 8 * rsi] 
 	mov qword [rax + 8 * rdx], rcx
 	inc rsi
 	inc rdx
@@ -896,7 +873,7 @@ main:
 .L_lambda_simple_env_loop_4f2a:	; ext_env[i + 1] <-- env[i]
 	cmp rsi, 0
 	je .L_lambda_simple_env_end_4f2a
-	mov rcx, qword [rdi + 8 * rsi] ; Problem is here!!
+	mov rcx, qword [rdi + 8 * rsi] 
 	mov qword [rax + 8 * rdx], rcx
 	inc rsi
 	inc rdx
@@ -995,7 +972,7 @@ main:
 .L_lambda_simple_env_loop_4f2b:	; ext_env[i + 1] <-- env[i]
 	cmp rsi, 0
 	je .L_lambda_simple_env_end_4f2b
-	mov rcx, qword [rdi + 8 * rsi] ; Problem is here!!
+	mov rcx, qword [rdi + 8 * rsi] 
 	mov qword [rax + 8 * rdx], rcx
 	inc rsi
 	inc rdx
@@ -1094,7 +1071,7 @@ main:
 .L_lambda_simple_env_loop_4f2c:	; ext_env[i + 1] <-- env[i]
 	cmp rsi, 0
 	je .L_lambda_simple_env_end_4f2c
-	mov rcx, qword [rdi + 8 * rsi] ; Problem is here!!
+	mov rcx, qword [rdi + 8 * rsi] 
 	mov qword [rax + 8 * rdx], rcx
 	inc rsi
 	inc rdx
@@ -1193,7 +1170,7 @@ main:
 .L_lambda_simple_env_loop_4f2d:	; ext_env[i + 1] <-- env[i]
 	cmp rsi, 0
 	je .L_lambda_simple_env_end_4f2d
-	mov rcx, qword [rdi + 8 * rsi] ; Problem is here!!
+	mov rcx, qword [rdi + 8 * rsi] 
 	mov qword [rax + 8 * rdx], rcx
 	inc rsi
 	inc rdx
@@ -1292,7 +1269,7 @@ main:
 .L_lambda_simple_env_loop_4f2e:	; ext_env[i + 1] <-- env[i]
 	cmp rsi, 0
 	je .L_lambda_simple_env_end_4f2e
-	mov rcx, qword [rdi + 8 * rsi] ; Problem is here!!
+	mov rcx, qword [rdi + 8 * rsi] 
 	mov qword [rax + 8 * rdx], rcx
 	inc rsi
 	inc rdx
@@ -1391,7 +1368,7 @@ main:
 .L_lambda_simple_env_loop_4f2f:	; ext_env[i + 1] <-- env[i]
 	cmp rsi, 0
 	je .L_lambda_simple_env_end_4f2f
-	mov rcx, qword [rdi + 8 * rsi] ; Problem is here!!
+	mov rcx, qword [rdi + 8 * rsi] 
 	mov qword [rax + 8 * rdx], rcx
 	inc rsi
 	inc rdx
@@ -1490,7 +1467,7 @@ main:
 .L_lambda_simple_env_loop_4f30:	; ext_env[i + 1] <-- env[i]
 	cmp rsi, 0
 	je .L_lambda_simple_env_end_4f30
-	mov rcx, qword [rdi + 8 * rsi] ; Problem is here!!
+	mov rcx, qword [rdi + 8 * rsi] 
 	mov qword [rax + 8 * rdx], rcx
 	inc rsi
 	inc rdx
@@ -1589,7 +1566,7 @@ main:
 .L_lambda_simple_env_loop_4f31:	; ext_env[i + 1] <-- env[i]
 	cmp rsi, 0
 	je .L_lambda_simple_env_end_4f31
-	mov rcx, qword [rdi + 8 * rsi] ; Problem is here!!
+	mov rcx, qword [rdi + 8 * rsi] 
 	mov qword [rax + 8 * rdx], rcx
 	inc rsi
 	inc rdx
@@ -1688,7 +1665,7 @@ main:
 .L_lambda_simple_env_loop_4f32:	; ext_env[i + 1] <-- env[i]
 	cmp rsi, 0
 	je .L_lambda_simple_env_end_4f32
-	mov rcx, qword [rdi + 8 * rsi] ; Problem is here!!
+	mov rcx, qword [rdi + 8 * rsi] 
 	mov qword [rax + 8 * rdx], rcx
 	inc rsi
 	inc rdx
@@ -1787,7 +1764,7 @@ main:
 .L_lambda_simple_env_loop_4f33:	; ext_env[i + 1] <-- env[i]
 	cmp rsi, 0
 	je .L_lambda_simple_env_end_4f33
-	mov rcx, qword [rdi + 8 * rsi] ; Problem is here!!
+	mov rcx, qword [rdi + 8 * rsi] 
 	mov qword [rax + 8 * rdx], rcx
 	inc rsi
 	inc rdx
@@ -1886,7 +1863,7 @@ main:
 .L_lambda_simple_env_loop_4f34:	; ext_env[i + 1] <-- env[i]
 	cmp rsi, 0
 	je .L_lambda_simple_env_end_4f34
-	mov rcx, qword [rdi + 8 * rsi] ; Problem is here!!
+	mov rcx, qword [rdi + 8 * rsi] 
 	mov qword [rax + 8 * rdx], rcx
 	inc rsi
 	inc rdx
@@ -1985,7 +1962,7 @@ main:
 .L_lambda_simple_env_loop_4f35:	; ext_env[i + 1] <-- env[i]
 	cmp rsi, 0
 	je .L_lambda_simple_env_end_4f35
-	mov rcx, qword [rdi + 8 * rsi] ; Problem is here!!
+	mov rcx, qword [rdi + 8 * rsi] 
 	mov qword [rax + 8 * rdx], rcx
 	inc rsi
 	inc rdx
@@ -2084,7 +2061,7 @@ main:
 .L_lambda_simple_env_loop_4f36:	; ext_env[i + 1] <-- env[i]
 	cmp rsi, 0
 	je .L_lambda_simple_env_end_4f36
-	mov rcx, qword [rdi + 8 * rsi] ; Problem is here!!
+	mov rcx, qword [rdi + 8 * rsi] 
 	mov qword [rax + 8 * rdx], rcx
 	inc rsi
 	inc rdx
@@ -2183,7 +2160,7 @@ main:
 .L_lambda_simple_env_loop_4f37:	; ext_env[i + 1] <-- env[i]
 	cmp rsi, 0
 	je .L_lambda_simple_env_end_4f37
-	mov rcx, qword [rdi + 8 * rsi] ; Problem is here!!
+	mov rcx, qword [rdi + 8 * rsi] 
 	mov qword [rax + 8 * rdx], rcx
 	inc rsi
 	inc rdx
@@ -2282,7 +2259,7 @@ main:
 .L_lambda_simple_env_loop_4f38:	; ext_env[i + 1] <-- env[i]
 	cmp rsi, 0
 	je .L_lambda_simple_env_end_4f38
-	mov rcx, qword [rdi + 8 * rsi] ; Problem is here!!
+	mov rcx, qword [rdi + 8 * rsi] 
 	mov qword [rax + 8 * rdx], rcx
 	inc rsi
 	inc rdx
@@ -2381,7 +2358,7 @@ main:
 .L_lambda_simple_env_loop_4f39:	; ext_env[i + 1] <-- env[i]
 	cmp rsi, 0
 	je .L_lambda_simple_env_end_4f39
-	mov rcx, qword [rdi + 8 * rsi] ; Problem is here!!
+	mov rcx, qword [rdi + 8 * rsi] 
 	mov qword [rax + 8 * rdx], rcx
 	inc rsi
 	inc rdx
@@ -2480,7 +2457,7 @@ main:
 .L_lambda_simple_env_loop_4f3a:	; ext_env[i + 1] <-- env[i]
 	cmp rsi, 0
 	je .L_lambda_simple_env_end_4f3a
-	mov rcx, qword [rdi + 8 * rsi] ; Problem is here!!
+	mov rcx, qword [rdi + 8 * rsi] 
 	mov qword [rax + 8 * rdx], rcx
 	inc rsi
 	inc rdx
@@ -2579,7 +2556,7 @@ main:
 .L_lambda_simple_env_loop_4f3b:	; ext_env[i + 1] <-- env[i]
 	cmp rsi, 0
 	je .L_lambda_simple_env_end_4f3b
-	mov rcx, qword [rdi + 8 * rsi] ; Problem is here!!
+	mov rcx, qword [rdi + 8 * rsi] 
 	mov qword [rax + 8 * rdx], rcx
 	inc rsi
 	inc rdx
@@ -2678,7 +2655,7 @@ main:
 .L_lambda_simple_env_loop_4f3c:	; ext_env[i + 1] <-- env[i]
 	cmp rsi, 0
 	je .L_lambda_simple_env_end_4f3c
-	mov rcx, qword [rdi + 8 * rsi] ; Problem is here!!
+	mov rcx, qword [rdi + 8 * rsi] 
 	mov qword [rax + 8 * rdx], rcx
 	inc rsi
 	inc rdx
@@ -2777,7 +2754,7 @@ main:
 .L_lambda_simple_env_loop_4f3d:	; ext_env[i + 1] <-- env[i]
 	cmp rsi, 0
 	je .L_lambda_simple_env_end_4f3d
-	mov rcx, qword [rdi + 8 * rsi] ; Problem is here!!
+	mov rcx, qword [rdi + 8 * rsi] 
 	mov qword [rax + 8 * rdx], rcx
 	inc rsi
 	inc rdx
@@ -2876,7 +2853,7 @@ main:
 .L_lambda_simple_env_loop_4f3e:	; ext_env[i + 1] <-- env[i]
 	cmp rsi, 0
 	je .L_lambda_simple_env_end_4f3e
-	mov rcx, qword [rdi + 8 * rsi] ; Problem is here!!
+	mov rcx, qword [rdi + 8 * rsi] 
 	mov qword [rax + 8 * rdx], rcx
 	inc rsi
 	inc rdx
@@ -2975,7 +2952,7 @@ main:
 .L_lambda_simple_env_loop_4f3f:	; ext_env[i + 1] <-- env[i]
 	cmp rsi, 0
 	je .L_lambda_simple_env_end_4f3f
-	mov rcx, qword [rdi + 8 * rsi] ; Problem is here!!
+	mov rcx, qword [rdi + 8 * rsi] 
 	mov qword [rax + 8 * rdx], rcx
 	inc rsi
 	inc rdx
@@ -3074,7 +3051,7 @@ main:
 .L_lambda_simple_env_loop_4f40:	; ext_env[i + 1] <-- env[i]
 	cmp rsi, 0
 	je .L_lambda_simple_env_end_4f40
-	mov rcx, qword [rdi + 8 * rsi] ; Problem is here!!
+	mov rcx, qword [rdi + 8 * rsi] 
 	mov qword [rax + 8 * rdx], rcx
 	inc rsi
 	inc rdx
@@ -3173,7 +3150,7 @@ main:
 .L_lambda_simple_env_loop_4f41:	; ext_env[i + 1] <-- env[i]
 	cmp rsi, 0
 	je .L_lambda_simple_env_end_4f41
-	mov rcx, qword [rdi + 8 * rsi] ; Problem is here!!
+	mov rcx, qword [rdi + 8 * rsi] 
 	mov qword [rax + 8 * rdx], rcx
 	inc rsi
 	inc rdx
@@ -3272,7 +3249,7 @@ main:
 .L_lambda_simple_env_loop_4f42:	; ext_env[i + 1] <-- env[i]
 	cmp rsi, 0
 	je .L_lambda_simple_env_end_4f42
-	mov rcx, qword [rdi + 8 * rsi] ; Problem is here!!
+	mov rcx, qword [rdi + 8 * rsi] 
 	mov qword [rax + 8 * rdx], rcx
 	inc rsi
 	inc rdx
@@ -3371,7 +3348,7 @@ main:
 .L_lambda_simple_env_loop_4f43:	; ext_env[i + 1] <-- env[i]
 	cmp rsi, 0
 	je .L_lambda_simple_env_end_4f43
-	mov rcx, qword [rdi + 8 * rsi] ; Problem is here!!
+	mov rcx, qword [rdi + 8 * rsi] 
 	mov qword [rax + 8 * rdx], rcx
 	inc rsi
 	inc rdx
@@ -3470,7 +3447,7 @@ main:
 .L_lambda_simple_env_loop_4f44:	; ext_env[i + 1] <-- env[i]
 	cmp rsi, 0
 	je .L_lambda_simple_env_end_4f44
-	mov rcx, qword [rdi + 8 * rsi] ; Problem is here!!
+	mov rcx, qword [rdi + 8 * rsi] 
 	mov qword [rax + 8 * rdx], rcx
 	inc rsi
 	inc rdx
@@ -3569,7 +3546,7 @@ main:
 .L_lambda_simple_env_loop_4f45:	; ext_env[i + 1] <-- env[i]
 	cmp rsi, 0
 	je .L_lambda_simple_env_end_4f45
-	mov rcx, qword [rdi + 8 * rsi] ; Problem is here!!
+	mov rcx, qword [rdi + 8 * rsi] 
 	mov qword [rax + 8 * rdx], rcx
 	inc rsi
 	inc rdx
@@ -3695,7 +3672,7 @@ main:
 .L_lambda_opt_env_loop_0c85:	; ext_env[i + 1] <-- env[i]
 	cmp rsi, 0
 	je .L_lambda_opt_env_end_0c85
-	mov rcx, qword [rdi + 8 * rsi] ; Problem is here!!
+	mov rcx, qword [rdi + 8 * rsi]
 	mov qword [rax + 8 * rdx], rcx
 	inc rsi
 	inc rdx
@@ -3825,7 +3802,7 @@ main:
 .L_lambda_simple_env_loop_4f46:	; ext_env[i + 1] <-- env[i]
 	cmp rsi, 0
 	je .L_lambda_simple_env_end_4f46
-	mov rcx, qword [rdi + 8 * rsi] ; Problem is here!!
+	mov rcx, qword [rdi + 8 * rsi] 
 	mov qword [rax + 8 * rdx], rcx
 	inc rsi
 	inc rdx
@@ -3887,7 +3864,7 @@ main:
 .L_lambda_simple_env_loop_4f47:	; ext_env[i + 1] <-- env[i]
 	cmp rsi, 0
 	je .L_lambda_simple_env_end_4f47
-	mov rcx, qword [rdi + 8 * rsi] ; Problem is here!!
+	mov rcx, qword [rdi + 8 * rsi] 
 	mov qword [rax + 8 * rdx], rcx
 	inc rsi
 	inc rdx
@@ -4004,7 +3981,7 @@ main:
 .L_lambda_simple_env_loop_4f48:	; ext_env[i + 1] <-- env[i]
 	cmp rsi, 0
 	je .L_lambda_simple_env_end_4f48
-	mov rcx, qword [rdi + 8 * rsi] ; Problem is here!!
+	mov rcx, qword [rdi + 8 * rsi] 
 	mov qword [rax + 8 * rdx], rcx
 	inc rsi
 	inc rdx
@@ -4054,7 +4031,7 @@ main:
 .L_lambda_simple_env_loop_4f49:	; ext_env[i + 1] <-- env[i]
 	cmp rsi, 1
 	je .L_lambda_simple_env_end_4f49
-	mov rcx, qword [rdi + 8 * rsi] ; Problem is here!!
+	mov rcx, qword [rdi + 8 * rsi] 
 	mov qword [rax + 8 * rdx], rcx
 	inc rsi
 	inc rdx
@@ -4190,7 +4167,7 @@ main:
 .L_lambda_opt_env_loop_0c86:	; ext_env[i + 1] <-- env[i]
 	cmp rsi, 1
 	je .L_lambda_opt_env_end_0c86
-	mov rcx, qword [rdi + 8 * rsi] ; Problem is here!!
+	mov rcx, qword [rdi + 8 * rsi]
 	mov qword [rax + 8 * rdx], rcx
 	inc rsi
 	inc rdx
@@ -4372,7 +4349,7 @@ main:
 .L_lambda_simple_env_loop_4f4a:	; ext_env[i + 1] <-- env[i]
 	cmp rsi, 0
 	je .L_lambda_simple_env_end_4f4a
-	mov rcx, qword [rdi + 8 * rsi] ; Problem is here!!
+	mov rcx, qword [rdi + 8 * rsi] 
 	mov qword [rax + 8 * rdx], rcx
 	inc rsi
 	inc rdx
@@ -4422,7 +4399,7 @@ main:
 .L_lambda_simple_env_loop_4f4b:	; ext_env[i + 1] <-- env[i]
 	cmp rsi, 1
 	je .L_lambda_simple_env_end_4f4b
-	mov rcx, qword [rdi + 8 * rsi] ; Problem is here!!
+	mov rcx, qword [rdi + 8 * rsi] 
 	mov qword [rax + 8 * rdx], rcx
 	inc rsi
 	inc rdx
@@ -4558,7 +4535,7 @@ main:
 .L_lambda_opt_env_loop_0c87:	; ext_env[i + 1] <-- env[i]
 	cmp rsi, 1
 	je .L_lambda_opt_env_end_0c87
-	mov rcx, qword [rdi + 8 * rsi] ; Problem is here!!
+	mov rcx, qword [rdi + 8 * rsi]
 	mov qword [rax + 8 * rdx], rcx
 	inc rsi
 	inc rdx
@@ -4763,7 +4740,7 @@ main:
 .L_lambda_opt_env_loop_0c88:	; ext_env[i + 1] <-- env[i]
 	cmp rsi, 0
 	je .L_lambda_opt_env_end_0c88
-	mov rcx, qword [rdi + 8 * rsi] ; Problem is here!!
+	mov rcx, qword [rdi + 8 * rsi]
 	mov qword [rax + 8 * rdx], rcx
 	inc rsi
 	inc rdx
@@ -4886,7 +4863,7 @@ main:
 .L_lambda_simple_env_loop_4f4c:	; ext_env[i + 1] <-- env[i]
 	cmp rsi, 1
 	je .L_lambda_simple_env_end_4f4c
-	mov rcx, qword [rdi + 8 * rsi] ; Problem is here!!
+	mov rcx, qword [rdi + 8 * rsi] 
 	mov qword [rax + 8 * rdx], rcx
 	inc rsi
 	inc rdx
@@ -4936,7 +4913,7 @@ main:
 .L_lambda_simple_env_loop_4f4d:	; ext_env[i + 1] <-- env[i]
 	cmp rsi, 2
 	je .L_lambda_simple_env_end_4f4d
-	mov rcx, qword [rdi + 8 * rsi] ; Problem is here!!
+	mov rcx, qword [rdi + 8 * rsi] 
 	mov qword [rax + 8 * rdx], rcx
 	inc rsi
 	inc rdx
@@ -5173,7 +5150,7 @@ main:
 .L_lambda_opt_env_loop_0c89:	; ext_env[i + 1] <-- env[i]
 	cmp rsi, 0
 	je .L_lambda_opt_env_end_0c89
-	mov rcx, qword [rdi + 8 * rsi] ; Problem is here!!
+	mov rcx, qword [rdi + 8 * rsi]
 	mov qword [rax + 8 * rdx], rcx
 	inc rsi
 	inc rdx
@@ -5296,7 +5273,7 @@ main:
 .L_lambda_simple_env_loop_4f4e:	; ext_env[i + 1] <-- env[i]
 	cmp rsi, 1
 	je .L_lambda_simple_env_end_4f4e
-	mov rcx, qword [rdi + 8 * rsi] ; Problem is here!!
+	mov rcx, qword [rdi + 8 * rsi] 
 	mov qword [rax + 8 * rdx], rcx
 	inc rsi
 	inc rdx
@@ -5346,7 +5323,7 @@ main:
 .L_lambda_simple_env_loop_4f4f:	; ext_env[i + 1] <-- env[i]
 	cmp rsi, 2
 	je .L_lambda_simple_env_end_4f4f
-	mov rcx, qword [rdi + 8 * rsi] ; Problem is here!!
+	mov rcx, qword [rdi + 8 * rsi] 
 	mov qword [rax + 8 * rdx], rcx
 	inc rsi
 	inc rdx
@@ -5588,7 +5565,7 @@ main:
 .L_lambda_simple_env_loop_4f50:	; ext_env[i + 1] <-- env[i]
 	cmp rsi, 0
 	je .L_lambda_simple_env_end_4f50
-	mov rcx, qword [rdi + 8 * rsi] ; Problem is here!!
+	mov rcx, qword [rdi + 8 * rsi] 
 	mov qword [rax + 8 * rdx], rcx
 	inc rsi
 	inc rdx
@@ -5643,7 +5620,7 @@ main:
 .L_lambda_simple_env_loop_4f51:	; ext_env[i + 1] <-- env[i]
 	cmp rsi, 1
 	je .L_lambda_simple_env_end_4f51
-	mov rcx, qword [rdi + 8 * rsi] ; Problem is here!!
+	mov rcx, qword [rdi + 8 * rsi] 
 	mov qword [rax + 8 * rdx], rcx
 	inc rsi
 	inc rdx
@@ -5787,7 +5764,7 @@ main:
 .L_lambda_simple_env_loop_4f52:	; ext_env[i + 1] <-- env[i]
 	cmp rsi, 1
 	je .L_lambda_simple_env_end_4f52
-	mov rcx, qword [rdi + 8 * rsi] ; Problem is here!!
+	mov rcx, qword [rdi + 8 * rsi] 
 	mov qword [rax + 8 * rdx], rcx
 	inc rsi
 	inc rdx
@@ -5951,7 +5928,7 @@ main:
 .L_lambda_opt_env_loop_0c8a:	; ext_env[i + 1] <-- env[i]
 	cmp rsi, 1
 	je .L_lambda_opt_env_end_0c8a
-	mov rcx, qword [rdi + 8 * rsi] ; Problem is here!!
+	mov rcx, qword [rdi + 8 * rsi]
 	mov qword [rax + 8 * rdx], rcx
 	inc rsi
 	inc rdx
@@ -6148,7 +6125,7 @@ main:
 .L_lambda_simple_env_loop_4f53:	; ext_env[i + 1] <-- env[i]
 	cmp rsi, 0
 	je .L_lambda_simple_env_end_4f53
-	mov rcx, qword [rdi + 8 * rsi] ; Problem is here!!
+	mov rcx, qword [rdi + 8 * rsi] 
 	mov qword [rax + 8 * rdx], rcx
 	inc rsi
 	inc rdx
@@ -6198,7 +6175,7 @@ main:
 .L_lambda_simple_env_loop_4f54:	; ext_env[i + 1] <-- env[i]
 	cmp rsi, 1
 	je .L_lambda_simple_env_end_4f54
-	mov rcx, qword [rdi + 8 * rsi] ; Problem is here!!
+	mov rcx, qword [rdi + 8 * rsi] 
 	mov qword [rax + 8 * rdx], rcx
 	inc rsi
 	inc rdx
@@ -6334,7 +6311,7 @@ main:
 .L_lambda_simple_env_loop_4f55:	; ext_env[i + 1] <-- env[i]
 	cmp rsi, 1
 	je .L_lambda_simple_env_end_4f55
-	mov rcx, qword [rdi + 8 * rsi] ; Problem is here!!
+	mov rcx, qword [rdi + 8 * rsi] 
 	mov qword [rax + 8 * rdx], rcx
 	inc rsi
 	inc rdx
@@ -6443,7 +6420,7 @@ main:
 .L_lambda_simple_env_loop_4f56:	; ext_env[i + 1] <-- env[i]
 	cmp rsi, 0
 	je .L_lambda_simple_env_end_4f56
-	mov rcx, qword [rdi + 8 * rsi] ; Problem is here!!
+	mov rcx, qword [rdi + 8 * rsi] 
 	mov qword [rax + 8 * rdx], rcx
 	inc rsi
 	inc rdx
@@ -6498,7 +6475,7 @@ main:
 .L_lambda_simple_env_loop_4f57:	; ext_env[i + 1] <-- env[i]
 	cmp rsi, 1
 	je .L_lambda_simple_env_end_4f57
-	mov rcx, qword [rdi + 8 * rsi] ; Problem is here!!
+	mov rcx, qword [rdi + 8 * rsi] 
 	mov qword [rax + 8 * rdx], rcx
 	inc rsi
 	inc rdx
@@ -6637,7 +6614,7 @@ main:
 .L_lambda_simple_env_loop_4f58:	; ext_env[i + 1] <-- env[i]
 	cmp rsi, 1
 	je .L_lambda_simple_env_end_4f58
-	mov rcx, qword [rdi + 8 * rsi] ; Problem is here!!
+	mov rcx, qword [rdi + 8 * rsi] 
 	mov qword [rax + 8 * rdx], rcx
 	inc rsi
 	inc rdx
@@ -6773,7 +6750,7 @@ main:
 .L_lambda_opt_env_loop_0c8b:	; ext_env[i + 1] <-- env[i]
 	cmp rsi, 1
 	je .L_lambda_opt_env_end_0c8b
-	mov rcx, qword [rdi + 8 * rsi] ; Problem is here!!
+	mov rcx, qword [rdi + 8 * rsi]
 	mov qword [rax + 8 * rdx], rcx
 	inc rsi
 	inc rdx
@@ -6986,7 +6963,7 @@ main:
 .L_lambda_simple_env_loop_4f59:	; ext_env[i + 1] <-- env[i]
 	cmp rsi, 0
 	je .L_lambda_simple_env_end_4f59
-	mov rcx, qword [rdi + 8 * rsi] ; Problem is here!!
+	mov rcx, qword [rdi + 8 * rsi] 
 	mov qword [rax + 8 * rdx], rcx
 	inc rsi
 	inc rdx
@@ -7036,7 +7013,7 @@ main:
 .L_lambda_simple_env_loop_4f5a:	; ext_env[i + 1] <-- env[i]
 	cmp rsi, 1
 	je .L_lambda_simple_env_end_4f5a
-	mov rcx, qword [rdi + 8 * rsi] ; Problem is here!!
+	mov rcx, qword [rdi + 8 * rsi] 
 	mov qword [rax + 8 * rdx], rcx
 	inc rsi
 	inc rdx
@@ -7182,7 +7159,7 @@ main:
 .L_lambda_opt_env_loop_0c8c:	; ext_env[i + 1] <-- env[i]
 	cmp rsi, 1
 	je .L_lambda_opt_env_end_0c8c
-	mov rcx, qword [rdi + 8 * rsi] ; Problem is here!!
+	mov rcx, qword [rdi + 8 * rsi]
 	mov qword [rax + 8 * rdx], rcx
 	inc rsi
 	inc rdx
@@ -7366,7 +7343,7 @@ main:
 .L_lambda_simple_env_loop_4f5b:	; ext_env[i + 1] <-- env[i]
 	cmp rsi, 0
 	je .L_lambda_simple_env_end_4f5b
-	mov rcx, qword [rdi + 8 * rsi] ; Problem is here!!
+	mov rcx, qword [rdi + 8 * rsi] 
 	mov qword [rax + 8 * rdx], rcx
 	inc rsi
 	inc rdx
@@ -7416,7 +7393,7 @@ main:
 .L_lambda_simple_env_loop_4f5c:	; ext_env[i + 1] <-- env[i]
 	cmp rsi, 1
 	je .L_lambda_simple_env_end_4f5c
-	mov rcx, qword [rdi + 8 * rsi] ; Problem is here!!
+	mov rcx, qword [rdi + 8 * rsi] 
 	mov qword [rax + 8 * rdx], rcx
 	inc rsi
 	inc rdx
@@ -7580,7 +7557,7 @@ main:
 .L_lambda_opt_env_loop_0c8d:	; ext_env[i + 1] <-- env[i]
 	cmp rsi, 1
 	je .L_lambda_opt_env_end_0c8d
-	mov rcx, qword [rdi + 8 * rsi] ; Problem is here!!
+	mov rcx, qword [rdi + 8 * rsi]
 	mov qword [rax + 8 * rdx], rcx
 	inc rsi
 	inc rdx
@@ -7761,7 +7738,7 @@ main:
 .L_lambda_simple_env_loop_4f5d:	; ext_env[i + 1] <-- env[i]
 	cmp rsi, 0
 	je .L_lambda_simple_env_end_4f5d
-	mov rcx, qword [rdi + 8 * rsi] ; Problem is here!!
+	mov rcx, qword [rdi + 8 * rsi] 
 	mov qword [rax + 8 * rdx], rcx
 	inc rsi
 	inc rdx
@@ -7850,7 +7827,7 @@ main:
 .L_lambda_simple_env_loop_4f5e:	; ext_env[i + 1] <-- env[i]
 	cmp rsi, 0
 	je .L_lambda_simple_env_end_4f5e
-	mov rcx, qword [rdi + 8 * rsi] ; Problem is here!!
+	mov rcx, qword [rdi + 8 * rsi] 
 	mov qword [rax + 8 * rdx], rcx
 	inc rsi
 	inc rdx
@@ -7895,7 +7872,7 @@ main:
 .L_lambda_simple_env_loop_4f5f:	; ext_env[i + 1] <-- env[i]
 	cmp rsi, 1
 	je .L_lambda_simple_env_end_4f5f
-	mov rcx, qword [rdi + 8 * rsi] ; Problem is here!!
+	mov rcx, qword [rdi + 8 * rsi] 
 	mov qword [rax + 8 * rdx], rcx
 	inc rsi
 	inc rdx
@@ -8312,7 +8289,7 @@ main:
 .L_lambda_simple_env_loop_4f60:	; ext_env[i + 1] <-- env[i]
 	cmp rsi, 1
 	je .L_lambda_simple_env_end_4f60
-	mov rcx, qword [rdi + 8 * rsi] ; Problem is here!!
+	mov rcx, qword [rdi + 8 * rsi] 
 	mov qword [rax + 8 * rdx], rcx
 	inc rsi
 	inc rdx
@@ -8357,7 +8334,7 @@ main:
 .L_lambda_opt_env_loop_0c8e:	; ext_env[i + 1] <-- env[i]
 	cmp rsi, 2
 	je .L_lambda_opt_env_end_0c8e
-	mov rcx, qword [rdi + 8 * rsi] ; Problem is here!!
+	mov rcx, qword [rdi + 8 * rsi]
 	mov qword [rax + 8 * rdx], rcx
 	inc rsi
 	inc rdx
@@ -8573,7 +8550,7 @@ main:
 .L_lambda_simple_env_loop_4f61:	; ext_env[i + 1] <-- env[i]
 	cmp rsi, 0
 	je .L_lambda_simple_env_end_4f61
-	mov rcx, qword [rdi + 8 * rsi] ; Problem is here!!
+	mov rcx, qword [rdi + 8 * rsi] 
 	mov qword [rax + 8 * rdx], rcx
 	inc rsi
 	inc rdx
@@ -8662,7 +8639,7 @@ main:
 .L_lambda_simple_env_loop_4f62:	; ext_env[i + 1] <-- env[i]
 	cmp rsi, 0
 	je .L_lambda_simple_env_end_4f62
-	mov rcx, qword [rdi + 8 * rsi] ; Problem is here!!
+	mov rcx, qword [rdi + 8 * rsi] 
 	mov qword [rax + 8 * rdx], rcx
 	inc rsi
 	inc rdx
@@ -8707,7 +8684,7 @@ main:
 .L_lambda_simple_env_loop_4f63:	; ext_env[i + 1] <-- env[i]
 	cmp rsi, 1
 	je .L_lambda_simple_env_end_4f63
-	mov rcx, qword [rdi + 8 * rsi] ; Problem is here!!
+	mov rcx, qword [rdi + 8 * rsi] 
 	mov qword [rax + 8 * rdx], rcx
 	inc rsi
 	inc rdx
@@ -9124,7 +9101,7 @@ main:
 .L_lambda_simple_env_loop_4f64:	; ext_env[i + 1] <-- env[i]
 	cmp rsi, 1
 	je .L_lambda_simple_env_end_4f64
-	mov rcx, qword [rdi + 8 * rsi] ; Problem is here!!
+	mov rcx, qword [rdi + 8 * rsi] 
 	mov qword [rax + 8 * rdx], rcx
 	inc rsi
 	inc rdx
@@ -9169,7 +9146,7 @@ main:
 .L_lambda_opt_env_loop_0c8f:	; ext_env[i + 1] <-- env[i]
 	cmp rsi, 2
 	je .L_lambda_opt_env_end_0c8f
-	mov rcx, qword [rdi + 8 * rsi] ; Problem is here!!
+	mov rcx, qword [rdi + 8 * rsi]
 	mov qword [rax + 8 * rdx], rcx
 	inc rsi
 	inc rdx
@@ -9358,7 +9335,7 @@ main:
 .L_lambda_simple_env_loop_4f65:	; ext_env[i + 1] <-- env[i]
 	cmp rsi, 3
 	je .L_lambda_simple_env_end_4f65
-	mov rcx, qword [rdi + 8 * rsi] ; Problem is here!!
+	mov rcx, qword [rdi + 8 * rsi] 
 	mov qword [rax + 8 * rdx], rcx
 	inc rsi
 	inc rdx
@@ -9536,7 +9513,7 @@ main:
 .L_lambda_simple_env_loop_4f66:	; ext_env[i + 1] <-- env[i]
 	cmp rsi, 0
 	je .L_lambda_simple_env_end_4f66
-	mov rcx, qword [rdi + 8 * rsi] ; Problem is here!!
+	mov rcx, qword [rdi + 8 * rsi] 
 	mov qword [rax + 8 * rdx], rcx
 	inc rsi
 	inc rdx
@@ -9625,7 +9602,7 @@ main:
 .L_lambda_simple_env_loop_4f67:	; ext_env[i + 1] <-- env[i]
 	cmp rsi, 0
 	je .L_lambda_simple_env_end_4f67
-	mov rcx, qword [rdi + 8 * rsi] ; Problem is here!!
+	mov rcx, qword [rdi + 8 * rsi] 
 	mov qword [rax + 8 * rdx], rcx
 	inc rsi
 	inc rdx
@@ -9670,7 +9647,7 @@ main:
 .L_lambda_simple_env_loop_4f68:	; ext_env[i + 1] <-- env[i]
 	cmp rsi, 1
 	je .L_lambda_simple_env_end_4f68
-	mov rcx, qword [rdi + 8 * rsi] ; Problem is here!!
+	mov rcx, qword [rdi + 8 * rsi] 
 	mov qword [rax + 8 * rdx], rcx
 	inc rsi
 	inc rdx
@@ -10087,7 +10064,7 @@ main:
 .L_lambda_simple_env_loop_4f69:	; ext_env[i + 1] <-- env[i]
 	cmp rsi, 1
 	je .L_lambda_simple_env_end_4f69
-	mov rcx, qword [rdi + 8 * rsi] ; Problem is here!!
+	mov rcx, qword [rdi + 8 * rsi] 
 	mov qword [rax + 8 * rdx], rcx
 	inc rsi
 	inc rdx
@@ -10132,7 +10109,7 @@ main:
 .L_lambda_opt_env_loop_0c90:	; ext_env[i + 1] <-- env[i]
 	cmp rsi, 2
 	je .L_lambda_opt_env_end_0c90
-	mov rcx, qword [rdi + 8 * rsi] ; Problem is here!!
+	mov rcx, qword [rdi + 8 * rsi]
 	mov qword [rax + 8 * rdx], rcx
 	inc rsi
 	inc rdx
@@ -10348,7 +10325,7 @@ main:
 .L_lambda_simple_env_loop_4f6a:	; ext_env[i + 1] <-- env[i]
 	cmp rsi, 0
 	je .L_lambda_simple_env_end_4f6a
-	mov rcx, qword [rdi + 8 * rsi] ; Problem is here!!
+	mov rcx, qword [rdi + 8 * rsi] 
 	mov qword [rax + 8 * rdx], rcx
 	inc rsi
 	inc rdx
@@ -10437,7 +10414,7 @@ main:
 .L_lambda_simple_env_loop_4f6b:	; ext_env[i + 1] <-- env[i]
 	cmp rsi, 0
 	je .L_lambda_simple_env_end_4f6b
-	mov rcx, qword [rdi + 8 * rsi] ; Problem is here!!
+	mov rcx, qword [rdi + 8 * rsi] 
 	mov qword [rax + 8 * rdx], rcx
 	inc rsi
 	inc rdx
@@ -10482,7 +10459,7 @@ main:
 .L_lambda_simple_env_loop_4f6c:	; ext_env[i + 1] <-- env[i]
 	cmp rsi, 1
 	je .L_lambda_simple_env_end_4f6c
-	mov rcx, qword [rdi + 8 * rsi] ; Problem is here!!
+	mov rcx, qword [rdi + 8 * rsi] 
 	mov qword [rax + 8 * rdx], rcx
 	inc rsi
 	inc rdx
@@ -10899,7 +10876,7 @@ main:
 .L_lambda_simple_env_loop_4f6d:	; ext_env[i + 1] <-- env[i]
 	cmp rsi, 1
 	je .L_lambda_simple_env_end_4f6d
-	mov rcx, qword [rdi + 8 * rsi] ; Problem is here!!
+	mov rcx, qword [rdi + 8 * rsi] 
 	mov qword [rax + 8 * rdx], rcx
 	inc rsi
 	inc rdx
@@ -10944,7 +10921,7 @@ main:
 .L_lambda_opt_env_loop_0c91:	; ext_env[i + 1] <-- env[i]
 	cmp rsi, 2
 	je .L_lambda_opt_env_end_0c91
-	mov rcx, qword [rdi + 8 * rsi] ; Problem is here!!
+	mov rcx, qword [rdi + 8 * rsi]
 	mov qword [rax + 8 * rdx], rcx
 	inc rsi
 	inc rdx
@@ -11133,7 +11110,7 @@ main:
 .L_lambda_simple_env_loop_4f6e:	; ext_env[i + 1] <-- env[i]
 	cmp rsi, 3
 	je .L_lambda_simple_env_end_4f6e
-	mov rcx, qword [rdi + 8 * rsi] ; Problem is here!!
+	mov rcx, qword [rdi + 8 * rsi] 
 	mov qword [rax + 8 * rdx], rcx
 	inc rsi
 	inc rdx
@@ -11311,7 +11288,7 @@ main:
 .L_lambda_simple_env_loop_4f6f:	; ext_env[i + 1] <-- env[i]
 	cmp rsi, 0
 	je .L_lambda_simple_env_end_4f6f
-	mov rcx, qword [rdi + 8 * rsi] ; Problem is here!!
+	mov rcx, qword [rdi + 8 * rsi] 
 	mov qword [rax + 8 * rdx], rcx
 	inc rsi
 	inc rdx
@@ -11472,7 +11449,7 @@ main:
 .L_lambda_simple_env_loop_4f70:	; ext_env[i + 1] <-- env[i]
 	cmp rsi, 0
 	je .L_lambda_simple_env_end_4f70
-	mov rcx, qword [rdi + 8 * rsi] ; Problem is here!!
+	mov rcx, qword [rdi + 8 * rsi] 
 	mov qword [rax + 8 * rdx], rcx
 	inc rsi
 	inc rdx
@@ -11561,7 +11538,7 @@ main:
 .L_lambda_simple_env_loop_4f71:	; ext_env[i + 1] <-- env[i]
 	cmp rsi, 0
 	je .L_lambda_simple_env_end_4f71
-	mov rcx, qword [rdi + 8 * rsi] ; Problem is here!!
+	mov rcx, qword [rdi + 8 * rsi] 
 	mov qword [rax + 8 * rdx], rcx
 	inc rsi
 	inc rdx
@@ -11606,7 +11583,7 @@ main:
 .L_lambda_simple_env_loop_4f72:	; ext_env[i + 1] <-- env[i]
 	cmp rsi, 1
 	je .L_lambda_simple_env_end_4f72
-	mov rcx, qword [rdi + 8 * rsi] ; Problem is here!!
+	mov rcx, qword [rdi + 8 * rsi] 
 	mov qword [rax + 8 * rdx], rcx
 	inc rsi
 	inc rdx
@@ -11651,7 +11628,7 @@ main:
 .L_lambda_simple_env_loop_4f73:	; ext_env[i + 1] <-- env[i]
 	cmp rsi, 2
 	je .L_lambda_simple_env_end_4f73
-	mov rcx, qword [rdi + 8 * rsi] ; Problem is here!!
+	mov rcx, qword [rdi + 8 * rsi] 
 	mov qword [rax + 8 * rdx], rcx
 	inc rsi
 	inc rdx
@@ -12043,7 +12020,7 @@ main:
 .L_lambda_simple_env_loop_4f74:	; ext_env[i + 1] <-- env[i]
 	cmp rsi, 1
 	je .L_lambda_simple_env_end_4f74
-	mov rcx, qword [rdi + 8 * rsi] ; Problem is here!!
+	mov rcx, qword [rdi + 8 * rsi] 
 	mov qword [rax + 8 * rdx], rcx
 	inc rsi
 	inc rdx
@@ -12101,7 +12078,7 @@ main:
 .L_lambda_simple_env_loop_4f75:	; ext_env[i + 1] <-- env[i]
 	cmp rsi, 2
 	je .L_lambda_simple_env_end_4f75
-	mov rcx, qword [rdi + 8 * rsi] ; Problem is here!!
+	mov rcx, qword [rdi + 8 * rsi] 
 	mov qword [rax + 8 * rdx], rcx
 	inc rsi
 	inc rdx
@@ -12161,7 +12138,7 @@ main:
 .L_lambda_simple_env_loop_4f76:	; ext_env[i + 1] <-- env[i]
 	cmp rsi, 3
 	je .L_lambda_simple_env_end_4f76
-	mov rcx, qword [rdi + 8 * rsi] ; Problem is here!!
+	mov rcx, qword [rdi + 8 * rsi] 
 	mov qword [rax + 8 * rdx], rcx
 	inc rsi
 	inc rdx
@@ -12206,7 +12183,7 @@ main:
 .L_lambda_simple_env_loop_4f77:	; ext_env[i + 1] <-- env[i]
 	cmp rsi, 4
 	je .L_lambda_simple_env_end_4f77
-	mov rcx, qword [rdi + 8 * rsi] ; Problem is here!!
+	mov rcx, qword [rdi + 8 * rsi] 
 	mov qword [rax + 8 * rdx], rcx
 	inc rsi
 	inc rdx
@@ -12305,7 +12282,7 @@ main:
 .L_lambda_simple_env_loop_4f78:	; ext_env[i + 1] <-- env[i]
 	cmp rsi, 4
 	je .L_lambda_simple_env_end_4f78
-	mov rcx, qword [rdi + 8 * rsi] ; Problem is here!!
+	mov rcx, qword [rdi + 8 * rsi] 
 	mov qword [rax + 8 * rdx], rcx
 	inc rsi
 	inc rdx
@@ -12350,7 +12327,7 @@ main:
 .L_lambda_simple_env_loop_4f79:	; ext_env[i + 1] <-- env[i]
 	cmp rsi, 5
 	je .L_lambda_simple_env_end_4f79
-	mov rcx, qword [rdi + 8 * rsi] ; Problem is here!!
+	mov rcx, qword [rdi + 8 * rsi] 
 	mov qword [rax + 8 * rdx], rcx
 	inc rsi
 	inc rdx
@@ -12441,7 +12418,7 @@ main:
 .L_lambda_simple_env_loop_4f7a:	; ext_env[i + 1] <-- env[i]
 	cmp rsi, 5
 	je .L_lambda_simple_env_end_4f7a
-	mov rcx, qword [rdi + 8 * rsi] ; Problem is here!!
+	mov rcx, qword [rdi + 8 * rsi] 
 	mov qword [rax + 8 * rdx], rcx
 	inc rsi
 	inc rdx
@@ -12486,7 +12463,7 @@ main:
 .L_lambda_simple_env_loop_4f7b:	; ext_env[i + 1] <-- env[i]
 	cmp rsi, 6
 	je .L_lambda_simple_env_end_4f7b
-	mov rcx, qword [rdi + 8 * rsi] ; Problem is here!!
+	mov rcx, qword [rdi + 8 * rsi] 
 	mov qword [rax + 8 * rdx], rcx
 	inc rsi
 	inc rdx
@@ -12585,7 +12562,7 @@ main:
 .L_lambda_simple_env_loop_4f7c:	; ext_env[i + 1] <-- env[i]
 	cmp rsi, 6
 	je .L_lambda_simple_env_end_4f7c
-	mov rcx, qword [rdi + 8 * rsi] ; Problem is here!!
+	mov rcx, qword [rdi + 8 * rsi] 
 	mov qword [rax + 8 * rdx], rcx
 	inc rsi
 	inc rdx
@@ -12630,7 +12607,7 @@ main:
 .L_lambda_simple_env_loop_4f7d:	; ext_env[i + 1] <-- env[i]
 	cmp rsi, 7
 	je .L_lambda_simple_env_end_4f7d
-	mov rcx, qword [rdi + 8 * rsi] ; Problem is here!!
+	mov rcx, qword [rdi + 8 * rsi] 
 	mov qword [rax + 8 * rdx], rcx
 	inc rsi
 	inc rdx
@@ -12678,7 +12655,7 @@ main:
 .L_lambda_simple_env_loop_4f7e:	; ext_env[i + 1] <-- env[i]
 	cmp rsi, 8
 	je .L_lambda_simple_env_end_4f7e
-	mov rcx, qword [rdi + 8 * rsi] ; Problem is here!!
+	mov rcx, qword [rdi + 8 * rsi] 
 	mov qword [rax + 8 * rdx], rcx
 	inc rsi
 	inc rdx
@@ -12728,7 +12705,7 @@ main:
 .L_lambda_simple_env_loop_4f7f:	; ext_env[i + 1] <-- env[i]
 	cmp rsi, 9
 	je .L_lambda_simple_env_end_4f7f
-	mov rcx, qword [rdi + 8 * rsi] ; Problem is here!!
+	mov rcx, qword [rdi + 8 * rsi] 
 	mov qword [rax + 8 * rdx], rcx
 	inc rsi
 	inc rdx
@@ -12878,7 +12855,7 @@ main:
 .L_lambda_opt_env_loop_0c92:	; ext_env[i + 1] <-- env[i]
 	cmp rsi, 9
 	je .L_lambda_opt_env_end_0c92
-	mov rcx, qword [rdi + 8 * rsi] ; Problem is here!!
+	mov rcx, qword [rdi + 8 * rsi]
 	mov qword [rax + 8 * rdx], rcx
 	inc rsi
 	inc rdx
@@ -13084,7 +13061,7 @@ main:
 .L_lambda_simple_env_loop_4f80:	; ext_env[i + 1] <-- env[i]
 	cmp rsi, 7
 	je .L_lambda_simple_env_end_4f80
-	mov rcx, qword [rdi + 8 * rsi] ; Problem is here!!
+	mov rcx, qword [rdi + 8 * rsi] 
 	mov qword [rax + 8 * rdx], rcx
 	inc rsi
 	inc rdx
@@ -13465,7 +13442,7 @@ main:
 .L_lambda_simple_env_loop_4f81:	; ext_env[i + 1] <-- env[i]
 	cmp rsi, 0
 	je .L_lambda_simple_env_end_4f81
-	mov rcx, qword [rdi + 8 * rsi] ; Problem is here!!
+	mov rcx, qword [rdi + 8 * rsi] 
 	mov qword [rax + 8 * rdx], rcx
 	inc rsi
 	inc rdx
@@ -13515,7 +13492,7 @@ main:
 .L_lambda_simple_env_loop_4f82:	; ext_env[i + 1] <-- env[i]
 	cmp rsi, 1
 	je .L_lambda_simple_env_end_4f82
-	mov rcx, qword [rdi + 8 * rsi] ; Problem is here!!
+	mov rcx, qword [rdi + 8 * rsi] 
 	mov qword [rax + 8 * rdx], rcx
 	inc rsi
 	inc rdx
@@ -13645,7 +13622,7 @@ main:
 .L_lambda_opt_env_loop_0c93:	; ext_env[i + 1] <-- env[i]
 	cmp rsi, 1
 	je .L_lambda_opt_env_end_0c93
-	mov rcx, qword [rdi + 8 * rsi] ; Problem is here!!
+	mov rcx, qword [rdi + 8 * rsi]
 	mov qword [rax + 8 * rdx], rcx
 	inc rsi
 	inc rdx
@@ -14022,7 +13999,7 @@ main:
 .L_lambda_simple_env_loop_4f83:	; ext_env[i + 1] <-- env[i]
 	cmp rsi, 0
 	je .L_lambda_simple_env_end_4f83
-	mov rcx, qword [rdi + 8 * rsi] ; Problem is here!!
+	mov rcx, qword [rdi + 8 * rsi] 
 	mov qword [rax + 8 * rdx], rcx
 	inc rsi
 	inc rdx
@@ -14067,7 +14044,7 @@ main:
 .L_lambda_opt_env_loop_0c94:	; ext_env[i + 1] <-- env[i]
 	cmp rsi, 1
 	je .L_lambda_opt_env_end_0c94
-	mov rcx, qword [rdi + 8 * rsi] ; Problem is here!!
+	mov rcx, qword [rdi + 8 * rsi]
 	mov qword [rax + 8 * rdx], rcx
 	inc rsi
 	inc rdx
@@ -14246,7 +14223,7 @@ main:
 .L_lambda_simple_env_loop_4f84:	; ext_env[i + 1] <-- env[i]
 	cmp rsi, 0
 	je .L_lambda_simple_env_end_4f84
-	mov rcx, qword [rdi + 8 * rsi] ; Problem is here!!
+	mov rcx, qword [rdi + 8 * rsi] 
 	mov qword [rax + 8 * rdx], rcx
 	inc rsi
 	inc rdx
@@ -14405,7 +14382,7 @@ main:
 .L_lambda_simple_env_loop_4f85:	; ext_env[i + 1] <-- env[i]
 	cmp rsi, 0
 	je .L_lambda_simple_env_end_4f85
-	mov rcx, qword [rdi + 8 * rsi] ; Problem is here!!
+	mov rcx, qword [rdi + 8 * rsi] 
 	mov qword [rax + 8 * rdx], rcx
 	inc rsi
 	inc rdx
@@ -14450,7 +14427,7 @@ main:
 .L_lambda_simple_env_loop_4f86:	; ext_env[i + 1] <-- env[i]
 	cmp rsi, 1
 	je .L_lambda_simple_env_end_4f86
-	mov rcx, qword [rdi + 8 * rsi] ; Problem is here!!
+	mov rcx, qword [rdi + 8 * rsi] 
 	mov qword [rax + 8 * rdx], rcx
 	inc rsi
 	inc rdx
@@ -14577,7 +14554,7 @@ main:
 .L_lambda_simple_env_loop_4f87:	; ext_env[i + 1] <-- env[i]
 	cmp rsi, 1
 	je .L_lambda_simple_env_end_4f87
-	mov rcx, qword [rdi + 8 * rsi] ; Problem is here!!
+	mov rcx, qword [rdi + 8 * rsi] 
 	mov qword [rax + 8 * rdx], rcx
 	inc rsi
 	inc rdx
@@ -14750,7 +14727,7 @@ main:
 .L_lambda_simple_env_loop_4f88:	; ext_env[i + 1] <-- env[i]
 	cmp rsi, 0
 	je .L_lambda_simple_env_end_4f88
-	mov rcx, qword [rdi + 8 * rsi] ; Problem is here!!
+	mov rcx, qword [rdi + 8 * rsi] 
 	mov qword [rax + 8 * rdx], rcx
 	inc rsi
 	inc rdx
@@ -14795,7 +14772,7 @@ main:
 .L_lambda_opt_env_loop_0c95:	; ext_env[i + 1] <-- env[i]
 	cmp rsi, 1
 	je .L_lambda_opt_env_end_0c95
-	mov rcx, qword [rdi + 8 * rsi] ; Problem is here!!
+	mov rcx, qword [rdi + 8 * rsi]
 	mov qword [rax + 8 * rdx], rcx
 	inc rsi
 	inc rdx
@@ -14917,7 +14894,7 @@ main:
 .L_lambda_simple_env_loop_4f89:	; ext_env[i + 1] <-- env[i]
 	cmp rsi, 2
 	je .L_lambda_simple_env_end_4f89
-	mov rcx, qword [rdi + 8 * rsi] ; Problem is here!!
+	mov rcx, qword [rdi + 8 * rsi] 
 	mov qword [rax + 8 * rdx], rcx
 	inc rsi
 	inc rdx
@@ -15066,7 +15043,7 @@ main:
 .L_lambda_simple_env_loop_4f8a:	; ext_env[i + 1] <-- env[i]
 	cmp rsi, 0
 	je .L_lambda_simple_env_end_4f8a
-	mov rcx, qword [rdi + 8 * rsi] ; Problem is here!!
+	mov rcx, qword [rdi + 8 * rsi] 
 	mov qword [rax + 8 * rdx], rcx
 	inc rsi
 	inc rdx
@@ -15196,7 +15173,7 @@ main:
 .L_lambda_simple_env_loop_4f8b:	; ext_env[i + 1] <-- env[i]
 	cmp rsi, 0
 	je .L_lambda_simple_env_end_4f8b
-	mov rcx, qword [rdi + 8 * rsi] ; Problem is here!!
+	mov rcx, qword [rdi + 8 * rsi] 
 	mov qword [rax + 8 * rdx], rcx
 	inc rsi
 	inc rdx
@@ -15241,7 +15218,7 @@ main:
 .L_lambda_simple_env_loop_4f8c:	; ext_env[i + 1] <-- env[i]
 	cmp rsi, 1
 	je .L_lambda_simple_env_end_4f8c
-	mov rcx, qword [rdi + 8 * rsi] ; Problem is here!!
+	mov rcx, qword [rdi + 8 * rsi] 
 	mov qword [rax + 8 * rdx], rcx
 	inc rsi
 	inc rdx
@@ -15351,7 +15328,7 @@ main:
 .L_lambda_simple_env_loop_4f8d:	; ext_env[i + 1] <-- env[i]
 	cmp rsi, 0
 	je .L_lambda_simple_env_end_4f8d
-	mov rcx, qword [rdi + 8 * rsi] ; Problem is here!!
+	mov rcx, qword [rdi + 8 * rsi] 
 	mov qword [rax + 8 * rdx], rcx
 	inc rsi
 	inc rdx
@@ -15501,7 +15478,7 @@ main:
 .L_lambda_simple_env_loop_4f8e:	; ext_env[i + 1] <-- env[i]
 	cmp rsi, 0
 	je .L_lambda_simple_env_end_4f8e
-	mov rcx, qword [rdi + 8 * rsi] ; Problem is here!!
+	mov rcx, qword [rdi + 8 * rsi] 
 	mov qword [rax + 8 * rdx], rcx
 	inc rsi
 	inc rdx
@@ -15549,7 +15526,7 @@ main:
 .L_lambda_simple_env_loop_4f8f:	; ext_env[i + 1] <-- env[i]
 	cmp rsi, 1
 	je .L_lambda_simple_env_end_4f8f
-	mov rcx, qword [rdi + 8 * rsi] ; Problem is here!!
+	mov rcx, qword [rdi + 8 * rsi] 
 	mov qword [rax + 8 * rdx], rcx
 	inc rsi
 	inc rdx
@@ -15599,7 +15576,7 @@ main:
 .L_lambda_simple_env_loop_4f90:	; ext_env[i + 1] <-- env[i]
 	cmp rsi, 2
 	je .L_lambda_simple_env_end_4f90
-	mov rcx, qword [rdi + 8 * rsi] ; Problem is here!!
+	mov rcx, qword [rdi + 8 * rsi] 
 	mov qword [rax + 8 * rdx], rcx
 	inc rsi
 	inc rdx
@@ -15833,7 +15810,7 @@ main:
 .L_lambda_simple_env_loop_4f91:	; ext_env[i + 1] <-- env[i]
 	cmp rsi, 2
 	je .L_lambda_simple_env_end_4f91
-	mov rcx, qword [rdi + 8 * rsi] ; Problem is here!!
+	mov rcx, qword [rdi + 8 * rsi] 
 	mov qword [rax + 8 * rdx], rcx
 	inc rsi
 	inc rdx
@@ -15899,7 +15876,7 @@ main:
 .L_lambda_simple_env_loop_4f92:	; ext_env[i + 1] <-- env[i]
 	cmp rsi, 3
 	je .L_lambda_simple_env_end_4f92
-	mov rcx, qword [rdi + 8 * rsi] ; Problem is here!!
+	mov rcx, qword [rdi + 8 * rsi] 
 	mov qword [rax + 8 * rdx], rcx
 	inc rsi
 	inc rdx
@@ -16105,7 +16082,7 @@ main:
 .L_lambda_simple_env_loop_4f93:	; ext_env[i + 1] <-- env[i]
 	cmp rsi, 2
 	je .L_lambda_simple_env_end_4f93
-	mov rcx, qword [rdi + 8 * rsi] ; Problem is here!!
+	mov rcx, qword [rdi + 8 * rsi] 
 	mov qword [rax + 8 * rdx], rcx
 	inc rsi
 	inc rdx
@@ -16153,7 +16130,7 @@ main:
 .L_lambda_simple_env_loop_4f94:	; ext_env[i + 1] <-- env[i]
 	cmp rsi, 3
 	je .L_lambda_simple_env_end_4f94
-	mov rcx, qword [rdi + 8 * rsi] ; Problem is here!!
+	mov rcx, qword [rdi + 8 * rsi] 
 	mov qword [rax + 8 * rdx], rcx
 	inc rsi
 	inc rdx
@@ -16203,7 +16180,7 @@ main:
 .L_lambda_simple_env_loop_4f95:	; ext_env[i + 1] <-- env[i]
 	cmp rsi, 4
 	je .L_lambda_simple_env_end_4f95
-	mov rcx, qword [rdi + 8 * rsi] ; Problem is here!!
+	mov rcx, qword [rdi + 8 * rsi] 
 	mov qword [rax + 8 * rdx], rcx
 	inc rsi
 	inc rdx
@@ -16353,7 +16330,7 @@ main:
 .L_lambda_opt_env_loop_0c96:	; ext_env[i + 1] <-- env[i]
 	cmp rsi, 4
 	je .L_lambda_opt_env_end_0c96
-	mov rcx, qword [rdi + 8 * rsi] ; Problem is here!!
+	mov rcx, qword [rdi + 8 * rsi]
 	mov qword [rax + 8 * rdx], rcx
 	inc rsi
 	inc rdx
@@ -16631,7 +16608,7 @@ main:
 .L_lambda_simple_env_loop_4f96:	; ext_env[i + 1] <-- env[i]
 	cmp rsi, 0
 	je .L_lambda_simple_env_end_4f96
-	mov rcx, qword [rdi + 8 * rsi] ; Problem is here!!
+	mov rcx, qword [rdi + 8 * rsi] 
 	mov qword [rax + 8 * rdx], rcx
 	inc rsi
 	inc rdx
@@ -16743,7 +16720,7 @@ main:
 .L_lambda_simple_env_loop_4f97:	; ext_env[i + 1] <-- env[i]
 	cmp rsi, 0
 	je .L_lambda_simple_env_end_4f97
-	mov rcx, qword [rdi + 8 * rsi] ; Problem is here!!
+	mov rcx, qword [rdi + 8 * rsi] 
 	mov qword [rax + 8 * rdx], rcx
 	inc rsi
 	inc rdx
@@ -16791,7 +16768,7 @@ main:
 .L_lambda_simple_env_loop_4f98:	; ext_env[i + 1] <-- env[i]
 	cmp rsi, 1
 	je .L_lambda_simple_env_end_4f98
-	mov rcx, qword [rdi + 8 * rsi] ; Problem is here!!
+	mov rcx, qword [rdi + 8 * rsi] 
 	mov qword [rax + 8 * rdx], rcx
 	inc rsi
 	inc rdx
@@ -16841,7 +16818,7 @@ main:
 .L_lambda_simple_env_loop_4f99:	; ext_env[i + 1] <-- env[i]
 	cmp rsi, 2
 	je .L_lambda_simple_env_end_4f99
-	mov rcx, qword [rdi + 8 * rsi] ; Problem is here!!
+	mov rcx, qword [rdi + 8 * rsi] 
 	mov qword [rax + 8 * rdx], rcx
 	inc rsi
 	inc rdx
@@ -17057,7 +17034,7 @@ main:
 .L_lambda_simple_env_loop_4f9a:	; ext_env[i + 1] <-- env[i]
 	cmp rsi, 2
 	je .L_lambda_simple_env_end_4f9a
-	mov rcx, qword [rdi + 8 * rsi] ; Problem is here!!
+	mov rcx, qword [rdi + 8 * rsi] 
 	mov qword [rax + 8 * rdx], rcx
 	inc rsi
 	inc rdx
@@ -17123,7 +17100,7 @@ main:
 .L_lambda_simple_env_loop_4f9b:	; ext_env[i + 1] <-- env[i]
 	cmp rsi, 3
 	je .L_lambda_simple_env_end_4f9b
-	mov rcx, qword [rdi + 8 * rsi] ; Problem is here!!
+	mov rcx, qword [rdi + 8 * rsi] 
 	mov qword [rax + 8 * rdx], rcx
 	inc rsi
 	inc rdx
@@ -17329,7 +17306,7 @@ main:
 .L_lambda_simple_env_loop_4f9c:	; ext_env[i + 1] <-- env[i]
 	cmp rsi, 2
 	je .L_lambda_simple_env_end_4f9c
-	mov rcx, qword [rdi + 8 * rsi] ; Problem is here!!
+	mov rcx, qword [rdi + 8 * rsi] 
 	mov qword [rax + 8 * rdx], rcx
 	inc rsi
 	inc rdx
@@ -17377,7 +17354,7 @@ main:
 .L_lambda_simple_env_loop_4f9d:	; ext_env[i + 1] <-- env[i]
 	cmp rsi, 3
 	je .L_lambda_simple_env_end_4f9d
-	mov rcx, qword [rdi + 8 * rsi] ; Problem is here!!
+	mov rcx, qword [rdi + 8 * rsi] 
 	mov qword [rax + 8 * rdx], rcx
 	inc rsi
 	inc rdx
@@ -17427,7 +17404,7 @@ main:
 .L_lambda_simple_env_loop_4f9e:	; ext_env[i + 1] <-- env[i]
 	cmp rsi, 4
 	je .L_lambda_simple_env_end_4f9e
-	mov rcx, qword [rdi + 8 * rsi] ; Problem is here!!
+	mov rcx, qword [rdi + 8 * rsi] 
 	mov qword [rax + 8 * rdx], rcx
 	inc rsi
 	inc rdx
@@ -17577,7 +17554,7 @@ main:
 .L_lambda_opt_env_loop_0c97:	; ext_env[i + 1] <-- env[i]
 	cmp rsi, 4
 	je .L_lambda_opt_env_end_0c97
-	mov rcx, qword [rdi + 8 * rsi] ; Problem is here!!
+	mov rcx, qword [rdi + 8 * rsi]
 	mov qword [rax + 8 * rdx], rcx
 	inc rsi
 	inc rdx
@@ -17855,7 +17832,7 @@ main:
 .L_lambda_simple_env_loop_4f9f:	; ext_env[i + 1] <-- env[i]
 	cmp rsi, 0
 	je .L_lambda_simple_env_end_4f9f
-	mov rcx, qword [rdi + 8 * rsi] ; Problem is here!!
+	mov rcx, qword [rdi + 8 * rsi] 
 	mov qword [rax + 8 * rdx], rcx
 	inc rsi
 	inc rdx
@@ -17967,7 +17944,7 @@ main:
 .L_lambda_simple_env_loop_4fa0:	; ext_env[i + 1] <-- env[i]
 	cmp rsi, 0
 	je .L_lambda_simple_env_end_4fa0
-	mov rcx, qword [rdi + 8 * rsi] ; Problem is here!!
+	mov rcx, qword [rdi + 8 * rsi] 
 	mov qword [rax + 8 * rdx], rcx
 	inc rsi
 	inc rdx
@@ -18015,7 +17992,7 @@ main:
 .L_lambda_simple_env_loop_4fa1:	; ext_env[i + 1] <-- env[i]
 	cmp rsi, 1
 	je .L_lambda_simple_env_end_4fa1
-	mov rcx, qword [rdi + 8 * rsi] ; Problem is here!!
+	mov rcx, qword [rdi + 8 * rsi] 
 	mov qword [rax + 8 * rdx], rcx
 	inc rsi
 	inc rdx
@@ -18065,7 +18042,7 @@ main:
 .L_lambda_simple_env_loop_4fa2:	; ext_env[i + 1] <-- env[i]
 	cmp rsi, 2
 	je .L_lambda_simple_env_end_4fa2
-	mov rcx, qword [rdi + 8 * rsi] ; Problem is here!!
+	mov rcx, qword [rdi + 8 * rsi] 
 	mov qword [rax + 8 * rdx], rcx
 	inc rsi
 	inc rdx
@@ -18244,7 +18221,7 @@ main:
 .L_lambda_simple_env_loop_4fa3:	; ext_env[i + 1] <-- env[i]
 	cmp rsi, 2
 	je .L_lambda_simple_env_end_4fa3
-	mov rcx, qword [rdi + 8 * rsi] ; Problem is here!!
+	mov rcx, qword [rdi + 8 * rsi] 
 	mov qword [rax + 8 * rdx], rcx
 	inc rsi
 	inc rdx
@@ -18310,7 +18287,7 @@ main:
 .L_lambda_simple_env_loop_4fa4:	; ext_env[i + 1] <-- env[i]
 	cmp rsi, 3
 	je .L_lambda_simple_env_end_4fa4
-	mov rcx, qword [rdi + 8 * rsi] ; Problem is here!!
+	mov rcx, qword [rdi + 8 * rsi] 
 	mov qword [rax + 8 * rdx], rcx
 	inc rsi
 	inc rdx
@@ -18463,7 +18440,7 @@ main:
 .L_lambda_simple_env_loop_4fa5:	; ext_env[i + 1] <-- env[i]
 	cmp rsi, 2
 	je .L_lambda_simple_env_end_4fa5
-	mov rcx, qword [rdi + 8 * rsi] ; Problem is here!!
+	mov rcx, qword [rdi + 8 * rsi] 
 	mov qword [rax + 8 * rdx], rcx
 	inc rsi
 	inc rdx
@@ -18511,7 +18488,7 @@ main:
 .L_lambda_simple_env_loop_4fa6:	; ext_env[i + 1] <-- env[i]
 	cmp rsi, 3
 	je .L_lambda_simple_env_end_4fa6
-	mov rcx, qword [rdi + 8 * rsi] ; Problem is here!!
+	mov rcx, qword [rdi + 8 * rsi] 
 	mov qword [rax + 8 * rdx], rcx
 	inc rsi
 	inc rdx
@@ -18561,7 +18538,7 @@ main:
 .L_lambda_simple_env_loop_4fa7:	; ext_env[i + 1] <-- env[i]
 	cmp rsi, 4
 	je .L_lambda_simple_env_end_4fa7
-	mov rcx, qword [rdi + 8 * rsi] ; Problem is here!!
+	mov rcx, qword [rdi + 8 * rsi] 
 	mov qword [rax + 8 * rdx], rcx
 	inc rsi
 	inc rdx
@@ -18711,7 +18688,7 @@ main:
 .L_lambda_opt_env_loop_0c98:	; ext_env[i + 1] <-- env[i]
 	cmp rsi, 4
 	je .L_lambda_opt_env_end_0c98
-	mov rcx, qword [rdi + 8 * rsi] ; Problem is here!!
+	mov rcx, qword [rdi + 8 * rsi]
 	mov qword [rax + 8 * rdx], rcx
 	inc rsi
 	inc rdx
@@ -18989,7 +18966,7 @@ main:
 .L_lambda_simple_env_loop_4fa8:	; ext_env[i + 1] <-- env[i]
 	cmp rsi, 0
 	je .L_lambda_simple_env_end_4fa8
-	mov rcx, qword [rdi + 8 * rsi] ; Problem is here!!
+	mov rcx, qword [rdi + 8 * rsi] 
 	mov qword [rax + 8 * rdx], rcx
 	inc rsi
 	inc rdx
@@ -19069,7 +19046,7 @@ main:
 .L_lambda_simple_env_loop_4fa9:	; ext_env[i + 1] <-- env[i]
 	cmp rsi, 0
 	je .L_lambda_simple_env_end_4fa9
-	mov rcx, qword [rdi + 8 * rsi] ; Problem is here!!
+	mov rcx, qword [rdi + 8 * rsi] 
 	mov qword [rax + 8 * rdx], rcx
 	inc rsi
 	inc rdx
@@ -19193,7 +19170,7 @@ main:
 .L_lambda_simple_env_loop_4faa:	; ext_env[i + 1] <-- env[i]
 	cmp rsi, 0
 	je .L_lambda_simple_env_end_4faa
-	mov rcx, qword [rdi + 8 * rsi] ; Problem is here!!
+	mov rcx, qword [rdi + 8 * rsi] 
 	mov qword [rax + 8 * rdx], rcx
 	inc rsi
 	inc rdx
@@ -19322,7 +19299,7 @@ main:
 .L_lambda_simple_env_loop_4fab:	; ext_env[i + 1] <-- env[i]
 	cmp rsi, 0
 	je .L_lambda_simple_env_end_4fab
-	mov rcx, qword [rdi + 8 * rsi] ; Problem is here!!
+	mov rcx, qword [rdi + 8 * rsi] 
 	mov qword [rax + 8 * rdx], rcx
 	inc rsi
 	inc rdx
@@ -19367,7 +19344,7 @@ main:
 .L_lambda_opt_env_loop_0c99:	; ext_env[i + 1] <-- env[i]
 	cmp rsi, 1
 	je .L_lambda_opt_env_end_0c99
-	mov rcx, qword [rdi + 8 * rsi] ; Problem is here!!
+	mov rcx, qword [rdi + 8 * rsi]
 	mov qword [rax + 8 * rdx], rcx
 	inc rsi
 	inc rdx
@@ -19561,7 +19538,7 @@ main:
 .L_lambda_simple_env_loop_4fac:	; ext_env[i + 1] <-- env[i]
 	cmp rsi, 2
 	je .L_lambda_simple_env_end_4fac
-	mov rcx, qword [rdi + 8 * rsi] ; Problem is here!!
+	mov rcx, qword [rdi + 8 * rsi] 
 	mov qword [rax + 8 * rdx], rcx
 	inc rsi
 	inc rdx
@@ -19705,7 +19682,7 @@ main:
 .L_lambda_simple_env_loop_4fad:	; ext_env[i + 1] <-- env[i]
 	cmp rsi, 0
 	je .L_lambda_simple_env_end_4fad
-	mov rcx, qword [rdi + 8 * rsi] ; Problem is here!!
+	mov rcx, qword [rdi + 8 * rsi] 
 	mov qword [rax + 8 * rdx], rcx
 	inc rsi
 	inc rdx
@@ -19750,7 +19727,7 @@ main:
 .L_lambda_opt_env_loop_0c9a:	; ext_env[i + 1] <-- env[i]
 	cmp rsi, 1
 	je .L_lambda_opt_env_end_0c9a
-	mov rcx, qword [rdi + 8 * rsi] ; Problem is here!!
+	mov rcx, qword [rdi + 8 * rsi]
 	mov qword [rax + 8 * rdx], rcx
 	inc rsi
 	inc rdx
@@ -19944,7 +19921,7 @@ main:
 .L_lambda_simple_env_loop_4fae:	; ext_env[i + 1] <-- env[i]
 	cmp rsi, 2
 	je .L_lambda_simple_env_end_4fae
-	mov rcx, qword [rdi + 8 * rsi] ; Problem is here!!
+	mov rcx, qword [rdi + 8 * rsi] 
 	mov qword [rax + 8 * rdx], rcx
 	inc rsi
 	inc rdx
@@ -20088,7 +20065,7 @@ main:
 .L_lambda_simple_env_loop_4faf:	; ext_env[i + 1] <-- env[i]
 	cmp rsi, 0
 	je .L_lambda_simple_env_end_4faf
-	mov rcx, qword [rdi + 8 * rsi] ; Problem is here!!
+	mov rcx, qword [rdi + 8 * rsi] 
 	mov qword [rax + 8 * rdx], rcx
 	inc rsi
 	inc rdx
@@ -20138,7 +20115,7 @@ main:
 .L_lambda_simple_env_loop_4fb0:	; ext_env[i + 1] <-- env[i]
 	cmp rsi, 1
 	je .L_lambda_simple_env_end_4fb0
-	mov rcx, qword [rdi + 8 * rsi] ; Problem is here!!
+	mov rcx, qword [rdi + 8 * rsi] 
 	mov qword [rax + 8 * rdx], rcx
 	inc rsi
 	inc rdx
@@ -20269,7 +20246,7 @@ main:
 .L_lambda_simple_env_loop_4fb1:	; ext_env[i + 1] <-- env[i]
 	cmp rsi, 2
 	je .L_lambda_simple_env_end_4fb1
-	mov rcx, qword [rdi + 8 * rsi] ; Problem is here!!
+	mov rcx, qword [rdi + 8 * rsi] 
 	mov qword [rax + 8 * rdx], rcx
 	inc rsi
 	inc rdx
@@ -20386,7 +20363,7 @@ main:
 .L_lambda_simple_env_loop_4fb2:	; ext_env[i + 1] <-- env[i]
 	cmp rsi, 1
 	je .L_lambda_simple_env_end_4fb2
-	mov rcx, qword [rdi + 8 * rsi] ; Problem is here!!
+	mov rcx, qword [rdi + 8 * rsi] 
 	mov qword [rax + 8 * rdx], rcx
 	inc rsi
 	inc rdx
@@ -20493,7 +20470,7 @@ main:
 .L_lambda_simple_env_loop_4fb3:	; ext_env[i + 1] <-- env[i]
 	cmp rsi, 0
 	je .L_lambda_simple_env_end_4fb3
-	mov rcx, qword [rdi + 8 * rsi] ; Problem is here!!
+	mov rcx, qword [rdi + 8 * rsi] 
 	mov qword [rax + 8 * rdx], rcx
 	inc rsi
 	inc rdx
@@ -20543,7 +20520,7 @@ main:
 .L_lambda_simple_env_loop_4fb4:	; ext_env[i + 1] <-- env[i]
 	cmp rsi, 1
 	je .L_lambda_simple_env_end_4fb4
-	mov rcx, qword [rdi + 8 * rsi] ; Problem is here!!
+	mov rcx, qword [rdi + 8 * rsi] 
 	mov qword [rax + 8 * rdx], rcx
 	inc rsi
 	inc rdx
@@ -20674,7 +20651,7 @@ main:
 .L_lambda_simple_env_loop_4fb5:	; ext_env[i + 1] <-- env[i]
 	cmp rsi, 2
 	je .L_lambda_simple_env_end_4fb5
-	mov rcx, qword [rdi + 8 * rsi] ; Problem is here!!
+	mov rcx, qword [rdi + 8 * rsi] 
 	mov qword [rax + 8 * rdx], rcx
 	inc rsi
 	inc rdx
@@ -20791,7 +20768,7 @@ main:
 .L_lambda_simple_env_loop_4fb6:	; ext_env[i + 1] <-- env[i]
 	cmp rsi, 1
 	je .L_lambda_simple_env_end_4fb6
-	mov rcx, qword [rdi + 8 * rsi] ; Problem is here!!
+	mov rcx, qword [rdi + 8 * rsi] 
 	mov qword [rax + 8 * rdx], rcx
 	inc rsi
 	inc rdx
@@ -20895,7 +20872,7 @@ main:
 .L_lambda_opt_env_loop_0c9b:	; ext_env[i + 1] <-- env[i]
 	cmp rsi, 0
 	je .L_lambda_opt_env_end_0c9b
-	mov rcx, qword [rdi + 8 * rsi] ; Problem is here!!
+	mov rcx, qword [rdi + 8 * rsi]
 	mov qword [rax + 8 * rdx], rcx
 	inc rsi
 	inc rdx
@@ -21064,7 +21041,7 @@ main:
 .L_lambda_simple_env_loop_4fb7:	; ext_env[i + 1] <-- env[i]
 	cmp rsi, 0
 	je .L_lambda_simple_env_end_4fb7
-	mov rcx, qword [rdi + 8 * rsi] ; Problem is here!!
+	mov rcx, qword [rdi + 8 * rsi] 
 	mov qword [rax + 8 * rdx], rcx
 	inc rsi
 	inc rdx
@@ -21114,7 +21091,7 @@ main:
 .L_lambda_simple_env_loop_4fb8:	; ext_env[i + 1] <-- env[i]
 	cmp rsi, 1
 	je .L_lambda_simple_env_end_4fb8
-	mov rcx, qword [rdi + 8 * rsi] ; Problem is here!!
+	mov rcx, qword [rdi + 8 * rsi] 
 	mov qword [rax + 8 * rdx], rcx
 	inc rsi
 	inc rdx
@@ -21258,7 +21235,7 @@ main:
 .L_lambda_simple_env_loop_4fb9:	; ext_env[i + 1] <-- env[i]
 	cmp rsi, 1
 	je .L_lambda_simple_env_end_4fb9
-	mov rcx, qword [rdi + 8 * rsi] ; Problem is here!!
+	mov rcx, qword [rdi + 8 * rsi] 
 	mov qword [rax + 8 * rdx], rcx
 	inc rsi
 	inc rdx
@@ -21375,7 +21352,7 @@ main:
 .L_lambda_simple_env_loop_4fba:	; ext_env[i + 1] <-- env[i]
 	cmp rsi, 0
 	je .L_lambda_simple_env_end_4fba
-	mov rcx, qword [rdi + 8 * rsi] ; Problem is here!!
+	mov rcx, qword [rdi + 8 * rsi] 
 	mov qword [rax + 8 * rdx], rcx
 	inc rsi
 	inc rdx
@@ -21425,7 +21402,7 @@ main:
 .L_lambda_simple_env_loop_4fbb:	; ext_env[i + 1] <-- env[i]
 	cmp rsi, 1
 	je .L_lambda_simple_env_end_4fbb
-	mov rcx, qword [rdi + 8 * rsi] ; Problem is here!!
+	mov rcx, qword [rdi + 8 * rsi] 
 	mov qword [rax + 8 * rdx], rcx
 	inc rsi
 	inc rdx
@@ -21569,7 +21546,7 @@ main:
 .L_lambda_simple_env_loop_4fbc:	; ext_env[i + 1] <-- env[i]
 	cmp rsi, 1
 	je .L_lambda_simple_env_end_4fbc
-	mov rcx, qword [rdi + 8 * rsi] ; Problem is here!!
+	mov rcx, qword [rdi + 8 * rsi] 
 	mov qword [rax + 8 * rdx], rcx
 	inc rsi
 	inc rdx
@@ -21683,7 +21660,7 @@ main:
 .L_lambda_simple_env_loop_4fbd:	; ext_env[i + 1] <-- env[i]
 	cmp rsi, 0
 	je .L_lambda_simple_env_end_4fbd
-	mov rcx, qword [rdi + 8 * rsi] ; Problem is here!!
+	mov rcx, qword [rdi + 8 * rsi] 
 	mov qword [rax + 8 * rdx], rcx
 	inc rsi
 	inc rdx
@@ -21782,7 +21759,7 @@ main:
 .L_lambda_simple_env_loop_4fbe:	; ext_env[i + 1] <-- env[i]
 	cmp rsi, 0
 	je .L_lambda_simple_env_end_4fbe
-	mov rcx, qword [rdi + 8 * rsi] ; Problem is here!!
+	mov rcx, qword [rdi + 8 * rsi] 
 	mov qword [rax + 8 * rdx], rcx
 	inc rsi
 	inc rdx
@@ -21875,7 +21852,7 @@ main:
 .L_lambda_simple_env_loop_4fbf:	; ext_env[i + 1] <-- env[i]
 	cmp rsi, 0
 	je .L_lambda_simple_env_end_4fbf
-	mov rcx, qword [rdi + 8 * rsi] ; Problem is here!!
+	mov rcx, qword [rdi + 8 * rsi] 
 	mov qword [rax + 8 * rdx], rcx
 	inc rsi
 	inc rdx
@@ -21968,7 +21945,7 @@ main:
 .L_lambda_simple_env_loop_4fc0:	; ext_env[i + 1] <-- env[i]
 	cmp rsi, 0
 	je .L_lambda_simple_env_end_4fc0
-	mov rcx, qword [rdi + 8 * rsi] ; Problem is here!!
+	mov rcx, qword [rdi + 8 * rsi] 
 	mov qword [rax + 8 * rdx], rcx
 	inc rsi
 	inc rdx
@@ -22069,7 +22046,7 @@ main:
 .L_lambda_simple_env_loop_4fc1:	; ext_env[i + 1] <-- env[i]
 	cmp rsi, 0
 	je .L_lambda_simple_env_end_4fc1
-	mov rcx, qword [rdi + 8 * rsi] ; Problem is here!!
+	mov rcx, qword [rdi + 8 * rsi] 
 	mov qword [rax + 8 * rdx], rcx
 	inc rsi
 	inc rdx
@@ -22168,7 +22145,7 @@ main:
 .L_lambda_simple_env_loop_4fc2:	; ext_env[i + 1] <-- env[i]
 	cmp rsi, 0
 	je .L_lambda_simple_env_end_4fc2
-	mov rcx, qword [rdi + 8 * rsi] ; Problem is here!!
+	mov rcx, qword [rdi + 8 * rsi] 
 	mov qword [rax + 8 * rdx], rcx
 	inc rsi
 	inc rdx
@@ -22274,7 +22251,7 @@ main:
 .L_lambda_simple_env_loop_4fc3:	; ext_env[i + 1] <-- env[i]
 	cmp rsi, 0
 	je .L_lambda_simple_env_end_4fc3
-	mov rcx, qword [rdi + 8 * rsi] ; Problem is here!!
+	mov rcx, qword [rdi + 8 * rsi] 
 	mov qword [rax + 8 * rdx], rcx
 	inc rsi
 	inc rdx
@@ -22702,7 +22679,7 @@ main:
 .L_lambda_simple_env_loop_4fc4:	; ext_env[i + 1] <-- env[i]
 	cmp rsi, 0
 	je .L_lambda_simple_env_end_4fc4
-	mov rcx, qword [rdi + 8 * rsi] ; Problem is here!!
+	mov rcx, qword [rdi + 8 * rsi] 
 	mov qword [rax + 8 * rdx], rcx
 	inc rsi
 	inc rdx
@@ -22884,7 +22861,7 @@ main:
 .L_lambda_simple_env_loop_4fc5:	; ext_env[i + 1] <-- env[i]
 	cmp rsi, 0
 	je .L_lambda_simple_env_end_4fc5
-	mov rcx, qword [rdi + 8 * rsi] ; Problem is here!!
+	mov rcx, qword [rdi + 8 * rsi] 
 	mov qword [rax + 8 * rdx], rcx
 	inc rsi
 	inc rdx
@@ -22939,7 +22916,7 @@ main:
 .L_lambda_simple_env_loop_4fc6:	; ext_env[i + 1] <-- env[i]
 	cmp rsi, 1
 	je .L_lambda_simple_env_end_4fc6
-	mov rcx, qword [rdi + 8 * rsi] ; Problem is here!!
+	mov rcx, qword [rdi + 8 * rsi] 
 	mov qword [rax + 8 * rdx], rcx
 	inc rsi
 	inc rdx
@@ -23053,7 +23030,7 @@ main:
 .L_lambda_simple_env_loop_4fc7:	; ext_env[i + 1] <-- env[i]
 	cmp rsi, 1
 	je .L_lambda_simple_env_end_4fc7
-	mov rcx, qword [rdi + 8 * rsi] ; Problem is here!!
+	mov rcx, qword [rdi + 8 * rsi] 
 	mov qword [rax + 8 * rdx], rcx
 	inc rsi
 	inc rdx
@@ -23262,8 +23239,6 @@ fmt_non_closure:
         db `!!! Attempting to apply a non-closure!\n\0`
 fmt_error_improper_list:
 	db `!!! The argument is not a proper list!\n\0`
-fmt_test:
-        db `test here %d at %d\n\0`
 
 section .bss
 memory:

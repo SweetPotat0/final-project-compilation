@@ -57,8 +57,6 @@ fmt_non_closure:
         db `!!! Attempting to apply a non-closure!\n\0`
 fmt_error_improper_list:
 	db `!!! The argument is not a proper list!\n\0`
-fmt_test:
-        db `test here %d at %d\n\0`
 
 section .bss
 memory:

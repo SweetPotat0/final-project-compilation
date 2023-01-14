@@ -505,7 +505,7 @@ module Code_Generation : CODE_GENERATION= struct
       | ScmBox' (Var' (v, Param minor)) ->
         "\tmov qword rdi, (1 + 8 + 8)\n"
         ^ "\tcall malloc\n"
-      | ScmBox' _ -> raise (X_not_yet_implemented "8")
+      | ScmBox' _ -> raise (X_this_should_not_happen "Cannot box a variable thats not a parameter")
       | ScmBoxGet' var' ->
          (run params env (ScmVarGet' var'))
          ^ "\tmov rax, qword [rax]\n"
@@ -534,14 +534,14 @@ module Code_Generation : CODE_GENERATION= struct
          ^ "\tpush rax\n"
          ^ (Printf.sprintf "\tmov rdi, 8 * %d\t; extended env\n" (env + 1))
          ^ "\tcall malloc\n"
-         ^ "\tmov rdi, ENV\n"(*env = macro for 'qword [rbp + 8 * 2]'*)
+         ^ "\tmov rdi, ENV\n"
          ^ "\tmov rsi, 0\n"
          ^ "\tmov rdx, 1\n"
          ^ (Printf.sprintf "%s:\t; ext_env[i + 1] <-- env[i]\n"
               label_loop_env)
-         ^ (Printf.sprintf "\tcmp rsi, %d\n" (env))(*changed here from env+1 to env*)
+         ^ (Printf.sprintf "\tcmp rsi, %d\n" (env))
          ^ (Printf.sprintf "\tje %s\n" label_loop_env_end)
-         ^ "\tmov rcx, qword [rdi + 8 * rsi] ; Problem is here!!\n"
+         ^ "\tmov rcx, qword [rdi + 8 * rsi] \n"
          ^ "\tmov qword [rax + 8 * rdx], rcx\n"
          ^ "\tinc rsi\n"
          ^ "\tinc rdx\n"
@@ -602,14 +602,14 @@ module Code_Generation : CODE_GENERATION= struct
          ^ "\tpush rax\n"
          ^ (Printf.sprintf "\tmov rdi, 8 * %d\t; extended env\n" (env + 1))
          ^ "\tcall malloc\n"
-         ^ "\tmov rdi, ENV\n"(*env = macro for 'qword [rbp + 8 * 2]'*)
+         ^ "\tmov rdi, ENV\n"
          ^ "\tmov rsi, 0\n"
          ^ "\tmov rdx, 1\n"
          ^ (Printf.sprintf "%s:\t; ext_env[i + 1] <-- env[i]\n"
               label_loop_env)
          ^ (Printf.sprintf "\tcmp rsi, %d\n" (env))
          ^ (Printf.sprintf "\tje %s\n" label_loop_env_end)
-         ^ "\tmov rcx, qword [rdi + 8 * rsi] ; Problem is here!!\n"
+         ^ "\tmov rcx, qword [rdi + 8 * rsi]\n"
          ^ "\tmov qword [rax + 8 * rdx], rcx\n"
          ^ "\tinc rsi\n"
          ^ "\tinc rdx\n"
@@ -769,81 +769,6 @@ module Code_Generation : CODE_GENERATION= struct
           ^ "\tmov rsp, rbx\n"
           ^ "\tmov rbx, SOB_CLOSURE_CODE(rax)\n"
           ^ "\tjmp rbx\n"
-        (* | ScmApplic' (proc, args, Tail_Call) -> 
-          let recycle_frame_loop_start = make_tc_applic_recycle_frame_loop () in
-          let recycle_frame_loop_end = make_tc_applic_recycle_frame_done () in
-          let argsStr = (List.fold_right (fun arg acc -> (acc ^ (run params env arg) ^ "\tpush rax\n")) args "") in
-          let procStr = run params env proc in
-          argsStr
-          ^ (Printf.sprintf "\tpush %d\n" (List.length args))
-          ^ procStr
-          ^ "\tassert_closure(rax)\n"
-          ^ "\tmov rbx, SOB_CLOSURE_ENV(rax)\n"
-          ^ "\tpush rbx\n"
-          ^ "\tpush RET_ADDR\n"
-          ^ "\tmov rdi, COUNT\n"
-          ^ "\tmov rbp, OLD_RDP\n"
-          ^ "\tmov rsi, 0\n"
-          ^ (Printf.sprintf "%s:\t ; start recycle frame loop\n" recycle_frame_loop_start)
-          ^ (Printf.sprintf "\tcmp rsi, %d\n" ((List.length args) + 3))
-          ^ (Printf.sprintf "\tje %s\n" recycle_frame_loop_end)
-          ^ Printf.sprintf "\tmov rcx, %d\n" ((List.length args) + 2)
-          ^ "\tsub rcx, rsi ; rcx is the index to move\n"
-          ^ "\tmov rbx, rcx\n"
-          ^ "\tadd rbx, rdi\n"
-          ^ "\tadd rbx, 4 ; rbx is the index to move to\n"
-          ^ "\tshl rbx, 3\n"
-          ^ "\tadd rbx, rsp \n"
-          ^ "\tshl rcx, 3\n"
-          ^ "\tadd rcx, rsp \n"
-          ^ "\tmov rcx, [rcx]\n"
-          ^ "\tmov [rbx], rcx\n"
-          ^ "\tinc rsi\n"
-          ^ (Printf.sprintf "\tjmp %s\n" recycle_frame_loop_start)
-          ^ (Printf.sprintf "%s:\t ; end recycle frame loop\n" recycle_frame_loop_end)
-          ^ "\tadd rdi, 4\n"
-          ^ "\tshl rdi, 3\n"
-          ^ "\tadd rsp, rdi\n"
-          ^ "\tmov rbx, SOB_CLOSURE_CODE(rax)\n"
-          ^ "\tjmp rbx\n" *)
-      (* | ScmApplic' (proc, args, Tail_Call) -> 
-        let recycle_frame_loop_start = make_tc_applic_recycle_frame_loop () in
-        let recycle_frame_loop_end = make_tc_applic_recycle_frame_done () in
-        let argsStr = (List.fold_right (fun arg acc -> (acc ^ (run params env arg) ^ "\tpush rax\n")) args "") in
-        let procStr = run params env proc in
-        argsStr
-        ^ (Printf.sprintf "\tpush %d\n" (List.length args))
-        ^ procStr
-        ^ "\tassert_closure(rax)\n"
-        ^ "\tmov rbx, SOB_CLOSURE_ENV(rax)\n"
-        ^ "\tpush rbx\n"
-        ^ "\tpush RET_ADDR\n"
-        ^ "\tmov rbp, OLD_RDP\n"
-        ^ "\tmov rsi, 0\n"
-        ^ (Printf.sprintf "%s:\t ; start recycle frame loop\n" recycle_frame_loop_start)
-        ^ (Printf.sprintf "\tcmp rsi, %d\n" ((List.length args) + 3))
-        ^ (Printf.sprintf "\tje %s\n" recycle_frame_loop_end)
-        ^ Printf.sprintf "\tmov rcx, %d\n" ((List.length args) + 2)
-        ^ "\tsub rcx, rsi\n"
-        ^ "\tshl rcx, 3\n"
-        ^ "\tadd rcx, rsp ; rcx is the index to move\n"
-        ^ "\tmov rbx, rsi\n"
-        ^ "\tinc rbx\n"
-        ^ "\tshl rbx, 3\n"
-        ^ "\tneg rbx\n"
-        ^ "\tadd rbx, rbp ; rbx is the index to move to\n"
-        ^ "\tmov rcx, [rcx]\n"
-        ^ "\tmov [rbx], rcx\n"
-        ^ "\tinc rsi\n"
-        ^ (Printf.sprintf "\tjmp %s\n" recycle_frame_loop_start)
-        ^ (Printf.sprintf "%s:\t ; end recycle frame loop\n" recycle_frame_loop_end)
-        ^ (Printf.sprintf "\tmov rbx, %d\n" ((List.length args) + 3))
-        ^ "\tshl rbx, 3\n"
-        ^ "\tneg rbx\n"
-        ^ "\tadd rbx, rbp\n"
-        ^ "\tmov rsp, rbx\n"
-        ^ "\tmov rbx, SOB_CLOSURE_CODE(rax)\n"
-        ^ "\tjmp rbx\n" *)
     and runs params env exprs' =
       List.map
         (fun expr' ->
@@ -869,7 +794,7 @@ module Code_Generation : CODE_GENERATION= struct
     code;;
 
   let compile_scheme_string file_out user =
-    let init = file_to_string "my_init.scm" in
+    let init = file_to_string "init.scm" in
     let source_code = init ^ user in
     let sexprs = (PC.star Reader.nt_sexpr source_code 0).found in
     let exprs = List.map Tag_Parser.tag_parse sexprs in
@@ -891,29 +816,3 @@ let str_to_exprs' source_code =
     exprs';;
 
 (* end-of-input *)
-
-(*
-   %macro PRINT_TEST 2
-        push rax
-        push rbx
-        push rcx
-        push rdx
-        push rdi
-        push rsi
-        mov rdi, qword [stderr]
-        mov rsi, fmt_test
-        mov rdx, %1
-        mov rcx, %2
-        mov rax, 0
-        ENTER
-        call fprintf
-        LEAVE
-        pop rsi
-        pop rdi
-        pop rdx
-        pop rcx
-        pop rbx
-        pop rax
-%endmacro
-*)
-
