@@ -487,11 +487,11 @@ module Semantic_Analysis : SEMANTIC_ANALYSIS = struct
       | ScmSeq' (expr :: exprs) -> ScmSeq' (runl in_tail expr exprs)
       | ScmOr' [] -> ScmOr' []
       | ScmOr' (expr :: exprs) -> ScmOr' (runl in_tail expr exprs)
-      | ScmVarSet' (var', expr') -> ScmVarSet' (var', run in_tail expr')
-      | ScmVarDef' (var', expr') -> ScmVarDef' (var', run in_tail expr')
+      | ScmVarSet' (var', expr') -> ScmVarSet' (var', run false expr')
+      | ScmVarDef' (var', expr') -> ScmVarDef' (var', run false expr')
       | (ScmBox' _) as expr' -> expr'
       | (ScmBoxGet' _) as expr' -> expr'
-      | ScmBoxSet' (var', expr') -> ScmBoxSet' (var', run in_tail expr')
+      | ScmBoxSet' (var', expr') -> ScmBoxSet' (var', run false expr')
       | ScmLambda' (params, Simple, expr) -> ScmLambda' (params, Simple, run true expr)
       | ScmLambda' (params, Opt opt, expr) -> ScmLambda' (params, Opt opt, run true expr)
       | ScmApplic' (proc, args, app_kind) ->

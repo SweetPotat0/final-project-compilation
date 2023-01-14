@@ -503,7 +503,7 @@ module Code_Generation : CODE_GENERATION= struct
       | ScmVarDef' (Var' (v, Bound (major, minor)), expr') ->
          raise X_not_yet_supported
       | ScmBox' (Var' (v, Param minor)) ->
-        "\tmov qword rdi, 8\n"
+        "\tmov qword rdi, (1 + 8 + 8)\n"
         ^ "\tcall malloc\n"
       | ScmBox' _ -> raise (X_not_yet_implemented "8")
       | ScmBoxGet' var' ->
