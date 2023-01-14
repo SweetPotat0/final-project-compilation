@@ -695,6 +695,28 @@ module Semantic_Analysis : SEMANTIC_ANALYSIS = struct
     | ScmApplic' (proc, args, app_kind) ->
        ScmApplic' (auto_box proc, List.map auto_box args, app_kind);;
 
+(*
+(define terrible_arg ((lambda (n) ((lambda (p) (p (lambda (a) (lambda (b) b)))) ((n (lambda
+  (p) (((lambda (a) (lambda (b) (lambda (c) ((c a) b)))) ((lambda (n)
+  (lambda (s) (lambda (z) (s ((n s) z))))) ((lambda (p) (p (lambda (a)
+  (lambda (b) a)))) p))) (((lambda (a) (lambda (b) ((b (a (lambda (a)
+  (lambda (b) ((a (lambda (n) (lambda (s) (lambda (z) (s ((n s) z))))))
+  b))))) (lambda (x) (lambda (y) y))))) ((lambda (p) (p (lambda (a)
+  (lambda (b) a)))) p)) ((lambda (p) (p (lambda (a) (lambda (b) b))))
+  p))))) (((lambda (a) (lambda (b) (lambda (c) ((c a) b)))) (lambda (x)
+  x)) (lambda (x) x))))) (lambda (x) (lambda (y) (x (x (x (x (x
+  y)))))))))
+
+(define terrible_return_arg (((lambda (a) (lambda (b) ((b (a (lambda (a) (lambda (b)
+  ((a (lambda (n) (lambda (s) (lambda (z) (s ((n s) z)))))) b)))))
+  (lambda (x) (lambda (y) y))))) (((lambda (a) (lambda (b) ((b (a
+  (lambda (a) (lambda (b) ((a (lambda (n) (lambda (s) (lambda (z) (s ((n
+  s) z)))))) b))))) (lambda (x) (lambda (y) y))))) ((lambda (x) (lambda
+  (y) (x (x (x y))))) (lambda (x) (lambda (y) (x (x y)))))) (lambda (x)
+  (lambda (y) (x (x (x y))))))) (lambda (x) (lambda (y) (x (x (x (x (x
+  y)))))))))   
+(((((lambda (a) (lambda (b) terrible)) terrible_arg) terrible_return_arg) #t) #f)*)
+
   let semantics expr =
     auto_box
       (annotate_tail_calls

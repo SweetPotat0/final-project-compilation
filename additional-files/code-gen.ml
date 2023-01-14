@@ -54,7 +54,7 @@ module Code_Generation : CODE_GENERATION= struct
     | [] -> []
     | s -> run (s, n, (fun s -> s));;
 
-  let remove_mem = fun (mem, list) -> (List.filter (fun (curr) -> curr != mem) list);;
+  let remove_mem = fun (mem, list) -> (List.filter (fun (curr) -> (curr = mem) = false) list);;
 
   let rec remove_duplicates = function
     | [] -> []
@@ -607,7 +607,7 @@ module Code_Generation : CODE_GENERATION= struct
          ^ "\tmov rdx, 1\n"
          ^ (Printf.sprintf "%s:\t; ext_env[i + 1] <-- env[i]\n"
               label_loop_env)
-         ^ (Printf.sprintf "\tcmp rsi, %d\n" (env))(*changed here from env+1 to env*)
+         ^ (Printf.sprintf "\tcmp rsi, %d\n" (env))
          ^ (Printf.sprintf "\tje %s\n" label_loop_env_end)
          ^ "\tmov rcx, qword [rdi + 8 * rsi] ; Problem is here!!\n"
          ^ "\tmov qword [rax + 8 * rdx], rcx\n"
@@ -617,7 +617,7 @@ module Code_Generation : CODE_GENERATION= struct
          ^ (Printf.sprintf "%s:\n" label_loop_env_end)
          ^ "\tpop rbx\n"
          ^ "\tmov rsi, 0\n"
-         ^ (Printf.sprintf "%s:\t; copy params\n" label_loop_params)
+         ^ (Printf.sprintf "%s:\t; copy params\n" label_loop_params)(*Copy father params and make them bound 0*)
          ^ (Printf.sprintf "\tcmp rsi, %d\n" params)
          ^ (Printf.sprintf "\tje %s\n" label_loop_params_end)
          ^ "\tmov rdx, qword [rbp + 8 * rsi + 8 * 4]\n"
@@ -632,10 +632,11 @@ module Code_Generation : CODE_GENERATION= struct
          ^ "\tmov SOB_CLOSURE_ENV(rax), rbx\n"
          ^ (Printf.sprintf "\tmov SOB_CLOSURE_CODE(rax), %s\n" label_code)
          ^ (Printf.sprintf "\tjmp %s\n" label_end)
-         ^ (Printf.sprintf "%s:\t; lambda-simple body\n" label_code)
+         ^ (Printf.sprintf "%s:\t; lambda-opt body\n" label_code)
          ^ "\tmov rdi, qword [rsp + 8 * 2]\n"
          ^ "\tmov rbx, rdi\n"
-         ^ (Printf.sprintf "\tsub rbx, %d\n" (List.length params'))
+         ^ (Printf.sprintf "\tsub rbx, %d ; rbx is the num of extra args\n" (List.length params'))
+         ^ "\tcmp rbx, 0\n"
          ^ (Printf.sprintf "\tjg %s\n" label_params_more)
          ^ (Printf.sprintf "%s:\t ; if params in opt is exact\n" label_params_exact)
          ^ "\tsub rsp, 8\n"
@@ -644,13 +645,13 @@ module Code_Generation : CODE_GENERATION= struct
          ^ (Printf.sprintf "\tcmp rsi, %d\n" (3 + (List.length params')))
          ^ (Printf.sprintf "\tje %s\n" label_stack_enlarge_exit)
          ^ "\tmov rdi, rsi\n"
+         ^ "\tinc rdi\n"
          ^ "\tshl rdi, 3\n"
          ^ "\tadd rdi, rsp\n"
-         ^ "\tadd rdi, 8\n"
-         ^ "\tmov rbx, rdi\n"
+         ^ "\tmov rbx, rdi ; rbx = [rsp + 8 * (rsi + 1)]\n"
          ^ "\tsub rbx, 8\n"
          ^ "\tmov rdi, [rdi]\n"
-         ^ "\tmov [rbx], rdi\n"
+         ^ "\tmov [rbx], rdi ; [rsp + 8 * (rsi)] = [rsp + 8 * (rsi + 1)]\n"
          ^ "\tinc rsi\n"
          ^ (Printf.sprintf "\tjmp %s\n" label_stack_enlarge_start)
          ^ (Printf.sprintf "%s:\t ; end of stack enlarge loop\n" label_stack_enlarge_exit)
@@ -659,7 +660,7 @@ module Code_Generation : CODE_GENERATION= struct
          ^ (Printf.sprintf "\tjmp %s\n" label_stack_ok)
          ^ (Printf.sprintf "%s:\t ; if params in opt is more\n" label_params_more)
          ^ "\tmov rax, sob_nil\n"
-         ^ "\tmov rsi, rbx ;index\n"
+         ^ "\tmov rsi, rbx ;index. rbx is the num of extra args\n"
          ^ "\tdec rsi\n"
          ^ (Printf.sprintf "%s:\t; start of list creation loop\n" label_list_create_start)
          ^ "\tcmp rsi, -1\n"
@@ -668,14 +669,14 @@ module Code_Generation : CODE_GENERATION= struct
          ^ "\tshl rcx, 3\n"
          ^ "\tadd rcx, rsp\n"
          ^ "\tmov rcx, [rcx]\n"
-         ^ "\tpush rsi\n"
-         ^ "\tpush rbx\n"
-         ^ "\tpush rax\n"
-         ^ "\tpush rcx\n"
+         ^ "\tpush rsi ; save params\n"
+         ^ "\tpush rbx\n\n"
+         ^ "\tpush rax ; cdr\n"
+         ^ "\tpush rcx ; car\n"
          ^ "\tpush qword 2 ; push num of args\n"
-         ^ "\tpush qword 1 ; push garbage\n"
-         ^ "\tcall L_code_ptr_cons\n"
-         ^ "\tpop rbx\n"
+         ^ "\tpush qword 1 ; push garbage as env\n"
+         ^ "\tcall L_code_ptr_cons\n\n"
+         ^ "\tpop rbx ; restore params\n"
          ^ "\tpop rsi\n"
          ^ "\tdec rsi\n"
          ^ (Printf.sprintf "\tjmp %s\n" label_list_create_start)
@@ -694,7 +695,7 @@ module Code_Generation : CODE_GENERATION= struct
          ^ "\tsub rdi, rsi; the index of the current stack member to move\n"
          ^ "\tmov rcx, rbx\n"
          ^ "\tsub rcx, rsi\n"
-         ^ "\tsub rcx, 1; the index of the target stack place to put the member\n"
+         ^ "\tdec rcx ; the index of the target stack place to put the member\n"
          ^ "\tmov rdx, rdi\n"
          ^ "\tshl rdx, 3\n"
          ^ "\tadd rdx, rsp\n"
@@ -711,8 +712,7 @@ module Code_Generation : CODE_GENERATION= struct
          ^ "\tadd rsp, rbx\n"
          ^ (Printf.sprintf "\tmov qword [rsp + 8 * 2], %d\n" (1 + (List.length params')))
          ^ (Printf.sprintf "%s:\n" label_stack_ok)
-         ^ "\tpush rbp\n"
-         ^ "\tmov rbp, rsp\n"
+         ^ "\tenter 0, 0\n"
          ^ (run ((List.length params') + 1) (env + 1) body)
          ^ "\tleave\n"
          ^ (Printf.sprintf "\tret AND_KILL_FRAME(%d)\n" ((List.length params') + 1))
@@ -728,7 +728,85 @@ module Code_Generation : CODE_GENERATION= struct
         ^ "\tpush rbx\n"
         ^ "\tmov rbx, SOB_CLOSURE_CODE(rax)\n"
         ^ "\tcall rbx\n"
-      | ScmApplic' (proc, args, Tail_Call) -> 
+        | ScmApplic' (proc, args, Tail_Call) -> 
+          let recycle_frame_loop_start = make_tc_applic_recycle_frame_loop () in
+          let recycle_frame_loop_end = make_tc_applic_recycle_frame_done () in
+          let argsStr = (List.fold_right (fun arg acc -> (acc ^ (run params env arg) ^ "\tpush rax\n")) args "") in
+          let procStr = run params env proc in
+          argsStr
+          ^ (Printf.sprintf "\tpush %d\n" (List.length args))
+          ^ procStr
+          ^ "\tassert_closure(rax)\n"
+          ^ "\tmov rbx, SOB_CLOSURE_ENV(rax)\n"
+          ^ "\tpush rbx\n"
+          ^ "\tpush RET_ADDR\n"
+          ^ "\tmov rdi, COUNT\n"
+          ^ "\tadd rdi, 3\n"
+          ^ "\tshl rdi, 3\n"
+          ^ "\tadd rdi, rbp\n"
+          ^ "\tmov rbp, OLD_RDP\n"
+          ^ "\tmov rsi, 0\n"
+          ^ (Printf.sprintf "%s:\t ; start recycle frame loop\n" recycle_frame_loop_start)
+          ^ (Printf.sprintf "\tcmp rsi, %d\n" ((List.length args) + 3))
+          ^ (Printf.sprintf "\tje %s\n" recycle_frame_loop_end)
+          ^ Printf.sprintf "\tmov rcx, %d\n" ((List.length args) + 2)
+          ^ "\tsub rcx, rsi\n"
+          ^ "\tshl rcx, 3\n"
+          ^ "\tadd rcx, rsp ; rcx is the address to move\n"
+          ^ "\tmov rbx, rsi\n"
+          ^ "\tshl rbx, 3\n"
+          ^ "\tneg rbx\n"
+          ^ "\tadd rbx, rdi ;rbx is the address to move to\n"
+          ^ "\tmov rcx, [rcx]\n"
+          ^ "\tmov [rbx], rcx\n"
+          ^ "\tinc rsi\n"
+          ^ (Printf.sprintf "\tjmp %s\n" recycle_frame_loop_start)
+          ^ (Printf.sprintf "%s:\t ; end recycle frame loop\n" recycle_frame_loop_end)
+          ^ (Printf.sprintf "\tmov rbx, %d\n" ((List.length args) + 2))
+          ^ "\tshl rbx, 3\n"
+          ^ "\tneg rbx\n"
+          ^ "\tadd rbx, rdi\n"          
+          ^ "\tmov rsp, rbx\n"
+          ^ "\tmov rbx, SOB_CLOSURE_CODE(rax)\n"
+          ^ "\tjmp rbx\n"
+        (* | ScmApplic' (proc, args, Tail_Call) -> 
+          let recycle_frame_loop_start = make_tc_applic_recycle_frame_loop () in
+          let recycle_frame_loop_end = make_tc_applic_recycle_frame_done () in
+          let argsStr = (List.fold_right (fun arg acc -> (acc ^ (run params env arg) ^ "\tpush rax\n")) args "") in
+          let procStr = run params env proc in
+          argsStr
+          ^ (Printf.sprintf "\tpush %d\n" (List.length args))
+          ^ procStr
+          ^ "\tassert_closure(rax)\n"
+          ^ "\tmov rbx, SOB_CLOSURE_ENV(rax)\n"
+          ^ "\tpush rbx\n"
+          ^ "\tpush RET_ADDR\n"
+          ^ "\tmov rdi, COUNT\n"
+          ^ "\tmov rbp, OLD_RDP\n"
+          ^ "\tmov rsi, 0\n"
+          ^ (Printf.sprintf "%s:\t ; start recycle frame loop\n" recycle_frame_loop_start)
+          ^ (Printf.sprintf "\tcmp rsi, %d\n" ((List.length args) + 3))
+          ^ (Printf.sprintf "\tje %s\n" recycle_frame_loop_end)
+          ^ Printf.sprintf "\tmov rcx, %d\n" ((List.length args) + 2)
+          ^ "\tsub rcx, rsi ; rcx is the index to move\n"
+          ^ "\tmov rbx, rcx\n"
+          ^ "\tadd rbx, rdi\n"
+          ^ "\tadd rbx, 4 ; rbx is the index to move to\n"
+          ^ "\tshl rbx, 3\n"
+          ^ "\tadd rbx, rsp \n"
+          ^ "\tshl rcx, 3\n"
+          ^ "\tadd rcx, rsp \n"
+          ^ "\tmov rcx, [rcx]\n"
+          ^ "\tmov [rbx], rcx\n"
+          ^ "\tinc rsi\n"
+          ^ (Printf.sprintf "\tjmp %s\n" recycle_frame_loop_start)
+          ^ (Printf.sprintf "%s:\t ; end recycle frame loop\n" recycle_frame_loop_end)
+          ^ "\tadd rdi, 4\n"
+          ^ "\tshl rdi, 3\n"
+          ^ "\tadd rsp, rdi\n"
+          ^ "\tmov rbx, SOB_CLOSURE_CODE(rax)\n"
+          ^ "\tjmp rbx\n" *)
+      (* | ScmApplic' (proc, args, Tail_Call) -> 
         let recycle_frame_loop_start = make_tc_applic_recycle_frame_loop () in
         let recycle_frame_loop_end = make_tc_applic_recycle_frame_done () in
         let argsStr = (List.fold_right (fun arg acc -> (acc ^ (run params env arg) ^ "\tpush rax\n")) args "") in
@@ -765,7 +843,7 @@ module Code_Generation : CODE_GENERATION= struct
         ^ "\tadd rbx, rbp\n"
         ^ "\tmov rsp, rbx\n"
         ^ "\tmov rbx, SOB_CLOSURE_CODE(rax)\n"
-        ^ "\tjmp rbx\n"
+        ^ "\tjmp rbx\n" *)
     and runs params env exprs' =
       List.map
         (fun expr' ->

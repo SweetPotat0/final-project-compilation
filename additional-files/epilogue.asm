@@ -642,7 +642,9 @@ L_bin_apply_args_loop_end:
         mov rdx, rsi
 
         mov rdi, COUNT 
-        add rdi, 4 ; rdi = COUNT + 3 + 1 = COUNT + (num_of_args, lex, ret, OLD_RDP)
+        add rdi, 3 ; rdi = COUNT + 3 = COUNT + (num_of_args, lex, ret)
+        shl rdi, 3
+        add rdi, rbp
 
         mov rbp, OLD_RDP
         mov rsi, 0
@@ -651,27 +653,29 @@ L_bin_apply_fix_stack_start:
         add rcx, 3
         cmp rsi, rcx
         je L_bin_apply_fix_stack_end
-        mov rbx, rdx 
-        add rbx, 2 
-        sub rbx, rsi 
-        mov rcx, rbx 
+        mov rcx, rdx 
+        add rcx, 2 
+        sub rcx, rsi 
         shl rcx, 3
-        add rcx, rsp ; rcx is the index to move.
-        add rbx, rdi
+        add rcx, rsp ; rcx is the address to move.
+        mov rbx, rsi
         shl rbx, 3
-        add rbx, rsp ; rbx is the index to move to.
+        neg rbx
+        add rbx, rdi ; rbx is the address to move to.
         mov rcx, [rcx]
         mov [rbx], rcx
         inc rsi
         jmp L_bin_apply_fix_stack_start
 L_bin_apply_fix_stack_end:
         ; fix rsp
-        mov rbx, rdi
-        shl rbx, 3				
-        add rsp, rbx
+        mov rbx, rdx
+        add rbx, 2
+        shl rbx, 3
+        neg rbx
+        add rbx, rdi
+        mov rsp, rbx
         mov rbx, SOB_CLOSURE_CODE(rax)
         jmp rbx
-        LEAVE
 	
 L_code_ptr_is_null:
         ENTER

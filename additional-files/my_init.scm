@@ -1,3 +1,16 @@
+(define apply
+  (letrec ((run
+             (lambda (a s)
+               (if (pair? s)
+                   (cons a
+                     (run (car s)
+                       (cdr s)))
+                   a))))
+    (lambda (f . s)
+      (__bin-apply f
+        (run (car s)
+          (cdr s))))))
+
 (define ormap
   (lambda (f . s)
     (letrec ((loop
@@ -35,6 +48,16 @@
           '()
           (map-list f s)))))
 
+(define reverse
+  (letrec ((run
+             (lambda (s r)
+               (if (null? s)
+                   r
+                   (run (cdr s)
+                     (cons (car s) r))))))
+    (lambda (s)
+      (run s '()))))
+
 (define append
   (letrec ((run-1
              (lambda (s1 sr)
@@ -66,17 +89,75 @@
     (lambda (f unit . ss)
       (run f unit ss))))
 
+;;; Please remember that the order here is as per Scheme, and 
+;;; not the correct order, which is in Ocaml!
+(define fold-right
+  (letrec ((run
+             (lambda (f unit ss)
+               (if (ormap null? ss)
+                   unit
+                   (apply f
+                     `(,@(map car ss)
+                       ,(run f unit (map cdr ss))))))))
+    (lambda (f unit . ss)
+      (run f unit ss))))
+
 (define +
-  (let* ((my_error (lambda () (error '+ "all arguments need to be numbers")))
+  (let* ((error (lambda () (error '+ "all arguments need to be numbers")))
          (bin+
            (lambda (a b)
              (cond ((rational? a)
                     (cond ((rational? b) (__bin-add-qq a b))
                           ((real? b) (__bin-add-rr (rational->real a) b))
-                          (else (my_error))))
+                          (else (error))))
                    ((real? a)
                     (cond ((rational? b) (__bin-add-rr a (rational->real b)))
                           ((real? b) (__bin-add-rr a b))
-                          (else (my_error))))
-                   (else (my_error))))))
+                          (else (error))))
+                   (else (error))))))
     (lambda s (fold-left bin+ 0 s))))
+
+(define -
+  (let* ((error (lambda () (error '- "all arguments need to be numbers")))
+         (bin-
+           (lambda (a b)
+             (cond ((rational? a)
+                    (cond ((rational? b) (__bin-sub-qq a b))
+                          ((real? b) (__bin-sub-rr (rational->real a) b))
+                          (else (error))))
+                   ((real? a)
+                    (cond ((rational? b) (__bin-sub-rr a (rational->real b)))
+                          ((real? b) (__bin-sub-rr a b))
+                          (else (error))))
+                   (else (error))))))
+    (lambda (a . s)
+      (if (null? s)
+          (bin- 0 a)
+          (let ((b (fold-left + 0 s)))
+            (bin- a b))))))
+
+(define list (lambda args args))
+
+(define make-string
+  (let ((asm-make-string make-string))
+    (lambda (n . chs)
+      (let ((ch
+              (cond ((null? chs) #\nul)
+                    ((and (pair? chs)
+                          (null? (cdr chs)))
+                     (car chs))
+                    (else (error 'make-string
+                            "Usage: (make-string size ?optional-default)")))))
+        (asm-make-string n ch)))))
+
+(define make-vector
+  (let ((asm-make-vector make-vector))
+    (lambda (n . xs)
+      (let ((x
+              (cond ((null? xs) #void)
+                    ((and (pair? xs)
+                          (null? (cdr xs)))
+                     (car xs))
+                    (else (error 'make-vector
+                            "Usage: (make-vector size ?optional-default)")))))
+        (asm-make-vector n x)))))

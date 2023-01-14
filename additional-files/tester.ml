@@ -11,6 +11,7 @@ type cg_test = {test: string; expected: string};;
 #use "tests_hub/or_tests.ml";;
 #use "tests_hub/tc_tests.ml";;
 #use "tests_hub/set_tests.ml";;
+#use "tests_hub/letrec_tests.ml";;
 
 exception X_failed_test of string * string * string;; (* test, expected, actual *)
 
@@ -53,12 +54,50 @@ let run_cg_tests (cg_tests : cg_test list) kind=
     Printf.printf "\nFAILED %s tests\nTest string:\n%s\nExpected: %s\nActual: %s\n" kind test expected actual;
     exit 1;;
 
-(* run_cg_tests const_tests "const";; (* testing constants *) 
+run_cg_tests const_tests "const";; (* testing constants *) 
 run_cg_tests seq_tests "sequence";; (* testing sequencess *) 
 run_cg_tests if_tests "'if' and 'and'";; (* testing if and 'and' *) 
 run_cg_tests or_tests "or";; (* testing or *) 
 run_cg_tests set_tests "Define-Set-Get";; (* set! for free vars *) 
-run_cg_tests tc_tests "tail-call";;  *)
+run_cg_tests tc_tests "tail-call";;
 run_cg_tests elias_tests "Elias's";; (* all tests from Elias's tester *)
 run_cg_tests mayer_tests "Mayer's";; (* Mayer's torture tests. These are not debuggable but give a good feeling that the compiler works. *)
+run_cg_tests letrec_tests "Letrec";;
+
+
+
+[ScmVarDef' (Var' ("noth", Free),
+  ScmLambda' (["a"], Simple,
+   ScmApplic' (ScmVarGet' (Var' ("__bin-sub-qq", Free)),
+    [ScmVarGet' (Var' ("a", Param 0));
+     ScmConst' (ScmNumber (ScmRational (1, 1)))],
+    Tail_Call)));
+ ScmVarDef' (Var' ("map", Free),
+  ScmLambda' (["f"; "s"], Simple,
+   ScmIf'
+    (ScmApplic' (ScmVarGet' (Var' ("null?", Free)),
+      [ScmVarGet' (Var' ("s", Param 1))], Non_Tail_Call),
+    ScmConst' ScmNil,
+    ScmApplic' (ScmVarGet' (Var' ("cons", Free)),
+     [ScmApplic' (ScmVarGet' (Var' ("f", Param 0)),
+       [ScmApplic' (ScmVarGet' (Var' ("car", Free)),
+         [ScmVarGet' (Var' ("s", Param 1))], Non_Tail_Call)],
+       Non_Tail_Call);
+      ScmApplic' (ScmVarGet' (Var' ("map", Free)),
+       [ScmVarGet' (Var' ("f", Param 0));
+        ScmApplic' (ScmVarGet' (Var' ("cdr", Free)),
+         [ScmVarGet' (Var' ("s", Param 1))], Non_Tail_Call)],
+       Non_Tail_Call)],
+     Tail_Call))));
+ ScmApplic' (ScmVarGet' (Var' ("map", Free)),
+  [ScmVarGet' (Var' ("noth", Free));
+   ScmConst'
+    (ScmPair
+      (ScmNumber (ScmRational (1, 1)),
+       ScmPair
+        (ScmNumber (ScmRational (2, 1)),
+         ScmPair
+          (ScmNumber (ScmRational (3, 1)),
+           ScmPair (ScmNumber (ScmRational (4, 1)), ScmNil)))))],
+  Non_Tail_Call)]
 
